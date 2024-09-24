@@ -1,4 +1,4 @@
-@OneBottle_HostAddress = http://localhost:5128
+@OneBottle_HostAddress = http://localhost:6969
 
 GET {{OneBottle_HostAddress}}/weatherforecast/
 Accept: application/json

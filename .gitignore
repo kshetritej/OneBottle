@@ -8,6 +8,8 @@ project.fragment.lock.json
 *.user
 *.userprefs
 *.sln.docstates
+appsettings.json
+/Migrations
 
 # Visual Studio Code
 .vscode/
@@ -48,4 +50,6 @@ packages/
 
 # Swagger UI
 /swagger/
+
+
 
