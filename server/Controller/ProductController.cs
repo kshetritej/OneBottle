@@ -5,13 +5,10 @@ namespace OneBottle.Controller
 {
     [Route("api/product")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController(AppDbContext context) : ControllerBase
     {
-        private readonly AppDbContext _context;
-        public ProductController(AppDbContext context)
-        {
-            _context = context;
-        }
+        private readonly AppDbContext _context = context;
+
         [HttpGet]
         public IActionResult GetAll()
         {

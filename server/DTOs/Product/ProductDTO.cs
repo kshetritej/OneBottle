@@ -1,4 +1,4 @@
-namespace OneBottle.DTOs
+namespace OneBottle.DTOs.Product
 {
     public class ProductDTO
     {
