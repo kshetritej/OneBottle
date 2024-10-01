@@ -1,10 +1,9 @@
-import { Button } from "./components/ui/button";
+import { AdminAuthentication } from "./ui/admin/auth/admin-authentication";
 function App() {
   return (
-    <>
-      <h1 className="text-red-500">Wine Shop</h1>
-      <Button>Click me</Button>
-    </>
+    <div className="flex items-center justify-center h-[100vh]">
+      <AdminAuthentication />
+    </div>
   );
 }
 
