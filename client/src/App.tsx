@@ -1,11 +1,11 @@
-
+import { Button } from "./components/ui/button";
 function App() {
-
   return (
     <>
-    1 Bottle
+      <h1 className="text-red-500">Wine Shop</h1>
+      <Button>Click me</Button>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
