@@ -2,9 +2,9 @@ import { Button } from "../../../components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card"
 import { Input } from "../../../components/ui/input"
 import { Label } from "../../../components/ui/label"
-import {Link} from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 
-const Login = () => {
+const Login = ({ onSwitchToSignup }: { onSwitchToSignup: () => void }) => {
     return (
         <div>
             <Card className="mx-auto max-w-sm">
@@ -37,15 +37,15 @@ const Login = () => {
                         <Button type="submit" className="w-full">
                             Login
                         </Button>
-                        <Button variant="outline" className="w-full">
-                            Login with Google
-                        </Button>
                     </div>
                     <div className="mt-4 text-center text-sm">
                         Don&apos;t have an account?{" "}
-                        <Link href="#" className="underline">
+                        <Button
+                            onClick={onSwitchToSignup}
+                            className="-ml-4 underline"
+                            variant={'link'}>
                             Sign up
-                        </Link>
+                        </Button>
                     </div>
                 </CardContent>
             </Card>
