@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter, ChevronLeft, ChevronRight, Home, ShoppingCart, ClipboardList, User } from 'lucide-react'
+import { Facebook, Instagram, Twitter} from 'lucide-react'
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import {
@@ -9,24 +9,25 @@ import {
     CarouselPrevious,
 } from "../../components/ui/carousel"
 import { Input } from "../../components/ui/input"
-
+import { absolute_vodka, carousel1, carousel2, carousel3, tuborg_beer, xamaka_wine } from '../../constants/images'
+import ProductCard from '../components/product/product-card'
 // Mock data arrays
 const carouselItems = [
-    { id: 1, image: '/placeholder.svg?height=200&width=400', alt: 'Carousel Item 1' },
-    { id: 2, image: '/placeholder.svg?height=200&width=400', alt: 'Carousel Item 2' },
-    { id: 3, image: '/placeholder.svg?height=200&width=400', alt: 'Carousel Item 3' },
+    { id: 1, image: carousel1, alt: 'Carousel Item 1' },
+    { id: 2, image: carousel2, alt: 'Carousel Item 2' },
+    { id: 3, image: carousel3, alt: 'Carousel Item 3' },
 ]
 
 const spiritCategories = [
-    { id: 1, name: 'Vodka', image: '/placeholder.svg?height=100&width=100' },
-    { id: 2, name: 'Beer', image: '/placeholder.svg?height=100&width=100' },
-    { id: 3, name: 'Wine', image: '/placeholder.svg?height=100&width=100' },
+    { id: 1, name: 'Vodka', image: absolute_vodka},
+    { id: 2, name: 'Beer', image: tuborg_beer },
+    { id: 3, name: 'Wine', image: xamaka_wine },
 ]
 
 const todaysHighlights = [
-    { id: 1, name: 'Premium Vodka', image: '/placeholder.svg?height=150&width=150', price: 29.99 },
-    { id: 2, name: 'Craft Beer Pack', image: '/placeholder.svg?height=150&width=150', price: 19.99 },
-    { id: 3, name: 'Red Wine Selection', image: '/placeholder.svg?height=150&width=150', price: 24.99 },
+    { id: 1, name: 'Premium Vodka', image: absolute_vodka, price: 29.99 },
+    { id: 2, name: 'Craft Beer Pack', image: tuborg_beer, price: 19.99 },
+    { id: 3, name: 'Red Wine Selection', image: xamaka_wine, price: 24.99 },
 ]
 
 const brandItems = [
@@ -46,7 +47,7 @@ export function Homepage() {
         <div className="flex flex-col min-h-screen">
             <main className="flex-grow">
                 <section className="p-4">
-                    <Carousel>
+                    <Carousel className='bg-red-500 rounded-sm'>
                         <CarouselContent>
                             {carouselItems.map((item) => (
                                 <CarouselItem key={item.id}>
@@ -54,8 +55,10 @@ export function Homepage() {
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
-                        <CarouselPrevious />
-                        <CarouselNext />
+                        <div className='absolute left-16 bottom-8'>
+                            <CarouselPrevious />
+                            <CarouselNext />
+                        </div>
                     </Carousel>
                 </section>
 
@@ -64,7 +67,7 @@ export function Homepage() {
                     <div className="grid grid-cols-3 gap-4">
                         {spiritCategories.map((category) => (
                             <Button key={category.id} variant="outline" className="h-24 flex flex-col items-center justify-center">
-                                <img src={category.image} alt={category.name} className="w-12 h-12 mb-2" />
+                                <img src={category.image} alt={category.name} className="object-fit overflow-hidden w-full h-auto" />
                                 <span>{category.name}</span>
                             </Button>
                         ))}
@@ -75,13 +78,18 @@ export function Homepage() {
                     <h2 className="text-xl font-bold mb-4">Today's Highlights</h2>
                     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                         {todaysHighlights.map((item) => (
-                            <Card key={item.id}>
-                                <CardContent className="p-4">
-                                    <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded" />
-                                    <h3 className="font-semibold">{item.name}</h3>
-                                    <p className="text-sm text-gray-600">${item.price.toFixed(2)}</p>
-                                </CardContent>
-                            </Card>
+                            <ProductCard key={item.id}
+                            image={item.image} 
+                            name={item.name}
+                            price={item.price}
+                            />
+                            // <Card key={item.id}>
+                            //     <CardContent className="p-4">
+                            //         <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded" />
+                            //         <h3 className="font-semibold">{item.name}</h3>
+                            //         <p className="text-sm text-gray-600">${item.price.toFixed(2)}</p>
+                            //     </CardContent>
+                            // </Card>
                         ))}
                     </div>
                 </section>

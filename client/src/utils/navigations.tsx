@@ -1,4 +1,4 @@
-import { Home, Menu, Search, ShoppingCart, User } from "lucide-react";
+import { BellRing, Home, User } from "lucide-react";
 import { Cart } from "../ui/user/cart";
 
 export const navigations = [
@@ -8,13 +8,13 @@ export const navigations = [
         icon: <Home />,
     },
     {
-        label: "search", path: "/search",
-        icon: <Search />,
-    },
-    {
         label: "cart",
         icon: <Cart />,
         // icon: <ShoppingCart />,
+    },
+    {
+        label: "notifications", path: "/notifications",
+        icon: <BellRing />,
     },
     {
         label: "profile", path: "/admin/auth",
