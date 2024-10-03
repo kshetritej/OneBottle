@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as NotificationsImport } from './routes/notifications'
 import { Route as MeImport } from './routes/me'
 import { Route as AdminAuthImport } from './routes/admin/auth'
 
@@ -27,6 +28,11 @@ const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+
+const NotificationsRoute = NotificationsImport.update({
+  path: '/notifications',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const MeRoute = MeImport.update({
   path: '/me',
@@ -61,6 +67,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof MeImport
       parentRoute: typeof rootRoute
     }
+    '/notifications': {
+      id: '/notifications'
+      path: '/notifications'
+      fullPath: '/notifications'
+      preLoaderRoute: typeof NotificationsImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -83,6 +96,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/me': typeof MeRoute
+  '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
 }
@@ -90,6 +104,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/me': typeof MeRoute
+  '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
 }
@@ -98,22 +113,24 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/me': typeof MeRoute
+  '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/me' | '/about' | '/admin/auth'
+  fullPaths: '/' | '/me' | '/notifications' | '/about' | '/admin/auth'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/me' | '/about' | '/admin/auth'
-  id: '__root__' | '/' | '/me' | '/about' | '/admin/auth'
+  to: '/' | '/me' | '/notifications' | '/about' | '/admin/auth'
+  id: '__root__' | '/' | '/me' | '/notifications' | '/about' | '/admin/auth'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   MeRoute: typeof MeRoute
+  NotificationsRoute: typeof NotificationsRoute
   AboutLazyRoute: typeof AboutLazyRoute
   AdminAuthRoute: typeof AdminAuthRoute
 }
@@ -121,6 +138,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   MeRoute: MeRoute,
+  NotificationsRoute: NotificationsRoute,
   AboutLazyRoute: AboutLazyRoute,
   AdminAuthRoute: AdminAuthRoute,
 }
@@ -139,6 +157,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/me",
+        "/notifications",
         "/about",
         "/admin/auth"
       ]
@@ -148,6 +167,9 @@ export const routeTree = rootRoute
     },
     "/me": {
       "filePath": "me.tsx"
+    },
+    "/notifications": {
+      "filePath": "notifications.tsx"
     },
     "/about": {
       "filePath": "about.lazy.tsx"
