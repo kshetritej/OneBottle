@@ -10,7 +10,7 @@ import {
 } from "../../components/ui/drawer"
 import { Button } from "../../components/ui/button"
 import { Minus, Plus, ShoppingCart } from "lucide-react"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { Checkbox } from "../../components/ui/checkbox"
 
@@ -32,7 +32,13 @@ export const Cart = () => {
         { id: '6', name: 'Speyside Nectar', price: 79.99, quantity: 1, image: '/placeholder.svg?height=80&width=80' },
     ])
     const [selectedItems, setSelectedItems] = useState<string[]>([])
+    const deleteButton = document.getElementById('deleteBtn');
 
+    useEffect(() => {
+        if (selectedItems.length == 0) {
+            deleteButton?.setAttribute('disabled', '')
+        }
+    }, [selectedItems])
     const handleQuantityChange = (id: string, change: number) => {
         setCartItems(items =>
             items.map(item =>
@@ -108,7 +114,7 @@ export const Cart = () => {
                     </div>
                     <Button>Checkout</Button>
                     <DrawerClose>
-                        <Button className="w-full" variant="destructive" disabled>Delete</Button>
+                        <Button id="deleteBtn" className="w-full" variant="destructive" >Delete</Button>
                     </DrawerClose>
                 </DrawerFooter>
             </DrawerContent>

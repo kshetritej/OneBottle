@@ -17,10 +17,9 @@ export const Navbar = () => {
         <div className="fixed bottom-0 p-3 px-4 bg-primary-foreground border-t-2   flex justify-between items-center gap-4 w-[100%]">
             {
                 navigations.map(nav =>
-                    <Link key={nav.label}  to={nav.path && nav?.path}>
+                    <Link key={nav.label} to={nav.path && nav?.path}>
                         <div className="grid justify-items-center">{nav.icon}
-                            {/* <span className="text-xs text-secondary-foreground">{nav.label.charAt(0).toUpperCase() + nav.label.slice(1, 10)}</span> */}
-                        </div>
+                            {/* <span className="text-xs text-secondary-foreground">{nav.label.charAt(0).toUpperCase() + nav.label.slice(1, 10)}</span> */} </div>
                     </Link>
                 )
             }
@@ -43,7 +42,11 @@ export const Navbar = () => {
                             <SheetDescription>
                             </SheetDescription>
                             <SheetClose className="grid justify-items-start">
-                                {menuList.map(list => <Link key={list.label} to={list.path}>{list.label}</Link>)}
+                                {menuList.map(list =>
+                                    <Link className="flex w-full items-center  p-4 hover:bg-primary-foreground rounded-md gap-2" key={list.label} to={list.path}>
+                                        {list.icon}
+                                        <span className="ml-2">{list.label}</span>
+                                    </Link>)}
                             </SheetClose>
                         </SheetHeader>
                     </SheetContent>

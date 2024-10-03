@@ -1,19 +1,19 @@
-import { User } from "lucide-react";
+import {  BellRing, History, NotepadText, User } from "lucide-react";
 
 export const menuList = [
     {
-        label:"Login/Signup",
-        path: "/admin/auth",
-        icon: <User/>
+        label:"Purchase History",
+        path: "/me/purchase",
+        icon: <History/>
     },
     {
-        label:"Home",
+        label:"My Reviews",
         path: "/",
-        icon: <User/>
+        icon: <NotepadText/>
     },
     {
-        label:"About",
-        path: "/admin/auth",
-        icon: <User/>
+        label:"Notifications",
+        path: "",
+        icon: <BellRing/>
     },
 ]
