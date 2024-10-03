@@ -13,7 +13,7 @@ import { Label } from "./../../../components/ui/label"
 
 export function Signup({ onSwitchToLogin }: { onSwitchToLogin: () => void }) {
     return (
-        <Card className="mx-auto max-w-sm">
+        <Card className="mx-auto max-w-sm ">
             <CardHeader>
                 <CardTitle className="text-xl">Sign Up</CardTitle>
                 <CardDescription>
@@ -33,6 +33,10 @@ export function Signup({ onSwitchToLogin }: { onSwitchToLogin: () => void }) {
                         </div>
                     </div>
                     <div className="grid gap-2">
+                        <Label htmlFor="dob">Date of Birth</Label>
+                        <Input id="dob" required />
+                    </div>
+                    <div className="grid gap-2">
                         <Label htmlFor="email">Email</Label>
                         <Input
                             id="email"
@@ -45,11 +49,12 @@ export function Signup({ onSwitchToLogin }: { onSwitchToLogin: () => void }) {
                         <Label htmlFor="password">Password</Label>
                         <Input id="password" type="password" />
                     </div>
+                    <div className="grid gap-2">
+                        <Label htmlFor="confirmPassword">Password</Label>
+                        <Input id="confirmPassword" type="password" />
+                    </div>
                     <Button type="submit" className="w-full">
                         Create an account
-                    </Button>
-                    <Button variant="outline" className="w-full">
-                        Sign up with GitHub
                     </Button>
                 </div>
                 <div className="mt-4 text-center text-sm">

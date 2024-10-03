@@ -1,10 +1,10 @@
 import { createRootRoute } from '@tanstack/react-router'
-import { AdminLayout } from '../ui/admin/admin-layout'
+import { DefaultLayout } from '../ui/layout/DefaultLayout'
 
 export const Route = createRootRoute({
     component: () => (
         <>
-            <AdminLayout />
+        <DefaultLayout/>
         </>
     ),
 })

@@ -1,8 +1,8 @@
 import { createLazyFileRoute } from '@tanstack/react-router'
-import { LandingPageLayout } from '../ui/landing-page/LandingPageLayout'
+import { Homepage } from '../ui/pages/homepage'
 
 export const Route = createLazyFileRoute('/')({
   component: () => <>
-    <LandingPageLayout />
+    <Homepage />
   </>,
 })
