@@ -14,7 +14,7 @@ export default function ProductCard({ image, name, price }: productCardPropsType
         <img
           src={image}
           alt={name}
-          className="w-full h-48 object-cover sm:h-64 -z-10"
+          className="w-full h-48 object-cover sm:h-48 "
         />
         <Badge className="absolute top-2 right-2 bg-primary text-primary-foreground">New</Badge>
       </div>
@@ -26,13 +26,13 @@ export default function ProductCard({ image, name, price }: productCardPropsType
           ))}
           <span className="ml-2 text-xs text-gray-600 sm:text-sm">(42)</span>
         </div>
-        {/* <p className="text-sm text-gray-600 mb-3 line-clamp-2 sm:text-base">Smooth and peaty with hints of vanilla and oak. A true Scottish classic.</p> */}
-        <div className="flex flex-col justify-between items-start">
-          <div className='flex flex-col sm:flex-row sm:justify-between '>
+        <p className="text-sm text-gray-600 mb-3 line-clamp-2 sm:text-base">Smooth and peaty with hints of vanilla and oak. A true Scottish classic.</p>
+        <div className="flex  justify-between">
+          <div className='flex items-center '>
             <span className="text-2xl font-bold sm:text-3xl">${price}</span>
-            <span className=" text-sm text-gray-500 line-through">${'69.69'}</span>
+            <span className="ml-2 text-sm text-gray-500 line-through">${'69.69'}</span>
           </div>
-          <Button size="sm" className="sm:hidden">
+          <Button size="sm" className="sm:hidden mt-2">
             <ShoppingCart className="h-4 w-4" />
           </Button>
         </div>

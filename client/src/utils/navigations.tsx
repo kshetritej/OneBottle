@@ -1,6 +1,7 @@
 import { BellRing, Home, User } from "lucide-react";
 import { Cart } from "../ui/user/cart";
 
+const isLoggedIn = true
 export const navigations = [
     {
         label: "Home",
@@ -17,7 +18,7 @@ export const navigations = [
         icon: <BellRing />,
     },
     {
-        label: "profile", path: "/admin/auth",
+        label: "profile", path: isLoggedIn ? "/me" : "/admin/auth",
         icon: <User />,
     },
 ]

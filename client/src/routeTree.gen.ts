@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as MeImport } from './routes/me'
 import { Route as AdminAuthImport } from './routes/admin/auth'
 
 // Create Virtual Routes
@@ -26,6 +27,11 @@ const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+
+const MeRoute = MeImport.update({
+  path: '/me',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
@@ -46,6 +52,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/me': {
+      id: '/me'
+      path: '/me'
+      fullPath: '/me'
+      preLoaderRoute: typeof MeImport
       parentRoute: typeof rootRoute
     }
     '/about': {
@@ -69,12 +82,14 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/me': typeof MeRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/me': typeof MeRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
 }
@@ -82,27 +97,30 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/me': typeof MeRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/about' | '/admin/auth'
+  fullPaths: '/' | '/me' | '/about' | '/admin/auth'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/about' | '/admin/auth'
-  id: '__root__' | '/' | '/about' | '/admin/auth'
+  to: '/' | '/me' | '/about' | '/admin/auth'
+  id: '__root__' | '/' | '/me' | '/about' | '/admin/auth'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  MeRoute: typeof MeRoute
   AboutLazyRoute: typeof AboutLazyRoute
   AdminAuthRoute: typeof AdminAuthRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  MeRoute: MeRoute,
   AboutLazyRoute: AboutLazyRoute,
   AdminAuthRoute: AdminAuthRoute,
 }
@@ -120,12 +138,16 @@ export const routeTree = rootRoute
       "filePath": "__root.tsx",
       "children": [
         "/",
+        "/me",
         "/about",
         "/admin/auth"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/me": {
+      "filePath": "me.tsx"
     },
     "/about": {
       "filePath": "about.lazy.tsx"

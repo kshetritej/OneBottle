@@ -76,7 +76,7 @@ export function Homepage() {
 
                 <section className="p-4">
                     <h2 className="text-xl font-bold mb-4">Today's Highlights</h2>
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                    <div className="grid  gap-4 sm:grid-cols-3">
                         {todaysHighlights.map((item) => (
                             <ProductCard key={item.id}
                             image={item.image} 
