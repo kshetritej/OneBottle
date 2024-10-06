@@ -9,7 +9,7 @@ namespace OneBottle.Models
 		public string Brand { get; set; } = string.Empty;
 		public int Volume { get; set; }
 		public decimal ABV{ get; set; }
-		public required string  Type { get; set; } = string.Empty;
+		public required string  Category { get; set; } = string.Empty;
 		public decimal Price { get; set; }
 		public int StockQuantity { get; set; }
 		public int AgeRestriction { get; set; }
