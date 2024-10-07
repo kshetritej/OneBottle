@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OneBottle.Data;
 using OneBottle.DTOs.Product;
+using OneBottle.Interfaces;
 using OneBottle.Mappers;
 
 namespace OneBottle.Controller
@@ -10,13 +11,19 @@ namespace OneBottle.Controller
     [Route("api/product")]
     [ApiController]
 
-    public class ProductController(AppDbContext context) : ControllerBase
+    public class ProductController : ControllerBase
     {
-        private readonly AppDbContext _context = context;
-        [HttpGet]
-        public async Task<IActionResult> GetAll()
+        private readonly AppDbContext _context;
+        private readonly IProductRepository _productRepo;
+        public ProductController(AppDbContext context, IProductRepository productRepo)
         {
-            var products = await _context.Products.ToListAsync();
+            _context = context;
+            _productRepo = productRepo;
+        }
+        [HttpGet]
+        public async Task<IActionResult> GetAllProductsAsync()
+        {
+            var products = await _productRepo.GetAllProductsAsync();
             var productsReturnedFromDb = products.Select(products => products.ToProductDTO());
             return Ok(products);
         }
@@ -36,7 +43,7 @@ namespace OneBottle.Controller
 
 
         [HttpPost]
-        public async  Task<IActionResult> Create([FromBody] CreateProductDTO productDTO)
+        public async Task<IActionResult> Create([FromBody] CreateProductDTO productDTO)
         {
 
             var product = productDTO.ToCreateProductDTO();
