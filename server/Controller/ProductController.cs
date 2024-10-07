@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OneBottle.Data;
 using OneBottle.DTOs.Product;
 using OneBottle.Mappers;
-using OneBottle.Models;
 
 namespace OneBottle.Controller
 {
@@ -14,19 +14,19 @@ namespace OneBottle.Controller
     {
         private readonly AppDbContext _context = context;
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var products = _context.Products.ToList().Select(products => products.ToProductDTO());
-            // var products = _context.Products.ToList();
+            var products = await _context.Products.ToListAsync();
+            var productsReturnedFromDb = products.Select(products => products.ToProductDTO());
             return Ok(products);
         }
 
 
         [HttpGet]
         [Route("{id}")]
-        public IActionResult GetById([FromRoute] Guid id)
+        public async Task<IActionResult> GetById([FromRoute] Guid id)
         {
-            var product = _context.Products.Find(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
@@ -36,21 +36,21 @@ namespace OneBottle.Controller
 
 
         [HttpPost]
-        public IActionResult Create([FromBody] CreateProductDTO productDTO)
+        public async  Task<IActionResult> Create([FromBody] CreateProductDTO productDTO)
         {
 
             var product = productDTO.ToCreateProductDTO();
-            _context.Products.Add(product);
-            _context.SaveChanges();
+            await _context.Products.AddAsync(product);
+            await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = product.ProductId }, product.ToProductDTO());
         }
 
 
         [HttpPut]
         [Route("{id}")]
-        public IActionResult UpdateProduct([FromRoute] Guid ProductId, [FromBody] UpdateProductDTO productDto)
+        public async Task<IActionResult> UpdateProduct([FromRoute] Guid ProductId, [FromBody] UpdateProductDTO productDto)
         {
-            var productModel = _context.Products.FirstOrDefault(product => product.ProductId == ProductId);
+            var productModel = await _context.Products.FirstOrDefaultAsync(product => product.ProductId == ProductId);
             if (productModel == null)
             {
                 return NotFound();
@@ -61,15 +61,15 @@ namespace OneBottle.Controller
             productModel.Volume = productDto.Volume;
             productModel.ABV = productDto.ABV;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return Ok(productModel.ToProductDTO());
         }
 
         [HttpDelete]
         [Route("{id}")]
-        public IActionResult DeleteProduct([FromRoute] Guid id)
+        public async Task<IActionResult> DeleteProduct([FromRoute] Guid id)
         {
-            var product = _context.Products.Find(id);
+            var product = await _context.Products.FindAsync(id);
             if (product == null)
             {
                 return NotFound();
