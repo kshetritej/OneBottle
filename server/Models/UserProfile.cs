@@ -1,8 +1,13 @@
+using System.ComponentModel.DataAnnotations;
+using Microsoft.EntityFrameworkCore;
+
 namespace OneBottle.Models
 {
     public class UserProfile
     {
+        [Key]
         public Guid ProfileId { get; set; }
+
         public Guid UserId { get; set; }
         public User? User { get; set; }
         public string FirstName { get; set; } = string.Empty;
