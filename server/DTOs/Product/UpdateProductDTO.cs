@@ -1,6 +1,7 @@
+
 namespace OneBottle.DTOs.Product
 {
-    public class CreateProductDTO
+    public class UpdateProductDTO
     {
         public required string Name { get; set; }
         public string ImageUrl { get; set; } = string.Empty;

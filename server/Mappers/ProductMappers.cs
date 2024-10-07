@@ -31,7 +31,6 @@ namespace OneBottle.Mappers
                 Brand = productDTO.Brand,
                 Volume = productDTO.Volume,
                 ABV = productDTO.ABV,
-                CategoryId = productDTO.CategoryId
             };
         }
     }
