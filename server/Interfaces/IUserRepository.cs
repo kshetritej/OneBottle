@@ -5,5 +5,6 @@ namespace OneBottle.Interfaces {
         Task<List<User>>GetAllUserAsync();
         Task<User>GetUserByIdAsync(Guid Id);
         Task AddUserAsync(User user);
+        Task VerifyUser(User user);
     }
 }

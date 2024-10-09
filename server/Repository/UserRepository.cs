@@ -4,12 +4,10 @@ using OneBottle.Data;
 using Microsoft.EntityFrameworkCore;
 namespace OneBottle.Repository
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository(AppDbContext context) : IUserRepository
     {
-    private readonly AppDbContext _context;
-    public  UserRepository(AppDbContext context){
-        _context = context;
-    }
+    private readonly AppDbContext _context = context;
+
         public async Task AddUserAsync(User user)
         {
             await _context.Users.AddAsync(user);
@@ -25,6 +23,11 @@ namespace OneBottle.Repository
         {
             var user = await _context.Users.FindAsync(Id);
             return user!;
+        }
+
+        public Task VerifyUser(User user)
+        {
+            throw new NotImplementedException();
         }
     }
 }
