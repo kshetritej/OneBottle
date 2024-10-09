@@ -14,12 +14,9 @@ namespace OneBottle.Controller
     public class AdminController : ControllerBase
     {
         private readonly IAdminRepository _adminRepository;
-        private readonly AppDbContext _context;
-        public AdminController(IAdminRepository adminRepository, AppDbContext context)
+        public AdminController(IAdminRepository adminRepository)
         {
             _adminRepository = adminRepository;
-            _context = context;
-
         }
         [HttpPost("/add-admin")]
         public async Task<IActionResult> AddAdmin(CreateAdminDTO adminDTO)
