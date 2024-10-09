@@ -24,5 +24,13 @@ namespace OneBottle.Mappers
                 Password = userDTO.Password
             };
         }
+        public static User ToUserLoginDTO(this UserLoginDTO userLoginDto)
+        {
+            return new User
+            {
+                Username = userLoginDto.Email,
+                Password = userLoginDto.Password
+            };
+        }
     }
 }

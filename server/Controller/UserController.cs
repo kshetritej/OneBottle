@@ -3,6 +3,7 @@ using OneBottle.Interfaces;
 using OneBottle.Data;
 using OneBottle.DTOs.User;
 using OneBottle.Models;
+using OneBottle.Mappers;
 
 namespace OneBottle.Controller
 {
@@ -13,7 +14,7 @@ namespace OneBottle.Controller
         private readonly AppDbContext _context = context;
         private readonly IUserRepository _userRepository = userRepository;
 
-        [HttpPost]
+        [HttpPost("/register")]
         public async Task<IActionResult> Register(CreateUserDTO userDTO)
         {
             var user = new User
@@ -26,6 +27,21 @@ namespace OneBottle.Controller
             };
             await _userRepository.AddUserAsync(user);
             return Ok(user);
+        }
+
+        [HttpPost("/login")]
+        public async Task<IActionResult> Login(UserLoginDTO userDTO)
+        {
+            var user = await _userRepository.GetUserByEmailAsync(userDTO.Email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            if (user.Password != userDTO.Password)
+            {
+                return Unauthorized();
+            }
+            return Ok(user.ToUserDTO());
         }
     }
 }
