@@ -4,6 +4,7 @@ namespace OneBottle.DTOs.Product
 {
     public class ProductDTO
     {
+
         public Guid ProductId { get; set; }
         public required string Name { get; set; }
         public string ImageUrl { get; set; } = string.Empty;
