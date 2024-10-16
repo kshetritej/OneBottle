@@ -6,7 +6,7 @@ namespace OneBottle.Mappers
 {
     public static class CategoryMapper
     {
-        public static CategoryDTO ToCategoryDto(Category category)
+        public static CategoryDTO ToCategoryDto(this Category category)
         {
             return new CategoryDTO
             {

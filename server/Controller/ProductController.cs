@@ -19,12 +19,13 @@ namespace OneBottle.Controller
             _context = context;
             _productRepo = productRepo;
         }
+
         [HttpGet]
         public async Task<IActionResult> GetAllProductsAsync()
         {
             var products = await _productRepo.GetAllProductsAsync();
             var productsReturnedFromDb = products.Select(products => products.ToProductDTO());
-            return Ok(products);
+            return Ok(productsReturnedFromDb);
         }
 
 
@@ -44,8 +45,7 @@ namespace OneBottle.Controller
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] CreateProductDTO productDTO)
         {
-
-            var product = productDTO.ToCreateProductDTO();
+            var product = productDTO.ToProductModelFromCreateProductDTO();
             await _context.Products.AddAsync(product);
             await _context.SaveChangesAsync();
             return CreatedAtAction(nameof(GetById), new { id = product.ProductId }, product.ToProductDTO());

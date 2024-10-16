@@ -6,6 +6,8 @@ using OneBottle.Mappers;
 
 namespace OneBottle.Controller;
 
+[Route("/api/categories")]
+[ApiController]
 public class CategoryController : ControllerBase
 {
     private readonly AppDbContext _context;
@@ -17,7 +19,7 @@ public class CategoryController : ControllerBase
         _categoryRepo = categoryRepository;
     }
 
-    [HttpGet("/api/categories")]
+    [HttpGet]
     public async Task<IActionResult> GetAllCategories()
     {
         var categories = await _categoryRepo.GetAllCategoriesAsync();
@@ -33,7 +35,7 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpGet("/api/category/{categoryId:guid}")]
+    [HttpGet("/{categoryId:guid}")]
     public async Task<IActionResult> GetCategoryById(Guid categoryId)
     {
         var category = await _categoryRepo.GetCategoryByIdAsync(categoryId);
@@ -46,7 +48,7 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpPost("/api/category")]
+    [HttpPost]
     public async Task<IActionResult> CreateCategory([FromBody] CreateCategoryDTO newCategory)
     {
         if (!ModelState.IsValid)
@@ -66,7 +68,7 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpPatch("/api/category/{categoryId:guid}")]
+    [HttpPatch("/{categoryId:guid}")]
     public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDTO categoryDto, Guid categoryId)
     {
         var category = await _categoryRepo.GetCategoryByIdAsync(categoryId);
@@ -88,7 +90,7 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpDelete("/api/category/{categoryId:guid}")]
+    [HttpDelete("/{categoryId:guid}")]
     public async Task<IActionResult> DeleteCategory(Guid categoryId)
     {
         var category = await _categoryRepo.GetCategoryByIdAsync(categoryId);

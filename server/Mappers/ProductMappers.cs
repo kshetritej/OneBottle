@@ -21,7 +21,7 @@ namespace OneBottle.Mappers
             };
         }
 
-        public static Product ToCreateProductDTO(this CreateProductDTO productDTO)
+        public static Product ToProductModelFromCreateProductDTO(this CreateProductDTO productDTO)
         {
             return new Product
             {
