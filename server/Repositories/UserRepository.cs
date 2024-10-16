@@ -73,5 +73,10 @@ namespace OneBottle.Repositories
                 }
             }
         }
+
+        public async Task<User> GetUserByIdEmail(string email)
+        {
+            return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+        }
     }
 }

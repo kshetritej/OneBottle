@@ -32,7 +32,7 @@ namespace OneBottle.Controller
         [HttpPost("/login")]
         public async Task<IActionResult> Login(UserLoginDTO userDTO)
         {
-            var user = await _userRepository.GetUserByEmailAsync(userDTO.Email);
+            var user = await _userRepository.GetUserByIdAsync(userDTO.Email);
             if (user == null)
             {
                 return NotFound();
