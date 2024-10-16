@@ -1,8 +1,12 @@
 using OneBottle.Models;
-
-namespace OneBottle.Interfaces {
+namespace OneBottle.Interfaces
+{
     public interface IProductRepository
     {
-        Task<List<Product>> GetAllProductsAsync();
+        Task<Product> GetProductByIdAsync(Guid productId);
+        Task<IEnumerable<Product>> GetAllProductsAsync();
+        Task AddProductAsync(Product product);
+        Task UpdateProductAsync(Product product); 
+        Task DeleteProductAsync(Guid productId);
     }
 }
