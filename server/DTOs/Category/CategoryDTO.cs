@@ -2,9 +2,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace OneBottle.DTOs.Category
 {
-    public class CreateCategoryDTO
+    public class CategoryDTO 
     {
-
         public Guid CategoryId { get; set; }
         [Required, MaxLength(50, ErrorMessage = "Name must be less than 50 characters")]
         public string Name { get; set; } = string.Empty;

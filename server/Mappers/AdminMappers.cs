@@ -1,4 +1,4 @@
-using OneBottle.DTOs;
+using OneBottle.DTOs.Admin;
 using OneBottle.Models;
 
 namespace OneBottle.Mappers
