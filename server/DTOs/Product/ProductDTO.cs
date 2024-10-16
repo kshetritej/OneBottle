@@ -13,6 +13,6 @@ namespace OneBottle.DTOs.Product
         public string Brand { get; set; } = string.Empty;
         public int Volume { get; set; }
         public decimal ABV { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
     }
 }

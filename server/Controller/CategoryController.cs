@@ -68,7 +68,7 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpPatch("/{categoryId:guid}")]
+    [HttpPut("/{categoryId:guid}")]
     public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDTO categoryDto, Guid categoryId)
     {
         var category = await _categoryRepo.GetCategoryByIdAsync(categoryId);

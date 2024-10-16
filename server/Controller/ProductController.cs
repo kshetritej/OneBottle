@@ -5,6 +5,7 @@ using OneBottle.DTOs.Product;
 using OneBottle.Interfaces;
 using OneBottle.Mappers;
 
+
 namespace OneBottle.Controller
 {
     [Route("api/product")]
@@ -19,21 +20,20 @@ namespace OneBottle.Controller
             _context = context;
             _productRepo = productRepo;
         }
-
         [HttpGet]
         public async Task<IActionResult> GetAllProductsAsync()
         {
             var products = await _productRepo.GetAllProductsAsync();
             var productsReturnedFromDb = products.Select(products => products.ToProductDTO());
-            return Ok(productsReturnedFromDb);
+            return Ok(products);
         }
 
 
         [HttpGet]
-        [Route("{id}")]
-        public async Task<IActionResult> GetById([FromRoute] Guid id)
+        [Route("{productId}")]
+        public async Task<IActionResult> GetById(Guid productId)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _productRepo.GetProductByIdAsync(productId);
             if (product == null)
             {
                 return NotFound();
@@ -43,45 +43,38 @@ namespace OneBottle.Controller
 
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] CreateProductDTO productDTO)
+        public async Task<IActionResult> CreateProduct([FromBody] CreateProductDTO productDTO)
         {
-            var product = productDTO.ToProductModelFromCreateProductDTO();
-            await _context.Products.AddAsync(product);
-            await _context.SaveChangesAsync();
-            return CreatedAtAction(nameof(GetById), new { id = product.ProductId }, product.ToProductDTO());
+            var productModel = ProductMappers.ToProductModelFromCreateProductDTO(productDTO);
+            await _productRepo.AddProductAsync(productModel);
+            return CreatedAtAction(nameof(GetById), new { productId = productModel.ProductId }, productModel.ToProductDTO());
         }
 
-
         [HttpPut]
-        [Route("{id}")]
-        public async Task<IActionResult> UpdateProduct([FromRoute] Guid ProductId, [FromBody] UpdateProductDTO productDto)
+        [Route("{productId}")]
+        public async Task<IActionResult> UpdateProduct(Guid productId, [FromBody] UpdateProductDTO productDto)
         {
-            var productModel = await _context.Products.FirstOrDefaultAsync(product => product.ProductId == ProductId);
+            var productModel = await _context.Products.FirstOrDefaultAsync(product => product.ProductId == productId);
             if (productModel == null)
             {
                 return NotFound();
             }
-            productModel.Name = productDto.Name;
-            productModel.Description = productDto.Description;
-            productModel.Brand = productDto.Brand;
-            productModel.Volume = productDto.Volume;
-            productModel.ABV = productDto.ABV;
 
-            await _context.SaveChangesAsync();
+            var productToUpdate = ProductMappers.ToProductModelFromUpdateProductDTO(productModel, productDto);
+            await _productRepo.UpdateProductAsync(productToUpdate);
             return Ok(productModel.ToProductDTO());
         }
 
         [HttpDelete]
-        [Route("{id}")]
-        public async Task<IActionResult> DeleteProduct([FromRoute] Guid id)
+        [Route("{productId:guid}")]
+        public async Task<IActionResult> DeleteProduct(Guid productId)
         {
-            var product = await _context.Products.FindAsync(id);
+            var product = await _productRepo.GetProductByIdAsync(productId);
             if (product == null)
             {
                 return NotFound();
             }
-            _context.Products.Remove(product);
-            _context.SaveChanges();
+            await _productRepo.DeleteProductAsync(productId);
             return NoContent();
         }
     }

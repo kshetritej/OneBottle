@@ -4,6 +4,8 @@ namespace OneBottle.DTOs.Product
 {
     public class CreateProductDTO
     {
+        [Required]
+        public Guid ProductId { get; set; }
         [Required, MaxLength(50), MinLength(3, ErrorMessage = "Name must be between 3 and 50 characters")]
         public required string Name { get; set; }
         [Required, Url, DataType(DataType.Url, ErrorMessage = "ImageUrl must be {1}")]
@@ -16,5 +18,11 @@ namespace OneBottle.DTOs.Product
 
         [Required]
         public decimal ABV { get; set; }
+        public Guid? CategoryId { get; set; }
+        [Required]
+        public decimal Price { get; set; }
+        [Required, Range(0, int.MaxValue, ErrorMessage = "StockQuantity must be greater than 0")]
+        public int StockQuantity { get; set; }
     }
+
 }
