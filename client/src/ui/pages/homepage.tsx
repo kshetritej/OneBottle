@@ -1,4 +1,4 @@
-import { Facebook, Instagram, Twitter} from 'lucide-react'
+import { Facebook, Instagram, Twitter } from 'lucide-react'
 import { Button } from "../../components/ui/button"
 import { Card, CardContent } from "../../components/ui/card"
 import {
@@ -11,6 +11,8 @@ import {
 import { Input } from "../../components/ui/input"
 import { absolute_vodka, carousel1, carousel2, carousel3, tuborg_beer, xamaka_wine } from '../../constants/images'
 import ProductCard from '../components/product/product-card'
+import { useQuery } from "@tanstack/react-query";
+
 // Mock data arrays
 const carouselItems = [
     { id: 1, image: carousel1, alt: 'Carousel Item 1' },
@@ -19,7 +21,7 @@ const carouselItems = [
 ]
 
 const spiritCategories = [
-    { id: 1, name: 'Vodka', image: absolute_vodka},
+    { id: 1, name: 'Vodka', image: absolute_vodka },
     { id: 2, name: 'Beer', image: tuborg_beer },
     { id: 3, name: 'Wine', image: xamaka_wine },
 ]
@@ -41,8 +43,19 @@ const bestSellers = [
     { id: 2, name: 'Whiskey Special', image: '/placeholder.svg?height=150&width=150', price: 49.99 },
     { id: 3, name: 'Tequila Reserva', image: '/placeholder.svg?height=150&width=150', price: 39.99 },
 ]
+const baseUrl = import.meta.env.VITE_API_URL as string;
 
 export function Homepage() {
+    const getProducts = useQuery({
+        queryKey: ['products'],
+        queryFn: async () => {
+            const response = await fetch(`${baseUrl}/product`);
+            const data = await response.json();
+            return data;
+        }
+    })
+    const products = getProducts.data;
+    console.log('produts', products)
     return (
         <div className="flex flex-col min-h-screen">
             <main className="flex-grow">
@@ -63,6 +76,8 @@ export function Homepage() {
                 </section>
 
                 <section className="p-4">
+                    <p>products</p>
+
                     <h2 className="text-xl font-bold mb-4">Shop by Spirit</h2>
                     <div className="grid grid-cols-3 gap-4">
                         {spiritCategories.map((category) => (
@@ -79,9 +94,9 @@ export function Homepage() {
                     <div className="grid  gap-4 sm:grid-cols-3">
                         {todaysHighlights.map((item) => (
                             <ProductCard key={item.id}
-                            image={item.image} 
-                            name={item.name}
-                            price={item.price}
+                                image={item.image}
+                                name={item.name}
+                                price={item.price}
                             />
                             // <Card key={item.id}>
                             //     <CardContent className="p-4">
