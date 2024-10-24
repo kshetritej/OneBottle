@@ -8,5 +8,6 @@ namespace OneBottle.Interfaces
         Task AddCartItemAsync(Cart cartItem);
         Task UpdateCartItemAsync(Cart cartItem);
         Task DeleteCartItemAsync(Guid cartId);
+        Task<IEnumerable<Cart>> GetAllCartsAsync();
     }
 }

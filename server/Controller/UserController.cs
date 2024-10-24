@@ -14,6 +14,14 @@ namespace OneBottle.Controller
         private readonly AppDbContext _context = context;
         private readonly IUserRepository _userRepository = userRepository;
 
+
+        [HttpGet]
+        public async Task<IActionResult> GetUsers()
+        {
+            var users = await _userRepository.GetAllUsersAsync();
+            return Ok(users.Select(u => u.ToUserDTO()));
+        }
+
         [HttpPost("/register")]
         public async Task<IActionResult> Register(CreateUserDTO userDTO)
         {
