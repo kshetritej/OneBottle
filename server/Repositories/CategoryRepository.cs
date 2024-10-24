@@ -16,7 +16,8 @@ namespace OneBottle.Repositories
 
        public async Task<Category> GetCategoryByIdAsync(Guid categoryId)
        {
-           return await _context.Categories.FindAsync(categoryId);
+           var response = await _context.Categories.FindAsync(categoryId);
+           return response!;
        }
 
        public async Task<IEnumerable<Category>> GetAllCategoriesAsync()
