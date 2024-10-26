@@ -10,8 +10,8 @@ import {
 } from "../../components/ui/carousel"
 import { Input } from "../../components/ui/input"
 import { absolute_vodka, carousel1, carousel2, carousel3, tuborg_beer, xamaka_wine } from '../../constants/images'
-import ProductCard from '../components/product/product-card'
 import { useQuery } from "@tanstack/react-query";
+import { Query } from '../../queries'
 
 type Category = {
     id: number;
@@ -27,14 +27,8 @@ const carouselItems = [
 const baseUrl = import.meta.env.VITE_API_URL as string;
 
 export function Homepage() {
-    const getProducts = useQuery({
-        queryKey: ['products'],
-        queryFn: async () => {
-            const response = await fetch(`${baseUrl}/product`);
-            const data = await response.json();
-            return data;
-        }
-    })
+    const getProducts = new Query().getProducts;
+
     const { data: spiritCategories } = useQuery({
         queryKey: ["getCategories"],
         queryFn: async () => {
