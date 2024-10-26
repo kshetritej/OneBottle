@@ -1,11 +1,12 @@
 import { useQuery } from "@tanstack/react-query"
 import { useParams } from "@tanstack/react-router"
 import { Query } from "../../../queries";
-import { Star, Minus, Plus, Facebook, Twitter, Instagram } from "lucide-react";
+import { Star, Minus, Plus, Facebook, Twitter, Instagram, ShoppingCart } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Card, CardContent } from "../../../components/ui/card";
 import { useState } from "react";
 import Feedbacks from "./product-feedbacks";
+import ProductSuggestion from "./product-suggestion";
 
 export function ProductDescription() {
     const productId = useParams({
@@ -77,7 +78,7 @@ export function ProductDescription() {
                                 <Plus className="h-4 w-4" />
                             </Button>
                         </div>
-                        <Button className="w-full mb-4">Add to Cart</Button>
+                        <Button className="w-full mb-4"><ShoppingCart className="mr-4" /> Add to Cart</Button>
                         <Button variant="secondary" className="w-full mb-4">
                             Buy Now
                         </Button>
@@ -95,17 +96,18 @@ export function ProductDescription() {
                         </div>
                         {/* <Card>
                             <CardContent className="p-4"> */}
-                                <h3 className="font-semibold mb-2">Details</h3>
-                                <ul className="space-y-1">
-                                    <li>ABV: {product?.abv}/100mL</li>
-                                    <li>Volume : {product?.volume} mL</li>
-                                    <li>Brand : {product?.brand}</li>
-                                </ul>
-                            {/* </CardContent>
+                        <h3 className="font-semibold mb-2">Details</h3>
+                        <ul className="space-y-1">
+                            <li>ABV: {product?.abv}/100mL</li>
+                            <li>Volume : {product?.volume} mL</li>
+                            <li>Brand : {product?.brand}</li>
+                        </ul>
+                        {/* </CardContent>
                         </Card> */}
                     </div>
                 </div>
-                <Feedbacks/>
+                <Feedbacks />
+                <ProductSuggestion />
             </div >
         </div>
     )

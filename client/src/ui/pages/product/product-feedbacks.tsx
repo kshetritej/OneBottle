@@ -30,8 +30,8 @@ export default function Feedbacks() {
   const [sortBy, setSortBy] = useState("latest")
 
   return (
-    <Card className="w-full max-w-3xl border-none shadow-none py-8">
-      <CardHeader className="flex flex-row items-center justify-between">
+    <Card className="mx-auto max-w-4xl border-none shadow-none py-8">
+      <CardHeader className="mx-auto flex flex-row items-center justify-between">
         <CardTitle className="text-lg md:text-xl">Reviews</CardTitle>
         <Select value={sortBy} onValueChange={setSortBy}>
           <SelectTrigger className="w-[180px]">
