@@ -9,7 +9,8 @@ import { Badge } from '../../../components/ui/badge'
 import { productCardPropsTypes } from '../../../types/product'
 import { Query } from '../../../queries'
 export default function ProductCard({ product }: { product: productCardPropsTypes }) {
-  const categoryName = new Query().getCategoryById(product?.categoryId).data?.name || "New";
+  const category = new Query().getCategoryById(product?.categoryId).data?.name;
+  console.log(category, 'category')
   return (
     <Card className="w-full max-w-sm mx-auto overflow-hidden">
       <div className="relative">
@@ -18,7 +19,7 @@ export default function ProductCard({ product }: { product: productCardPropsType
           alt={product?.name}
           className="w-full h-48 object-cover sm:h-48 "
         />
-        <Badge className="absolute top-2 right-2 bg-primary text-primary-foreground">{categoryName}</Badge>
+        <Badge className="absolute top-2 right-2 bg-primary text-primary-foreground">{category}</Badge>
       </div>
       <CardContent className="p-4">
         <h3 className="text-lg font-semibold mb-1 sm:text-xl">{product?.name}</h3>
