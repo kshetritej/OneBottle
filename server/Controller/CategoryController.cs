@@ -6,7 +6,7 @@ using OneBottle.Mappers;
 
 namespace OneBottle.Controller;
 
-[Route("/api/categories")]
+[Route("/api/category")]
 [ApiController]
 public class CategoryController : ControllerBase
 {
@@ -35,7 +35,8 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpGet("/{categoryId:guid}")]
+    [HttpGet]
+    [Route("/api/category/{categoryId:guid}")]
     public async Task<IActionResult> GetCategoryById(Guid categoryId)
     {
         var category = await _categoryRepo.GetCategoryByIdAsync(categoryId);
@@ -68,7 +69,7 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpPut("/{categoryId:guid}")]
+    [HttpPut("/api/category/{categoryId:guid}")]
     public async Task<IActionResult> UpdateCategory([FromBody] UpdateCategoryDTO categoryDto, Guid categoryId)
     {
         var category = await _categoryRepo.GetCategoryByIdAsync(categoryId);
@@ -90,7 +91,7 @@ public class CategoryController : ControllerBase
     }
 
 
-    [HttpDelete("/{categoryId:guid}")]
+    [HttpDelete("/api/category/{categoryId:guid}")]
     public async Task<IActionResult> DeleteCategory(Guid categoryId)
     {
         var category = await _categoryRepo.GetCategoryByIdAsync(categoryId);
