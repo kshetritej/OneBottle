@@ -10,6 +10,18 @@ export class Query {
             return data;
         }
     });
+
+    getProductById(id: string) {
+        return useQuery({
+            queryKey: ['product', id],
+            queryFn: async () => {
+                const response = await fetch(`${baseUrl}/product/${id}`);
+                const data = await response.json();
+                return data;
+            }
+        });
+    }
+
     getCategories = useQuery({
         queryKey: ["getCategories"],
         queryFn: async () => {

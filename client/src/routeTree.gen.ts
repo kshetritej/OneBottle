@@ -15,6 +15,7 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as NotificationsImport } from './routes/notifications'
 import { Route as MeImport } from './routes/me'
+import { Route as ProductProductIdImport } from './routes/product/$productId'
 import { Route as AdminAuthImport } from './routes/admin/auth'
 
 // Create Virtual Routes
@@ -43,6 +44,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const ProductProductIdRoute = ProductProductIdImport.update({
+  path: '/product/$productId',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AdminAuthRoute = AdminAuthImport.update({
   path: '/admin/auth',
@@ -88,6 +94,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthImport
       parentRoute: typeof rootRoute
     }
+    '/product/$productId': {
+      id: '/product/$productId'
+      path: '/product/$productId'
+      fullPath: '/product/$productId'
+      preLoaderRoute: typeof ProductProductIdImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -99,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
+  '/product/$productId': typeof ProductProductIdRoute
 }
 
 export interface FileRoutesByTo {
@@ -107,6 +121,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
+  '/product/$productId': typeof ProductProductIdRoute
 }
 
 export interface FileRoutesById {
@@ -116,14 +131,34 @@ export interface FileRoutesById {
   '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
+  '/product/$productId': typeof ProductProductIdRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/me' | '/notifications' | '/about' | '/admin/auth'
+  fullPaths:
+    | '/'
+    | '/me'
+    | '/notifications'
+    | '/about'
+    | '/admin/auth'
+    | '/product/$productId'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/me' | '/notifications' | '/about' | '/admin/auth'
-  id: '__root__' | '/' | '/me' | '/notifications' | '/about' | '/admin/auth'
+  to:
+    | '/'
+    | '/me'
+    | '/notifications'
+    | '/about'
+    | '/admin/auth'
+    | '/product/$productId'
+  id:
+    | '__root__'
+    | '/'
+    | '/me'
+    | '/notifications'
+    | '/about'
+    | '/admin/auth'
+    | '/product/$productId'
   fileRoutesById: FileRoutesById
 }
 
@@ -133,6 +168,7 @@ export interface RootRouteChildren {
   NotificationsRoute: typeof NotificationsRoute
   AboutLazyRoute: typeof AboutLazyRoute
   AdminAuthRoute: typeof AdminAuthRoute
+  ProductProductIdRoute: typeof ProductProductIdRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -141,6 +177,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotificationsRoute: NotificationsRoute,
   AboutLazyRoute: AboutLazyRoute,
   AdminAuthRoute: AdminAuthRoute,
+  ProductProductIdRoute: ProductProductIdRoute,
 }
 
 export const routeTree = rootRoute
@@ -159,7 +196,8 @@ export const routeTree = rootRoute
         "/me",
         "/notifications",
         "/about",
-        "/admin/auth"
+        "/admin/auth",
+        "/product/$productId"
       ]
     },
     "/": {
@@ -176,6 +214,9 @@ export const routeTree = rootRoute
     },
     "/admin/auth": {
       "filePath": "admin/auth.tsx"
+    },
+    "/product/$productId": {
+      "filePath": "product/$productId.tsx"
     }
   }
 }

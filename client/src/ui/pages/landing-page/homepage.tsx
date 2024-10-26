@@ -15,6 +15,7 @@ import { Query } from '../../../queries'
 import { Footer } from './footer'
 import { productCardPropsTypes } from '../../../types/product'
 import ProductCard from '../../components/product/product-card'
+import { Link } from '@tanstack/react-router'
 
 type Category = {
     id: number;
@@ -69,7 +70,9 @@ export function Homepage() {
                     <div className="grid  gap-4 sm:grid-cols-3">
                         {
                             products?.map((product: productCardPropsTypes) => (
-                                <ProductCard product={product} />
+                                <Link key={product.productId} to={`/product/${product.productId}`}>
+                                    <ProductCard product={product} />
+                                </Link>
                             ))
                         }
                     </div>
@@ -112,6 +115,6 @@ export function Homepage() {
                 </section>
             </main>
             <Footer />
-        </div>
+        </div >
     )
 }   
