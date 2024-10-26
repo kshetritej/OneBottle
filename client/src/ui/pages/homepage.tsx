@@ -13,35 +13,16 @@ import { absolute_vodka, carousel1, carousel2, carousel3, tuborg_beer, xamaka_wi
 import ProductCard from '../components/product/product-card'
 import { useQuery } from "@tanstack/react-query";
 
+type Category = {
+    id: number;
+    name: string;
+    description: string
+}
 // Mock data arrays
 const carouselItems = [
     { id: 1, image: carousel1, alt: 'Carousel Item 1' },
     { id: 2, image: carousel2, alt: 'Carousel Item 2' },
     { id: 3, image: carousel3, alt: 'Carousel Item 3' },
-]
-
-const spiritCategories = [
-    { id: 1, name: 'Vodka', image: absolute_vodka },
-    { id: 2, name: 'Beer', image: tuborg_beer },
-    { id: 3, name: 'Wine', image: xamaka_wine },
-]
-
-const todaysHighlights = [
-    { id: 1, name: 'Premium Vodka', image: absolute_vodka, price: 29.99 },
-    { id: 2, name: 'Craft Beer Pack', image: tuborg_beer, price: 19.99 },
-    { id: 3, name: 'Red Wine Selection', image: xamaka_wine, price: 24.99 },
-]
-
-const brandItems = [
-    { id: 1, name: 'Brand 1', image: '/placeholder.svg?height=150&width=150' },
-    { id: 2, name: 'Brand 2', image: '/placeholder.svg?height=150&width=150' },
-    { id: 3, name: 'Brand 3', image: '/placeholder.svg?height=150&width=150' },
-]
-
-const bestSellers = [
-    { id: 1, name: 'Popular Gin', image: '/placeholder.svg?height=150&width=150', price: 34.99 },
-    { id: 2, name: 'Whiskey Special', image: '/placeholder.svg?height=150&width=150', price: 49.99 },
-    { id: 3, name: 'Tequila Reserva', image: '/placeholder.svg?height=150&width=150', price: 39.99 },
 ]
 const baseUrl = import.meta.env.VITE_API_URL as string;
 
@@ -54,7 +35,16 @@ export function Homepage() {
             return data;
         }
     })
+    const { data: spiritCategories } = useQuery({
+        queryKey: ["getCategories"],
+        queryFn: async () => {
+            const response = await fetch(`${baseUrl}/category`);
+            const data = await response.json();
+            return data;
+        }
+    })
     const products = getProducts.data;
+    console.log("category ", spiritCategories)
     console.log('produts', products)
     return (
         <div className="flex flex-col min-h-screen">
@@ -76,13 +66,11 @@ export function Homepage() {
                 </section>
 
                 <section className="p-4">
-                    <p>products</p>
 
                     <h2 className="text-xl font-bold mb-4">Shop by Spirit</h2>
                     <div className="grid grid-cols-3 gap-4">
-                        {spiritCategories.map((category) => (
+                        {spiritCategories?.map((category: Category) => (
                             <Button key={category.id} variant="outline" className="h-24 flex flex-col items-center justify-center">
-                                <img src={category.image} alt={category.name} className="object-fit overflow-hidden w-full h-auto" />
                                 <span>{category.name}</span>
                             </Button>
                         ))}
@@ -92,38 +80,27 @@ export function Homepage() {
                 <section className="p-4">
                     <h2 className="text-xl font-bold mb-4">Today's Highlights</h2>
                     <div className="grid  gap-4 sm:grid-cols-3">
-                        {todaysHighlights.map((item) => (
-                            <ProductCard key={item.id}
-                                image={item.image}
-                                name={item.name}
-                                price={item.price}
-                            />
-                            // <Card key={item.id}>
-                            //     <CardContent className="p-4">
-                            //         <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded" />
-                            //         <h3 className="font-semibold">{item.name}</h3>
-                            //         <p className="text-sm text-gray-600">${item.price.toFixed(2)}</p>
-                            //     </CardContent>
-                            // </Card>
-                        ))}
+                        {
+                            //todays highlights seciotn
+                        }
                     </div>
                 </section>
 
                 <section className="p-4">
                     <h2 className="text-xl font-bold mb-4">Shop by Brand</h2>
-                    <div className="grid grid-cols-3 gap-4">
+                    {/* <div className="grid grid-cols-3 gap-4">
                         {brandItems.map((brand) => (
                             <Button key={brand.id} variant="outline" className="h-24 flex flex-col items-center justify-center">
                                 <img src={brand.image} alt={brand.name} className="w-16 h-16 mb-2" />
                                 <span className="text-xs">{brand.name}</span>
                             </Button>
                         ))}
-                    </div>
+                    </div> */}
                 </section>
 
                 <section className="p-4">
                     <h2 className="text-xl font-bold mb-4">Best Sellers</h2>
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                    {/* <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
                         {bestSellers.map((item) => (
                             <Card key={item.id}>
                                 <CardContent className="p-4">
@@ -133,7 +110,7 @@ export function Homepage() {
                                 </CardContent>
                             </Card>
                         ))}
-                    </div>
+                    </div> */}
                 </section>
 
                 <section className="p-4">
