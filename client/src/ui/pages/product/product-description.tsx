@@ -5,6 +5,7 @@ import { Star, Minus, Plus, Facebook, Twitter, Instagram } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { Card, CardContent } from "../../../components/ui/card";
 import { useState } from "react";
+import Feedbacks from "./product-feedbacks";
 
 export function ProductDescription() {
     const productId = useParams({
@@ -92,18 +93,19 @@ export function ProductDescription() {
                                 <Twitter className="w-5 h-5" />
                             </div>
                         </div>
-                        <Card>
-                            <CardContent className="p-4">
+                        {/* <Card>
+                            <CardContent className="p-4"> */}
                                 <h3 className="font-semibold mb-2">Details</h3>
-                                <ul className="list-disc pl-5 space-y-1">
-                                    <li>ABV: {product?.abv}</li>
-                                    <li>Volume : {product?.volume}</li>
+                                <ul className="space-y-1">
+                                    <li>ABV: {product?.abv}/100mL</li>
+                                    <li>Volume : {product?.volume} mL</li>
                                     <li>Brand : {product?.brand}</li>
                                 </ul>
-                            </CardContent>
-                        </Card>
+                            {/* </CardContent>
+                        </Card> */}
                     </div>
                 </div>
+                <Feedbacks/>
             </div >
         </div>
     )
