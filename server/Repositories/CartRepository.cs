@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
 using OneBottle.Data;
 using OneBottle.Interfaces;
+using OneBottle.Mappers;
 using OneBottle.Models;
 
 namespace OneBottle.Repositories
@@ -17,7 +18,8 @@ namespace OneBottle.Repositories
 
         public async Task<Cart> GetCartByIdAsync(Guid cartId)
         {
-            return await _context.Carts.FindAsync(cartId);
+            var cart = await _context.Carts.FindAsync(cartId);
+            return cart!;
         }
 
         public async Task<IEnumerable<Cart>> GetCartsByUserIdAsync(Guid userId)

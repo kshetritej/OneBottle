@@ -14,5 +14,6 @@ namespace OneBottle.DTOs.Product
         public int Volume { get; set; }
         public decimal ABV { get; set; }
         public Guid? CategoryId { get; set; }
+        public decimal Price { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using OneBottle.DTOs.Product;
 
 namespace OneBottle.DTOs.Cart
 {
-    public class CartDto
+    public class CreateCartDto
     {
         [Required]
         public Guid CartId { get; set; }
@@ -11,7 +11,6 @@ namespace OneBottle.DTOs.Cart
         public Guid UserId { get; set; }
         [Required]
         public Guid ProductId { get; set; }
-        public ProductDTO? Product { get; set; }
         [Required, Range(1, 100, ErrorMessage = "Quantity must be between 1 and 100")]
         public int Quantity { get; set; }
 

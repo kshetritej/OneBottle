@@ -24,6 +24,7 @@ namespace CartController
         {
             var carts = await _cartRepository.GetAllCartsAsync();
             return Ok(carts);
+            // return Ok(carts.Select(c => CartMapper.ToCartDTO(c)));
         }
         [HttpGet("{cartId:guid}")]
         public async Task<IActionResult> GetCartById(Guid cartId)
@@ -33,7 +34,7 @@ namespace CartController
             {
                 return NotFound();
             }
-            return Ok(cart);
+            return Ok(CartMapper.ToCartDTO(cart));
         }
 
 
@@ -45,12 +46,12 @@ namespace CartController
             {
                 return NotFound();
             }
-            return Ok(carts);
+            return Ok(carts.Select(c => CartMapper.ToCartDTO(c)));
         }
 
 
         [HttpPost]
-        public async Task<IActionResult> AddCartItem([FromBody] CartDto cartItem)
+        public async Task<IActionResult> AddCartItem([FromBody] CreateCartDto cartItem)
         {
             if (!ModelState.IsValid)
             {
