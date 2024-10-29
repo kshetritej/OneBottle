@@ -35,7 +35,7 @@ export function Homepage() {
     const categories = new Query().getCategories.data;
 
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="container mx-auto flex flex-col min-h-screen">
             <main className="flex-grow">
                 <section className="p-4">
                     <Carousel className='bg-red-500 rounded-sm'>
@@ -65,9 +65,9 @@ export function Homepage() {
                     </div>
                 </section>
 
-                <section className="p-4">
+                <section>
                     <h2 className="text-xl font-bold mb-4">Today's Highlights</h2>
-                    <div className="grid  gap-4 sm:grid-cols-3">
+                    <div className="grid gap-4  sm:grid-cols-3 lg:grid-cols-4">
                         {
                             products?.map((product: productCardPropsTypes) => (
                                 <Link key={product.productId} to={`/product/${product.productId}`}>

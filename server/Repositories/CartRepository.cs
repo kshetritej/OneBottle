@@ -85,7 +85,8 @@ namespace OneBottle.Repositories
 
         public async Task<IEnumerable<Cart>> GetAllCartsAsync()
         {
-            var carts = await _context.Carts.ToListAsync();
+            var carts = await _context.Carts.Include(c => c.Product).ToListAsync();
+
             return carts;
         }
     }

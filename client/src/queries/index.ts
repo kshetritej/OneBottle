@@ -40,5 +40,14 @@ export class Query {
             }
         });
     }
+
+    getCartItems = useQuery({
+        queryKey: ['cartItems'],
+        queryFn: async () => {
+            const response = await fetch(`${baseUrl}/cart`);
+            const data = await response.json();
+            return data;
+        }
+    })
 }
 
