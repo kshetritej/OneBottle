@@ -23,8 +23,8 @@ namespace CartController
         public async Task<IActionResult> GetAllCarts()
         {
             var carts = await _cartRepository.GetAllCartsAsync();
-            return Ok(carts);
-            // return Ok(carts.Select(c => CartMapper.ToCartDTO(c)));
+            // return Ok(carts);
+            return Ok(carts.Select(c => CartMapper.ToCartDTO(c)));
         }
         [HttpGet("{cartId:guid}")]
         public async Task<IActionResult> GetCartById(Guid cartId)

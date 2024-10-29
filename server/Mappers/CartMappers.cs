@@ -1,8 +1,7 @@
 namespace OneBottle.DTOs.Cart
 {
     using OneBottle.Models;
-    using OneBottle.DTOs.Product;
-
+    using OneBottle.Mappers;
     public static class CartMapper
     {
         public static Cart ToCartModel(this CreateCartDto cart)
@@ -23,19 +22,7 @@ namespace OneBottle.DTOs.Cart
                 CartId = cart.CartId,
                 UserId = cart.UserId,
                 ProductId = cart.ProductId,
-                Product = new ProductDTO() // Change to ProductDTO
-                {
-                    ProductId = cart.Product.ProductId,
-                    Name = cart.Product.Name,
-                    Price = cart.Product.Price,
-                    ImageUrl = cart.Product.ImageUrl,
-                    Description = cart.Product.Description,
-                    Rating = cart.Product.Rating,
-                    Brand = cart.Product.Brand,
-                    Volume = cart.Product.Volume,
-                    ABV = cart.Product.ABV,
-                    CategoryId = cart.Product.Category?.CategoryId // Handle null category if necessary
-                },
+                Product = cart.Product?.ToProductDTO(),
                 Quantity = cart.Quantity,
             };
         }
