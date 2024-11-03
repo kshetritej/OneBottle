@@ -62,8 +62,7 @@ export class Query {
             this.queryClient.invalidateQueries({ queryKey: ['cartItems'] });
         }
     })
-    addCartItem = useMutation({
-        mutationKey: ['addCartItem'],
+    addCartItem = useMutation({ mutationKey: ['addCartItem'],
         mutationFn: async (data: any) => {
             const response = await axios.post(`${baseUrl}/cart`, data);
             return response;

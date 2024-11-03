@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as NotificationsImport } from './routes/notifications'
 import { Route as MeImport } from './routes/me'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
+import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 import { Route as AdminAuthImport } from './routes/admin/auth'
 
 // Create Virtual Routes
@@ -47,6 +48,11 @@ const IndexLazyRoute = IndexLazyImport.update({
 
 const ProductProductIdRoute = ProductProductIdImport.update({
   path: '/product/$productId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminDashboardRoute = AdminDashboardImport.update({
+  path: '/admin/dashboard',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -94,6 +100,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAuthImport
       parentRoute: typeof rootRoute
     }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/admin/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardImport
+      parentRoute: typeof rootRoute
+    }
     '/product/$productId': {
       id: '/product/$productId'
       path: '/product/$productId'
@@ -112,6 +125,7 @@ export interface FileRoutesByFullPath {
   '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/product/$productId': typeof ProductProductIdRoute
 }
 
@@ -121,6 +135,7 @@ export interface FileRoutesByTo {
   '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/product/$productId': typeof ProductProductIdRoute
 }
 
@@ -131,6 +146,7 @@ export interface FileRoutesById {
   '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/product/$productId': typeof ProductProductIdRoute
 }
 
@@ -142,6 +158,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/about'
     | '/admin/auth'
+    | '/admin/dashboard'
     | '/product/$productId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -150,6 +167,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/about'
     | '/admin/auth'
+    | '/admin/dashboard'
     | '/product/$productId'
   id:
     | '__root__'
@@ -158,6 +176,7 @@ export interface FileRouteTypes {
     | '/notifications'
     | '/about'
     | '/admin/auth'
+    | '/admin/dashboard'
     | '/product/$productId'
   fileRoutesById: FileRoutesById
 }
@@ -168,6 +187,7 @@ export interface RootRouteChildren {
   NotificationsRoute: typeof NotificationsRoute
   AboutLazyRoute: typeof AboutLazyRoute
   AdminAuthRoute: typeof AdminAuthRoute
+  AdminDashboardRoute: typeof AdminDashboardRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
 }
 
@@ -177,6 +197,7 @@ const rootRouteChildren: RootRouteChildren = {
   NotificationsRoute: NotificationsRoute,
   AboutLazyRoute: AboutLazyRoute,
   AdminAuthRoute: AdminAuthRoute,
+  AdminDashboardRoute: AdminDashboardRoute,
   ProductProductIdRoute: ProductProductIdRoute,
 }
 
@@ -197,6 +218,7 @@ export const routeTree = rootRoute
         "/notifications",
         "/about",
         "/admin/auth",
+        "/admin/dashboard",
         "/product/$productId"
       ]
     },
@@ -214,6 +236,9 @@ export const routeTree = rootRoute
     },
     "/admin/auth": {
       "filePath": "admin/auth.tsx"
+    },
+    "/admin/dashboard": {
+      "filePath": "admin/dashboard.tsx"
     },
     "/product/$productId": {
       "filePath": "product/$productId.tsx"
