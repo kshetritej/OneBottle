@@ -4,7 +4,7 @@ import { DefaultLayout } from '../ui/layout/DefaultLayout'
 export const Route = createRootRoute({
     component: () => (
         <>
-        <DefaultLayout/>
+            <DefaultLayout />
         </>
     ),
 })
