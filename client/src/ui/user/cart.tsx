@@ -9,7 +9,7 @@ import {
     DrawerTrigger,
 } from "../../components/ui/drawer"
 import { Button } from "../../components/ui/button"
-import { Minus, Plus, ShoppingCart } from "lucide-react"
+import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react"
 import { useEffect, useState } from "react"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { Checkbox } from "../../components/ui/checkbox"
@@ -41,18 +41,12 @@ export const Cart = () => {
     const existingCarts = new Query().getCartItems.data as Cart[]
     const [cartItems, setCartItems] = useState<Cart[]>(existingCarts)
     const [selectedItems, setSelectedItems] = useState<string[]>([])
-    const deleteButton = document.getElementById('deleteBtn');
-    console.log(existingCarts, ":carts")
 
-    useEffect(() => {
-        if (selectedItems.length == 0) {
-            deleteButton?.setAttribute('disabled', '')
-        }
-    }, [selectedItems])
+    const removeFromCart = new Query().removeCartItem;
     const handleQuantityChange = (id: string, change: number) => {
-        setCartItems(items=>
+        setCartItems(items =>
             items?.map(item =>
-                item?.cartId=== id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
+                item?.cartId === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
             )
         )
     }
@@ -63,14 +57,15 @@ export const Cart = () => {
         )
     }
 
-    const handleDeleteSelected = () => {
-        setCartItems(items => items?.filter(item => !selectedItems.includes(item.cartId)))
-        setSelectedItems([])
+    const removeCartItem = (id: string) => {
+        console.log("item delted: ", id);
+        removeFromCart.mutate(id);
+        console.log("removal successfull")
     }
 
     const totalPrice = cartItems
         ?.filter(item => selectedItems.includes(item.cartId))
-        ?.reduce((sum, item) => sum + item.totalPrice* item.quantity, 0)
+        ?.reduce((sum, item) => sum + item.totalPrice * item.quantity, 0)
     return (
         <Drawer>
             <DrawerTrigger><ShoppingCart /></DrawerTrigger>
@@ -112,6 +107,7 @@ export const Cart = () => {
                                             </Button>
                                         </div>
                                     </div>
+                                    <Button variant={'destructive'} onClick={() => removeCartItem(item.cartId)}> <Trash2/> </Button>
                                 </div>
                             ))}
                         </div>
@@ -123,9 +119,7 @@ export const Cart = () => {
                         <span className="font-semibold">${totalPrice?.toFixed(2)}</span>
                     </div>
                     <Button>Checkout</Button>
-                    <DrawerClose>
-                        <Button id="deleteBtn" className="w-full" variant="destructive" >Delete</Button>
-                    </DrawerClose>
+                    <Button id="deleteBtn" className="w-full" variant="destructive"  >Delete</Button>
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>

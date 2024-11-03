@@ -1,7 +1,10 @@
-import { useQuery } from "@tanstack/react-query";
+import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
 const baseUrl = import.meta.env.VITE_API_URL as string;
 
+
 export class Query {
+    queryClient = new QueryClient();
     getProducts = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
@@ -47,6 +50,26 @@ export class Query {
             const response = await fetch(`${baseUrl}/cart`);
             const data = await response.json();
             return data;
+        }
+    })
+    removeCartItem = useMutation({
+        mutationKey: ['removeCartItem'],
+        mutationFn: async (id: string) => {
+            const response = await axios.delete(`${baseUrl}/cart?cartId=${id}`);
+            return response;
+        },
+        onSuccess: () => {
+            this.queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+        }
+    })
+    addCartItem = useMutation({
+        mutationKey: ['addCartItem'],
+        mutationFn: async (data: any) => {
+            const response = await axios.post(`${baseUrl}/cart`, data);
+            return response;
+        },
+        onSuccess: () => {
+            this.queryClient.invalidateQueries({ queryKey: ['cartItems'] });
         }
     })
 }
