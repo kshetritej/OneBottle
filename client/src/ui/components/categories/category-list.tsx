@@ -1,13 +1,11 @@
-import { Ellipsis, PlusIcon } from "lucide-react";
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table";
 import { Query } from "../../../queries";
-import { Button } from "../../../components/ui/button";
 import { ActionMenuDropdown } from "../../../components/action-menu-dropdown";
 import { Card } from "../../../components/ui/card";
 import { CreateCategoryModal } from "./create-category";
 
-type Category = {
-    categoryId: number;
+export type Category = {
+    categoryId: string;
     name: string;
     description: string
 }

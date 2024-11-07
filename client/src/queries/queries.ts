@@ -1,5 +1,6 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "../hooks/use-toast";
 
 const baseUrl = import.meta.env.VITE_API_URL as string;
 const queryClient = new QueryClient();
@@ -110,6 +111,24 @@ export function useRemoveCategory() {
         },
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['getCategories'] });
+            toast({
+                title: "Category deleted successfully",
+            })
+        }
+    });
+}
+
+export function useUpdateCategory() {
+    return useMutation({
+        mutationKey: ['updateCategory'],
+        mutationFn: async (data: any) => {
+            return axios.put(`${baseUrl}/category/${data.catId}`, data);
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['getCategories'] });
+            toast({
+                title: "Category updated successfully",
+            })
         }
     });
 }
