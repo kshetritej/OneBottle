@@ -71,5 +71,16 @@ export class Query {
             this.queryClient.invalidateQueries({ queryKey: ['cartItems'] });
         }
     })
+
+    addCategory = useMutation({
+        mutationKey: ['addCategory'],
+        mutationFn: async (data: any) => {
+            const response = await axios.post(`${baseUrl}/category`, data);
+            return response;
+        },
+        onSuccess: () => {
+            this.queryClient.invalidateQueries({ queryKey: ['getCategories'] });
+        }
+    })
 }
 
