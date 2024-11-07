@@ -1,6 +1,5 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { toast } from "sonner";
 const baseUrl = import.meta.env.VITE_API_URL as string;
 
 
@@ -89,7 +88,6 @@ export class Query {
         mutationFn: async ({ id }: any) => axios.delete(`${baseUrl}/category/${id}`),
         onSuccess: () => {
             this.queryClient.invalidateQueries({ queryKey: ['getCategories'] });
-            toast.success('Category deleted successfully');
         }
     })
 }

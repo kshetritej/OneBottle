@@ -1,6 +1,5 @@
 import {
     Drawer,
-    DrawerClose,
     DrawerContent,
     DrawerDescription,
     DrawerFooter,
@@ -10,10 +9,10 @@ import {
 } from "../../components/ui/drawer"
 import { Button } from "../../components/ui/button"
 import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react"
-import { useEffect, useState } from "react"
+import {  useState } from "react"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { Checkbox } from "../../components/ui/checkbox"
-import { Query } from "../../queries"
+import { useGetCartItems, useRemoveCartItem } from "../../queries/queries"
 
 type Product = {
     productId: string;
@@ -38,11 +37,11 @@ type Cart = {
     totalPrice: number;
 };
 export const Cart = () => {
-    const existingCarts = new Query().getCartItems.data as Cart[]
+    const { data: existingCarts } = useGetCartItems();
     const [cartItems, setCartItems] = useState<Cart[]>(existingCarts)
     const [selectedItems, setSelectedItems] = useState<string[]>([])
 
-    const removeFromCart = new Query().removeCartItem;
+    const removeFromCart = useRemoveCartItem();
     const handleQuantityChange = (id: string, change: number) => {
         setCartItems(items =>
             items?.map(item =>
@@ -107,7 +106,7 @@ export const Cart = () => {
                                             </Button>
                                         </div>
                                     </div>
-                                    <Button variant={'destructive'} onClick={() => removeCartItem(item.cartId)}> <Trash2/> </Button>
+                                    <Button variant={'destructive'} onClick={() => removeCartItem(item.cartId)}> <Trash2 /> </Button>
                                 </div>
                             ))}
                         </div>

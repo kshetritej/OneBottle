@@ -1,4 +1,3 @@
-import { Facebook, Instagram, Twitter } from 'lucide-react'
 import { Button } from "../../../components/ui/button"
 import { Card, CardContent } from "../../../components/ui/card"
 import {
@@ -8,14 +7,12 @@ import {
     CarouselNext,
     CarouselPrevious,
 } from "../../../components/ui/carousel"
-import { Input } from "../../../components/ui/input"
-import { absolute_vodka, carousel1, carousel2, carousel3, tuborg_beer, xamaka_wine } from '../../../constants/images'
-import { useQuery } from "@tanstack/react-query";
-import { Query } from '../../../queries'
 import { Footer } from './footer'
 import { productCardPropsTypes } from '../../../types/product'
 import ProductCard from '../../components/product/product-card'
 import { Link } from '@tanstack/react-router'
+import { useGetCategories, useGetProducts } from "../../../queries/queries"
+import { carousel1, carousel2, carousel3 } from "../../../constants/images"
 
 type Category = {
     id: number;
@@ -28,11 +25,10 @@ const carouselItems = [
     { id: 2, image: carousel2, alt: 'Carousel Item 2' },
     { id: 3, image: carousel3, alt: 'Carousel Item 3' },
 ]
-const baseUrl = import.meta.env.VITE_API_URL as string;
 
 export function Homepage() {
-    const products = new Query().getProducts.data;
-    const categories = new Query().getCategories.data;
+    const { data: products } = useGetProducts();
+    const {data:categories} = useGetCategories();
 
     return (
         <div className="container mx-auto flex flex-col min-h-screen">

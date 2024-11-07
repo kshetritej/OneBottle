@@ -1,12 +1,11 @@
-import { useQuery } from "@tanstack/react-query"
 import { useParams } from "@tanstack/react-router"
 import { Query } from "../../../queries";
 import { Star, Minus, Plus, Facebook, Twitter, Instagram, ShoppingCart } from "lucide-react";
 import { Button } from "../../../components/ui/button";
-import { Card, CardContent } from "../../../components/ui/card";
 import { useState } from "react";
 import Feedbacks from "./product-feedbacks";
 import ProductSuggestion from "./product-suggestion";
+import { useGetProductById } from "../../../queries/queries";
 
 export function ProductDescription() {
     const productId = useParams({
@@ -14,8 +13,7 @@ export function ProductDescription() {
         from: '/product/$productId'
     });
 
-    const product = new Query().getProductById(productId[0]).data;
-    console.log('product', product)
+    const product = useGetProductById(productId[0]).data;
     const [quantity, setQuantity] = useState(1);
 
     return (
@@ -66,8 +64,7 @@ export function ProductDescription() {
                                 variant="outline"
                                 size="icon"
                                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                            >
-                                <Minus className="h-4 w-4" />
+                            > <Minus className="h-4 w-4" />
                             </Button>
                             <span>{quantity}</span>
                             <Button
@@ -78,9 +75,7 @@ export function ProductDescription() {
                                 <Plus className="h-4 w-4" />
                             </Button>
                         </div>
-                        <Button className="w-full mb-4"><ShoppingCart className="mr-4" /> Add to Cart</Button>
-                        <Button variant="secondary" className="w-full mb-4">
-                            Buy Now
+                        <Button className="w-full mb-4"><ShoppingCart className="mr-4" /> Add to Cart</Button> <Button variant="secondary" className="w-full mb-4"> Buy Now
                         </Button>
                         <div className="flex space-x-4 mb-4">
                             <span>Share:</span>
