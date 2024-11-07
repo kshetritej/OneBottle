@@ -1,14 +1,16 @@
-import { SidebarProvider, SidebarTrigger } from  "../../../components/ui/sidebar"
+import { SidebarInset, SidebarProvider, SidebarTrigger } from "../../../components/ui/sidebar"
 import { AppSidebar } from "../../../components/app-sidebar"
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <main>
+      <SidebarInset className="max-h-[100vh] ">
         <SidebarTrigger />
-        {children}
-      </main>
+        <main className="max-h-[100vh] w-full">
+          {children}
+        </main>
+      </SidebarInset>
     </SidebarProvider>
   )
 }

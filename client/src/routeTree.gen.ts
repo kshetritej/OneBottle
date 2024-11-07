@@ -18,6 +18,7 @@ import { Route as MeImport } from './routes/me'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
 import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 import { Route as AdminAuthImport } from './routes/admin/auth'
+import { Route as AdminCategoriesIndexImport } from './routes/admin/categories/index'
 
 // Create Virtual Routes
 
@@ -58,6 +59,11 @@ const AdminDashboardRoute = AdminDashboardImport.update({
 
 const AdminAuthRoute = AdminAuthImport.update({
   path: '/admin/auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminCategoriesIndexRoute = AdminCategoriesIndexImport.update({
+  path: '/admin/categories/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -114,6 +120,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdImport
       parentRoute: typeof rootRoute
     }
+    '/admin/categories/': {
+      id: '/admin/categories/'
+      path: '/admin/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -127,6 +140,7 @@ export interface FileRoutesByFullPath {
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/admin/categories': typeof AdminCategoriesIndexRoute
 }
 
 export interface FileRoutesByTo {
@@ -137,6 +151,7 @@ export interface FileRoutesByTo {
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/admin/categories': typeof AdminCategoriesIndexRoute
 }
 
 export interface FileRoutesById {
@@ -148,6 +163,7 @@ export interface FileRoutesById {
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/admin/categories/': typeof AdminCategoriesIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -160,6 +176,7 @@ export interface FileRouteTypes {
     | '/admin/auth'
     | '/admin/dashboard'
     | '/product/$productId'
+    | '/admin/categories'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -169,6 +186,7 @@ export interface FileRouteTypes {
     | '/admin/auth'
     | '/admin/dashboard'
     | '/product/$productId'
+    | '/admin/categories'
   id:
     | '__root__'
     | '/'
@@ -178,6 +196,7 @@ export interface FileRouteTypes {
     | '/admin/auth'
     | '/admin/dashboard'
     | '/product/$productId'
+    | '/admin/categories/'
   fileRoutesById: FileRoutesById
 }
 
@@ -189,6 +208,7 @@ export interface RootRouteChildren {
   AdminAuthRoute: typeof AdminAuthRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
+  AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
@@ -199,6 +219,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminAuthRoute: AdminAuthRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   ProductProductIdRoute: ProductProductIdRoute,
+  AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -219,7 +240,8 @@ export const routeTree = rootRoute
         "/about",
         "/admin/auth",
         "/admin/dashboard",
-        "/product/$productId"
+        "/product/$productId",
+        "/admin/categories/"
       ]
     },
     "/": {
@@ -242,6 +264,9 @@ export const routeTree = rootRoute
     },
     "/product/$productId": {
       "filePath": "product/$productId.tsx"
+    },
+    "/admin/categories/": {
+      "filePath": "admin/categories/index.tsx"
     }
   }
 }

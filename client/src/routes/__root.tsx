@@ -7,4 +7,5 @@ export const Route = createRootRoute({
             <DefaultLayout />
         </>
     ),
+    notFoundComponent: () => <div>404</div>,
 })
