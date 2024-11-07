@@ -12,12 +12,10 @@ export function CreateCategoryModal() {
     const { register, handleSubmit } = useForm();
     const createCategory = new Query().addCategory;
     function handleFormSubmit(data: any) {
-        console.log("data", data)
         createCategory.mutate(data);
-        console.log('operation successfull.')
     }
     return (
-        <Dialog>
+        <Dialog >
             <DialogTrigger asChild>
                 <Button>
                     Add new Category <PlusIcon />

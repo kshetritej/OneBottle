@@ -1,5 +1,6 @@
 import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { toast } from "sonner";
 const baseUrl = import.meta.env.VITE_API_URL as string;
 
 
@@ -62,7 +63,8 @@ export class Query {
             this.queryClient.invalidateQueries({ queryKey: ['cartItems'] });
         }
     })
-    addCartItem = useMutation({ mutationKey: ['addCartItem'],
+    addCartItem = useMutation({
+        mutationKey: ['addCartItem'],
         mutationFn: async (data: any) => {
             const response = await axios.post(`${baseUrl}/cart`, data);
             return response;
@@ -80,6 +82,14 @@ export class Query {
         },
         onSuccess: () => {
             this.queryClient.invalidateQueries({ queryKey: ['getCategories'] });
+        }
+    })
+    removeCategory = useMutation({
+        mutationKey: ['deleteCategory'],
+        mutationFn: async ({ id }: any) => axios.delete(`${baseUrl}/category/${id}`),
+        onSuccess: () => {
+            this.queryClient.invalidateQueries({ queryKey: ['getCategories'] });
+            toast.success('Category deleted successfully');
         }
     })
 }

@@ -36,7 +36,7 @@ export function CategoryTable() {
                                 <TableCell className="font-medium">{cat.name}</TableCell>
                                 <TableCell>{cat.description}</TableCell>
                                 <TableCell >
-                                    <ActionMenuDropdown />
+                                    <ActionMenuDropdown item={cat} />
                                 </TableCell>
                             </TableRow>
                         ))}
