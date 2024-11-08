@@ -4,6 +4,8 @@ using OneBottle.Data;
 using OneBottle.DTOs.User;
 using OneBottle.Models;
 using OneBottle.Mappers;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 
 namespace OneBottle.Controller
 {
@@ -25,29 +27,26 @@ namespace OneBottle.Controller
         [HttpPost("/register")]
         public async Task<IActionResult> Register(CreateUserDTO userDTO)
         {
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
             var user = new User
             {
                 UserId = Guid.NewGuid(),
                 Username = userDTO.Username,
                 DateOfBirth = userDTO.DateOfBirth,
                 Email = userDTO.Email,
-                Password = userDTO.Password
+                Password = hashedPassword,
             };
             await _userRepository.AddUserAsync(user);
-            return Ok(user);
+            return Ok(user.ToUserDTO());
         }
 
         [HttpPost("/login")]
         public async Task<IActionResult> Login(UserLoginDTO userDTO)
         {
             var user = await _userRepository.GetUserByIdEmail(userDTO.Email);
-            if (user == null)
+            if (user == null || !BCrypt.Net.BCrypt.Verify(userDTO.Password, user.Password))
             {
-                return NotFound();
-            }
-            if (user.Password != userDTO.Password)
-            {
-                return Unauthorized();
+                return Unauthorized("Invalid email or password.");
             }
             return Ok(user.ToUserDTO());
         }
