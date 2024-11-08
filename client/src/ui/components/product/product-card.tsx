@@ -7,9 +7,9 @@ import {
 } from "../../../components/ui/card"
 import { Badge } from '../../../components/ui/badge'
 import { productCardPropsTypes } from '../../../types/product'
-import { Query } from '../../../queries'
+import { useGetCategoryById } from '../../../queries/queries'
 export default function ProductCard({ product }: { product: productCardPropsTypes }) {
-  const category = new Query().getCategoryById(product?.categoryId).data?.name;
+  const category = useGetCategoryById(product?.categoryId).data?.data?.name;
   console.log(category, 'category')
   return (
     <Card className="w-full max-w-sm mx-auto overflow-hidden">

@@ -13,7 +13,7 @@ export function ProductDescription() {
         from: '/product/$productId'
     });
 
-    const product = useGetProductById(productId[0]).data;
+    const product = useGetProductById(productId[0]).data?.data;
     const [quantity, setQuantity] = useState(1);
 
     return (

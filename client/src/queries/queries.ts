@@ -54,6 +54,59 @@ export function useGetCartItems() {
     });
 }
 
+export function useAddProduct() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: ['addProduct'],
+        mutationFn: async (data: any) => {
+            const response = await axios.post(`${baseUrl}/product`, data);
+            return response;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            toast({
+                title: "Product added successfully",
+                variant: "success",
+            });
+        }
+    });
+}
+
+export function useUpdateProduct() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: ['updateProduct'],
+        mutationFn: async (data: any) => {
+            const response = await axios.put(`${baseUrl}/product/${data.productId}`, data);
+            return response;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            toast({
+                title: "Product updated successfully",
+                variant: "success",
+            });
+        }
+    });
+}
+
+export const useRemoveProduct = () => {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: ['removeProduct'],
+        mutationFn: async ({ id }: { id: string }) => {
+            const response = await axios.delete(`${baseUrl}/product/${id}`);
+            return response;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['products'] });
+            toast({
+                title: "Product deleted successfully",
+                variant: "success",
+            });
+        }
+    });
+};
 export function useRemoveCartItem() {
     const queryClient = useQueryClient(); // Use queryClient hook
 

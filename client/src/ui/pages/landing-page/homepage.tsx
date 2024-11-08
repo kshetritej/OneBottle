@@ -28,7 +28,7 @@ const carouselItems = [
 
 export function Homepage() {
     const { data: products } = useGetProducts();
-    const {data:categories} = useGetCategories();
+    const { data: categories } = useGetCategories();
 
     return (
         <div className="container mx-auto flex flex-col min-h-screen">
@@ -53,7 +53,7 @@ export function Homepage() {
 
                     <h2 className="text-xl font-bold mb-4">Shop by Spirit</h2>
                     <div className="grid grid-cols-3 gap-4">
-                        {categories?.map((category: Category) => (
+                        {categories?.data?.map((category: Category) => (
                             <Button key={category.id} variant="outline" className="h-24 flex flex-col items-center justify-center">
                                 <span>{category.name}</span>
                             </Button>
@@ -65,7 +65,7 @@ export function Homepage() {
                     <h2 className="text-xl font-bold mb-4">Today's Highlights</h2>
                     <div className="grid gap-4  sm:grid-cols-3 lg:grid-cols-4">
                         {
-                            products?.map((product: productCardPropsTypes) => (
+                            products?.data?.map((product: productCardPropsTypes) => (
                                 <Link key={product.productId} to={`/product/${product.productId}`}>
                                     <ProductCard product={product} />
                                 </Link>

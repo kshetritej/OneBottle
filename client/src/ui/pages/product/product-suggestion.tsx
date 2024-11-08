@@ -2,12 +2,12 @@ import { Star } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card"
 import { Query } from "../../../queries"
 import { productCardPropsTypes } from "../../../types/product"
+import { useGetProducts } from "../../../queries/queries";
 
 
 export default function ProductSuggestion() {
-    const products = new Query().getProducts.data;
-    const suggestedProducts = products?.slice(0, 3);
-
+    const products = useGetProducts().data;
+    const suggestedProducts = products?.data?.slice(0, 3);
     return (
         <div className="w-full max-w-4xl mx-auto px-4 py-8">
             <div className="flex justify-between items-center mb-6">

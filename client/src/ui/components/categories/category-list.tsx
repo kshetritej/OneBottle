@@ -20,7 +20,7 @@ export function CategoryTable() {
     return (
         <>
             <Card className="p-4">
-                <div className="flex flex-col w-full ">
+                <div className="flex flex-col w-full">
                     <div className="flex justify-between">
                         <h2 className="font-bold  text-2xl">Manage Categories</h2>
                         <CreateCategoryModal />

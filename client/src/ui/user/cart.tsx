@@ -9,7 +9,7 @@ import {
 } from "../../components/ui/drawer"
 import { Button } from "../../components/ui/button"
 import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react"
-import {  useState } from "react"
+import { useState } from "react"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
 import { Checkbox } from "../../components/ui/checkbox"
 import { useGetCartItems, useRemoveCartItem } from "../../queries/queries"
@@ -38,7 +38,8 @@ type Cart = {
 };
 export const Cart = () => {
     const { data: existingCarts } = useGetCartItems();
-    const [cartItems, setCartItems] = useState<Cart[]>(existingCarts)
+    const cart = existingCarts?.data as Cart[];
+    const [cartItems, setCartItems] = useState<Cart[]>(cart)
     const [selectedItems, setSelectedItems] = useState<string[]>([])
 
     const removeFromCart = useRemoveCartItem();
@@ -76,7 +77,7 @@ export const Cart = () => {
                 <div className="items">
                     <ScrollArea className="flex-grow max-h-[400px] overflow-auto">
                         <div className="p-4 space-y-4">
-                            {existingCarts?.map(item => (
+                            {cart?.map(item => (
                                 <div key={item?.cartId} className="flex items-center space-x-4 py-2 border-b last:border-b-0">
                                     <Checkbox
                                         checked={selectedItems.includes(item.cartId)}

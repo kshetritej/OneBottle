@@ -1,10 +1,10 @@
-import { Home, Inbox, Calendar, Search, Settings } from "lucide-react";
+import {  Inbox , Search, Settings, WineIcon, Shapes,  FrameIcon } from "lucide-react";
 
 export const menuItems = [
   {
     title: "Dashboard",
     url: "/admin/dashboard",
-    icon: Home,
+    icon: FrameIcon,
   },
   {
     title: "Inbox",
@@ -14,7 +14,12 @@ export const menuItems = [
   {
     title: "Categories",
     url: "/admin/categories",
-    icon: Calendar,
+    icon: Shapes,
+  },
+  {
+    title: "Products",
+    url: "/admin/products",
+    icon: WineIcon,
   },
   {
     title: "Search",
