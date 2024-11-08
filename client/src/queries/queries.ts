@@ -1,67 +1,62 @@
-import { QueryClient, useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "../hooks/use-toast";
 
 const baseUrl = import.meta.env.VITE_API_URL as string;
-const queryClient = new QueryClient();
 
-// Hook for fetching all products
 export function useGetProducts() {
     return useQuery({
         queryKey: ['products'],
         queryFn: async () => {
-            const response = await fetch(`${baseUrl}/product`);
-            return response.json();
+            const response = await axios.get(`${baseUrl}/product`);
+            return response;
         }
     });
 }
 
-// Hook for fetching a single product by ID
 export function useGetProductById(id: string) {
     return useQuery({
         queryKey: ['product', id],
         queryFn: async () => {
-            const response = await fetch(`${baseUrl}/product/${id}`);
-            return response.json();
+            const response = await axios.get(`${baseUrl}/product/${id}`);
+            return response;
         }
     });
 }
 
-// Hook for fetching all categories
 export function useGetCategories() {
     return useQuery({
         queryKey: ['getCategories'],
         queryFn: async () => {
-            const response = await fetch(`${baseUrl}/category`);
-            return response.json();
+            const response = await axios.get(`${baseUrl}/category`);
+            return response;
         }
     });
 }
 
-// Hook for fetching a single category by ID
 export function useGetCategoryById(id: string) {
     return useQuery({
         queryKey: ['category', id],
         queryFn: async () => {
-            const response = await fetch(`${baseUrl}/category/${id}`);
-            return response.json();
+            const response = await axios.get(`${baseUrl}/category/${id}`);
+            return response;
         }
     });
 }
 
-// Hook for fetching cart items
 export function useGetCartItems() {
     return useQuery({
         queryKey: ['cartItems'],
         queryFn: async () => {
-            const response = await fetch(`${baseUrl}/cart`);
-            return response.json();
+            const response = await axios.get(`${baseUrl}/cart`);
+            return response;
         }
     });
 }
 
-// Mutation hook for removing a cart item
 export function useRemoveCartItem() {
+    const queryClient = useQueryClient(); // Use queryClient hook
+
     return useMutation({
         mutationKey: ['removeCartItem'],
         mutationFn: async (id: string) => {
@@ -69,13 +64,25 @@ export function useRemoveCartItem() {
             return response;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+            queryClient.invalidateQueries({ queryKey: ['cartItems'] }); // Invalidate the cart items query
+            toast({
+                title: "Cart item removed successfully",
+                variant: "success",
+            });
+        },
+        onError: (error) => {
+            toast({
+                title: "Failed to remove cart item",
+                description: `Error: ${error.message || 'Unknown error'}`,
+                variant: "destructive",
+            });
         }
     });
 }
 
-// Mutation hook for adding a cart item
 export function useAddCartItem() {
+    const queryClient = useQueryClient(); // Use queryClient hook
+
     return useMutation({
         mutationKey: ['addCartItem'],
         mutationFn: async (data: any) => {
@@ -83,13 +90,25 @@ export function useAddCartItem() {
             return response;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['cartItems'] });
+            queryClient.invalidateQueries({ queryKey: ['cartItems'] }); // Invalidate the cart items query
+            toast({
+                title: "Cart item added successfully",
+                variant: "success",
+            });
+        },
+        onError: (error) => {
+            toast({
+                title: "Failed to add cart item",
+                description: `Error: ${error.message || 'Unknown error'}`,
+                variant: "destructive",
+            });
         }
     });
 }
 
-// Mutation hook for adding a category
 export function useAddCategory() {
+    const queryClient = useQueryClient(); // Use queryClient hook
+
     return useMutation({
         mutationKey: ['addCategory'],
         mutationFn: async (data: any) => {
@@ -97,38 +116,71 @@ export function useAddCategory() {
             return response;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['getCategories'] });
-        }
+            queryClient.invalidateQueries({ queryKey: ['getCategories'] }); // Invalidate the categories query
+            toast({
+                title: "Category added successfully",
+                variant: "success",
+            });
+        },
+        onError: (error) => {
+            toast({
+                title: "Failed to add category",
+                description: `Error: ${error.message || 'Unknown error'}`,
+                variant: "destructive",
+            });
+        },
     });
 }
 
-// Mutation hook for removing a category
 export function useRemoveCategory() {
+    const queryClient = useQueryClient(); // Use queryClient hook
+
     return useMutation({
         mutationKey: ['deleteCategory'],
         mutationFn: async ({ id }: { id: string }) => {
-            return axios.delete(`${baseUrl}/category/${id}`);
+            const response = await axios.delete(`${baseUrl}/category/${id}`);
+            return response;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['getCategories'] });
+            queryClient.invalidateQueries({ queryKey: ['getCategories'] }); // Invalidate the categories query
             toast({
                 title: "Category deleted successfully",
-            })
+                description: "The category has been removed from the list.",
+                variant: "success",
+            });
+        },
+        onError: (error) => {
+            toast({
+                title: "Failed to delete category",
+                description: `Error: ${error.message || 'Unknown error'}`,
+                variant: "destructive",
+            });
         }
     });
 }
 
 export function useUpdateCategory() {
+    const queryClient = useQueryClient(); // Use queryClient hook
+
     return useMutation({
         mutationKey: ['updateCategory'],
         mutationFn: async (data: any) => {
-            return axios.put(`${baseUrl}/category/${data.catId}`, data);
+            const response = await axios.put(`${baseUrl}/category/${data.catId}`, data);
+            return response;
         },
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['getCategories'] });
+            queryClient.invalidateQueries({ queryKey: ['getCategories'] }); // Invalidate the categories query
             toast({
                 title: "Category updated successfully",
-            })
+                variant: "success",
+            });
+        },
+        onError: (error) => {
+            toast({
+                title: "Failed to update category",
+                description: `Error: ${error.message || 'Unknown error'}`,
+                variant: "destructive",
+            });
         }
     });
 }
