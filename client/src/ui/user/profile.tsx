@@ -8,11 +8,12 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Avatar, AvatarFallback, AvatarImage } from "../../components/ui/avatar"
 
 // Mock data
-const user = {
-    name: "Jagga Daku",
-    email: "jd@example.com",
-    avatar: "/placeholder.svg?height=100&width=100",
-}
+// const user = {
+//     name: "Jagga Daku",
+//     email: "jd@example.com",
+//     avatar: "/placeholder.svg?height=100&width=100",
+// }
+const user = JSON.parse(localStorage.getItem('user'));
 
 const orders = [
     { id: "ORD001", date: "2024-03-01", total: 129.99, status: "Delivered" },
@@ -37,12 +38,12 @@ export default function Profile() {
                         <CardHeader>
                             <div className="flex items-center space-x-4">
                                 <Avatar className="w-16 h-16">
-                                    <AvatarImage src={user.avatar} alt={user.name} />
-                                    <AvatarFallback>{user.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                                    <AvatarImage src={user?.avatar} alt={user?.username} />
+                                    <AvatarFallback>{user?.username.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                                 </Avatar>
                                 <div>
-                                    <CardTitle>{user.name}</CardTitle>
-                                    <CardDescription>{user.email}</CardDescription>
+                                    <CardTitle>{user?.username}</CardTitle>
+                                    <CardDescription>{user?.email}</CardDescription>
                                 </div>
                             </div>
                         </CardHeader>
@@ -52,7 +53,7 @@ export default function Profile() {
                                     <User className="mr-2 h-4 w-4" /> Personal Info
                                 </Button>
                                 <Button variant="ghost" className="w-full justify-start" onClick={() => setActiveTab("orders")}>
-                                    <History className="mr-2 h-4 w-4" />Purchase History 
+                                    <History className="mr-2 h-4 w-4" />Purchase History
                                 </Button>
                                 <Button variant="ghost" className="w-full justify-start" onClick={() => setActiveTab("orders")}>
                                     <NotepadText className="mr-2 h-4 w-4" /> My Reviews
@@ -88,11 +89,11 @@ export default function Profile() {
                                 <CardContent className="space-y-4">
                                     <div className="space-y-2">
                                         <Label htmlFor="full-name">Full Name</Label>
-                                        <Input id="full-name" defaultValue={user.name} />
+                                        <Input id="full-name" defaultValue={user?.username} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="email">Email</Label>
-                                        <Input id="email" type="email" defaultValue={user.email} />
+                                        <Input id="email" type="email" defaultValue={user?.email} />
                                     </div>
                                     <div className="space-y-2">
                                         <Label htmlFor="phone">Phone Number</Label>

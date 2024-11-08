@@ -1,9 +1,90 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "../hooks/use-toast";
+import { redirect, useNavigate } from "@tanstack/react-router";
 
 const baseUrl = import.meta.env.VITE_API_URL as string;
 
+export function useUserLogin() {
+    const navigate = useNavigate();
+    return useMutation({
+        mutationKey: ['userLogin'],
+        mutationFn: async (data: any) => {
+            const response = await axios.post(`${baseUrl}/login`, data);
+            const token = response.data.token;
+            // Save token to localStorage
+            localStorage.setItem('token', token);
+            console.log('Login successful and token saved:', token);
+            localStorage.setItem('user', JSON.stringify(response.data.user));
+            return response.data;
+        },
+        onSuccess: () => {
+            toast({
+                title: "Logged in successfully!",
+                variant: "success",
+            });
+            navigate({
+                to: '/',
+                replace: true,
+            })
+        },
+        onError: () => {
+            toast({
+                title: "Failed to login",
+                description: "Please check your email and password",
+                variant: "destructive",
+            });
+        }
+    })
+}
+
+
+export function useAdminLogin() {
+    return useMutation({
+        mutationKey: ['adminLogin'],
+        mutationFn: async (data: any) => {
+            const response = await axios.post(`${baseUrl}/admin/login`, data);
+            const token = response.data?.token;
+            // Save token to localStorage
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(response.data?.user));
+        },
+        onSuccess: () => {
+            toast({
+                title: "Logged in successfully!",
+                variant: "success",
+            })
+        }
+    })
+}
+
+
+export function useUserRegister() {
+    const navigate = useNavigate();
+    return useMutation({
+        mutationKey: ['userRegister'],
+        mutationFn: async (data: any) => {
+            const response = await axios.post(`${baseUrl}/register`, data);
+            return response;
+        },
+        onSuccess: () => {
+            toast({
+                title: "Account created successfully",
+                variant: "success",
+            });
+            navigate({
+                to: "/auth"
+            })
+        },
+        onError: () => {
+            toast({
+                title: "Failed to create account",
+                description: "Please check your email and password",
+                variant: "destructive",
+            });
+        }
+    })
+}
 export function useGetProducts() {
     return useQuery({
         queryKey: ['products'],

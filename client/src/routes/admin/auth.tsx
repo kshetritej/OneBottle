@@ -1,8 +1,8 @@
 import { createFileRoute } from '@tanstack/react-router'
-import { AdminAuthentication } from '../../ui/admin/auth/admin-authentication'
+import Login from '../../ui/auth/login'
 
 export const Route = createFileRoute('/admin/auth')({
   component: () => <>
-    <AdminAuthentication />
+    <Login/>
   </>,
 })

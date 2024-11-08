@@ -12,12 +12,13 @@ import { menuList } from "../../utils/menu-list"
 import { Link } from "@tanstack/react-router"
 import { navigations } from "../../utils/navigations"
 import { Input } from "../../components/ui/input"
+import { ModeToggle } from "../../components/mode-toggle"
 
 export const Navbar = () => {
     return (
         <>
-            <div className="p-2 border-b-2 bg-primary-foreground z-40">
-                <Input placeholder="Search..." className="" />
+            <div className="p-2 border-b-2 bg-primary-foreground z-40 flex gap-2">
+                <Input placeholder="Search..." className="" /> <div><ModeToggle/></div>
             </div>
             <div className="fixed bottom-0 px-4  bg-primary-foreground border-t-2   flex justify-between items-center gap-4 w-[100%]">
                 {
