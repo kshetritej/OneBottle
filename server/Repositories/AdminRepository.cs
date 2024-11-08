@@ -74,5 +74,11 @@ namespace OneBottle.Repositories
                 }
             }
         }
+
+        public Task<Admin> GetAdminByEmailAsync(string email)
+        {
+            var admin = _context.Admins.FirstOrDefaultAsync(a => a.Email == email);
+            return admin;
+        }
     }
 }

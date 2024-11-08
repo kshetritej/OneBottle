@@ -8,12 +8,13 @@ namespace OneBottle.Mappers
         // Map CreateAdminDTO to Admin model
         public static Admin ToAdminModel(CreateAdminDTO adminDto)
         {
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(adminDto.Password);
             return new Admin
             {
                 AdminId = Guid.NewGuid(),
                 Username = adminDto.Username,
                 Email = adminDto.Email,
-                Password = adminDto.Password
+                Password = hashedPassword
             };
         }
 

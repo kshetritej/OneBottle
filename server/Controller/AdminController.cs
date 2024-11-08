@@ -4,6 +4,7 @@ using OneBottle.Data;
 using OneBottle.DTOs.Admin;
 using OneBottle.Interfaces;
 using OneBottle.Mappers;
+using OneBottle.Models;
 
 
 namespace OneBottle.Controller
@@ -53,10 +54,33 @@ namespace OneBottle.Controller
         [HttpPost]
         public async Task<IActionResult> CreateAdmin([FromBody] CreateAdminDTO adminDTO)
         {
-            var adminModel = AdminMappers.ToAdminModel(adminDTO);
-            await _adminRepo.AddAdminAsync(adminModel);
-            var createdAdminDTO = AdminMappers.CreateToAdminDTO(adminModel);
-            return CreatedAtAction(nameof(GetById), new { adminId = adminModel.AdminId }, createdAdminDTO); //toadminDTO defination is not found 
+            var hashedPassword = BCrypt.Net.BCrypt.HashPassword(adminDTO.Password);
+            var admin = new Admin
+            {
+                AdminId = Guid.NewGuid(),
+                Username = adminDTO.Username,
+                Email = adminDTO.Email,
+                Password = hashedPassword,
+            };
+            await _adminRepo.AddAdminAsync(admin);
+            return Ok(AdminMappers.CreateToAdminDTO(admin));
+            // var adminModel = AdminMappers.ToAdminModel(adminDTO);
+            // await _adminRepo.AddAdminAsync(adminModel);
+            // var createdAdminDTO = AdminMappers.CreateToAdminDTO(adminModel);
+            // return CreatedAtAction(nameof(GetById), new { adminId = adminModel.AdminId }, createdAdminDTO); //toadminDTO defination is not found 
+        }
+
+        [HttpPost("/api/admin/login")]
+        public async Task<IActionResult> Login([FromBody] AdminLoginDTO adminLoginDTO)
+        {
+            var admin = await _adminRepo.GetAdminByEmailAsync(adminLoginDTO.Email);
+            if (admin == null || !BCrypt.Net.BCrypt.Verify(adminLoginDTO.Password, admin.Password))
+            {
+                return Unauthorized("Invalid username or password.");
+            }
+            // var token = GenerateJwtToken(admin);
+            return Ok(AdminMappers.CreateToAdminDTO(admin));
+            // return Ok(new { Token = token, Admin = AdminMappers.CreateToAdminDTO(admin) });
         }
 
 

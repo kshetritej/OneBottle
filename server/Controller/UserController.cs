@@ -52,7 +52,6 @@ namespace OneBottle.Controller
             }
             var token = GenerateJwtToken(user);
             return Ok(new { Token = token, User = user.ToUserDTO() });
-            // return Ok(user.ToUserDTO());
         }
 
         private string GenerateJwtToken(User user)
