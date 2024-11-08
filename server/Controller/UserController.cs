@@ -26,7 +26,7 @@ namespace OneBottle.Controller
             return Ok(users.Select(u => u.ToUserDTO()));
         }
 
-        [HttpPost("/register")]
+        [HttpPost("/api/register")]
         public async Task<IActionResult> Register(CreateUserDTO userDTO)
         {
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
@@ -42,7 +42,7 @@ namespace OneBottle.Controller
             return Ok(user.ToUserDTO());
         }
 
-        [HttpPost("/login")]
+        [HttpPost("/api/login")]
         public async Task<IActionResult> Login(UserLoginDTO userDTO)
         {
             var user = await _userRepository.GetUserByIdEmail(userDTO.Email);
