@@ -1,4 +1,4 @@
-import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription } from "../../../components/ui/dialog";
+import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter } from "../../../components/ui/dialog";
 import { DialogHeader } from "../../../components/ui/dialog";
 import { Edit, Edit2, PlusCircle } from "lucide-react";
 import { Button } from "../../../components/ui/button";
@@ -8,6 +8,7 @@ import { Input } from "../../../components/ui/input";
 import { Textarea } from "../../../components/ui/textarea";
 import { useAddCategory, useUpdateCategory } from "../../../queries/queries";
 import { Category } from "./category-list";
+import { DialogClose } from "@radix-ui/react-dialog";
 
 type editProps = {
     mode?: any,
@@ -51,7 +52,11 @@ export function CreateCategoryModal({ category, mode, open }: editProps) {
                                 <Textarea {...register("description")} name="description" id="description" cols={30} rows={10} />
                             </div>
                             <div className="flex justify-end p-4">
-                                <Button>Create</Button>
+                                <DialogFooter>
+                                    <DialogClose asChild>
+                                        <Button type="submit">Create</Button>
+                                    </DialogClose>
+                                </DialogFooter>
                             </div>
                         </form>
                     </DialogDescription>
