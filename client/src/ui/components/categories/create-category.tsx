@@ -1,6 +1,6 @@
 import { Dialog, DialogTrigger, DialogContent, DialogTitle, DialogDescription, DialogFooter } from "../../../components/ui/dialog";
 import { DialogHeader } from "../../../components/ui/dialog";
-import { Edit, Edit2, PlusCircle } from "lucide-react";
+import {  Edit2, PlusCircle } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { useForm } from "react-hook-form";
 import { Label } from "../../../components/ui/label";
@@ -15,8 +15,8 @@ type editProps = {
     category?: Category
     open?: boolean
 }
-export function CreateCategoryModal({ category, mode, open }: editProps) {
-    const { register, handleSubmit, formState: { errors } } = useForm({
+export function CreateCategoryModal({ category, mode }: editProps) {
+    const { register, handleSubmit, } = useForm({
         defaultValues: {
             name: mode ? category?.name : "",
             description: mode ? category?.description : ""

@@ -1,5 +1,4 @@
 import { useParams } from "@tanstack/react-router"
-import { Query } from "../../../queries";
 import { Star, Minus, Plus, Facebook, Twitter, Instagram, ShoppingCart } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { useState } from "react";

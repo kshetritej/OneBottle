@@ -1,6 +1,5 @@
 import { Star } from "lucide-react";
 import { Card, CardContent } from "../../../components/ui/card"
-import { Query } from "../../../queries"
 import { productCardPropsTypes } from "../../../types/product"
 import { useGetProducts } from "../../../queries/queries";
 
