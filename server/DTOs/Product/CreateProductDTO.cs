@@ -20,9 +20,9 @@ namespace OneBottle.DTOs.Product
         public decimal ABV { get; set; }
         public Guid? CategoryId { get; set; }
         [Required]
-        public decimal Price { get; set; }
+        public decimal Price { get; set; } = 10;
         [Required, Range(0, int.MaxValue, ErrorMessage = "StockQuantity must be greater than 0")]
-        public int StockQuantity { get; set; }
+        public int StockQuantity { get; set; } = 1;
     }
 
 }

@@ -17,7 +17,9 @@ namespace OneBottle.Mappers
                 Brand = product.Brand,
                 Volume = product.Volume,
                 ABV = product.ABV,
-                CategoryId = product.CategoryId
+                CategoryId = product.CategoryId,
+                Price = product.Price,
+                StockQuantity = product.StockQuantity,
             };
         }
 
@@ -32,6 +34,8 @@ namespace OneBottle.Mappers
                 Brand = productDTO.Brand,
                 Volume = productDTO.Volume,
                 ABV = productDTO.ABV,
+                StockQuantity = productDTO.StockQuantity,
+                Price = productDTO.Price,
                 CategoryId = productDTO.CategoryId,
                 CreatedAt = DateTime.Now,
             };
