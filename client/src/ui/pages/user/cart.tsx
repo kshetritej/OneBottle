@@ -1,139 +1,193 @@
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "../../../components/ui/drawer"
+import { useState, useMemo } from "react"
+
 import { Button } from "../../../components/ui/button"
-import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react"
-import { useState } from "react"
-import { ScrollArea } from "@radix-ui/react-scroll-area"
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card"
 import { Checkbox } from "../../../components/ui/checkbox"
-import { useGetCartItems, useRemoveCartItem } from "../../../queries/queries"
-import { Link, useNavigate } from "@tanstack/react-router"
+import { Input } from "../../../components/ui/input"
+import { Separator } from "../../../components/ui/separator"
+import { Minus, Plus, ShoppingCart, Trash2, Save } from "lucide-react"
 
-type Product = {
-    productId: string;
-    name: string;
-    imageUrl: string;
-    description: string;
-    rating: number;
-    brand: string;
-    volume: number;
-    abv: number;
-    categoryId: string;
-    price: number;
-};
+type CartItem = {
+    id: number
+    name: string
+    price: number
+    quantity: number
+    image: string
+    selected: boolean
+}
 
-// Type for Cart
-type Cart = {
-    cartId: string;
-    userId: string;
-    productId: string;
-    product: Product;
-    quantity: number;
-    totalPrice: number;
-};
-export const Cart = () => {
-    const navigate = useNavigate();
-    const { data: existingCarts } = useGetCartItems();
-    const cart = existingCarts?.data as Cart[];
-    const [cartItems, setCartItems] = useState<Cart[]>(cart)
-    const [selectedItems, setSelectedItems] = useState<string[]>([])
+export function Cart() {
+    const [cartItems, setCartItems] = useState<CartItem[]>([
+        {
+            id: 1,
+            name: "Manang Valley Premium Sweet White",
+            price: 1025,
+            quantity: 1,
+            image: "/placeholder.svg?height=100&width=100",
+            selected: false,
+        },
+        {
+            id: 2,
+            name: "New Beer In Town",
+            price: 500,
+            quantity: 1,
+            image: "/placeholder.svg?height=100&width=100",
+            selected: false,
+        },
+    ])
 
-    const removeFromCart = useRemoveCartItem();
-    const handleQuantityChange = (id: string, change: number) => {
-        setCartItems(items =>
-            items?.map(item =>
-                item?.cartId === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item
+    const updateQuantity = (id: number, newQuantity: number) => {
+        setCartItems(
+            cartItems.map((item) =>
+                item.id === id ? { ...item, quantity: Math.max(1, newQuantity) } : item
             )
         )
     }
 
-    const handleSelectItem = (id: string) => {
-        setSelectedItems(prev =>
-            prev.includes(id) ? prev.filter(item => item !== id) : [...prev, id]
+    const removeItem = (id: number) => {
+        setCartItems(cartItems.filter((item) => item.id !== id))
+    }
+
+    const toggleItemSelection = (id: number) => {
+        setCartItems(
+            cartItems.map((item) =>
+                item.id === id ? { ...item, selected: !item.selected } : item
+            )
         )
     }
 
-    const removeCartItem = (id: string) => {
-        console.log("item delted: ", id);
-        removeFromCart.mutate(id);
-        console.log("removal successfull")
+    const selectedItems = useMemo(() => {
+        const explicitlySelected = cartItems.filter((item) => item.selected)
+        return explicitlySelected.length > 0 ? explicitlySelected : cartItems
+    }, [cartItems])
+
+    const subtotal = selectedItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
+    const shipping = selectedItems.length > 0 ? 15 : 0
+    const tax = subtotal * 0.1
+    const total = subtotal + shipping + tax
+
+    const saveCart = () => {
+        // Here you would implement the logic to save the selected items to the database
+        console.log("Saving selected items to database:", selectedItems)
     }
 
-    const totalPrice = cartItems
-        ?.filter(item => selectedItems.includes(item.cartId))
-        ?.reduce((sum, item) => sum + item.totalPrice * item.quantity, 0)
+    const proceedToCheckout = () => {
+        // Here you would implement the logic to save the selected items to the database
+        // and then redirect to the checkout page
+        console.log("Proceeding to checkout with selected items:", selectedItems)
+    }
+
     return (
-        <Drawer>
-            <DrawerTrigger><ShoppingCart /></DrawerTrigger>
-            <DrawerContent>
-                <DrawerHeader className="text-left">
-                    <DrawerTitle>My Cart</DrawerTitle>
-                    <DrawerDescription>Delete or proceed for checkout.</DrawerDescription>
-                </DrawerHeader>
-                <div className="items">
-                    <ScrollArea className="flex-grow max-h-[400px] overflow-auto">
-                        <div className="p-4 space-y-4">
-                            {cart?.map(item => (
-                                <div key={item?.cartId} className="flex items-center space-x-4 py-2 border-b last:border-b-0">
+        <div className="min-h-screen bg-background p-6">
+            <div className="mx-auto max-w-6xl space-y-8">
+                <div className="space-y-2">
+                    <h1 className="text-3xl font-bold">Shopping Cart</h1>
+                    <p className="text-muted-foreground">Review and update your cart before checkout</p>
+                </div>
+                <div className="grid gap-8 lg:grid-cols-[1fr_400px]">
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center gap-2">
+                                <ShoppingCart className="h-5 w-5" />
+                                Cart Items
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-6">
+                            {cartItems.map((item) => (
+                                <div key={item.id} className="flex items-center space-x-4">
                                     <Checkbox
-                                        checked={selectedItems.includes(item.cartId)}
-                                        onCheckedChange={() => handleSelectItem(item.cartId)}
+                                        id={`select-${item.id}`}
+                                        checked={item.selected || selectedItems.length === cartItems.length}
+                                        onCheckedChange={() => toggleItemSelection(item.id)}
                                     />
-                                    <img src={item.product.imageUrl} alt={item.product.name} className="w-20 h-20 object-cover rounded" />
-                                    <div className="flex-grow">
-                                        <h3 className="font-medium">{item.product.name}</h3>
-                                        <p className="text-sm text-gray-500">${item.product.price.toFixed(2)}</p>
-                                        <div className="flex items-center mt-2">
-                                            <Button
-                                                variant="outline"
-                                                size="icon"
-                                                className="h-8 w-8"
-                                                onClick={() => handleQuantityChange(item.productId, -1)}
-                                            >
-                                                <Minus className="h-4 w-4" />
-                                            </Button>
-                                            <span className="mx-2 min-w-[2ch] text-center">{item.quantity}</span>
-                                            <Button
-                                                variant="outline"
-                                                size="icon"
-                                                className="h-8 w-8"
-                                                onClick={() => handleQuantityChange(item.productId, 1)}
-                                            >
-                                                <Plus className="h-4 w-4" />
-                                            </Button>
-                                        </div>
+                                    <img
+                                        src={item.image}
+                                        alt={item.name}
+                                        width={100}
+                                        height={100}
+                                        className="rounded-md"
+                                    />
+                                    <div className="flex-1 space-y-1">
+                                        <h3 className="font-medium">{item.name}</h3>
+                                        <p className="text-sm text-muted-foreground">${item.price.toFixed(2)}</p>
                                     </div>
-                                    <Button variant={'destructive'} onClick={() => removeCartItem(item.cartId)}> <Trash2 /> </Button>
+                                    <div className="flex items-center space-x-2">
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                        >
+                                            <Minus className="h-4 w-4" />
+                                        </Button>
+                                        <Input
+                                            type="number"
+                                            value={item.quantity}
+                                            onChange={(e) => updateQuantity(item.id, parseInt(e.target.value, 10))}
+                                            className="w-16 text-center"
+                                        />
+                                        <Button
+                                            variant="outline"
+                                            size="icon"
+                                            onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                        </Button>
+                                    </div>
+                                    <Button variant="ghost" size="icon" onClick={() => removeItem(item.id)}>
+                                        <Trash2 className="h-4 w-4" />
+                                    </Button>
                                 </div>
                             ))}
-                        </div>
-                    </ScrollArea>
+                        </CardContent>
+                    </Card>
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Order Summary</CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                                <div className="flex justify-between">
+                                    <span className="text-muted-foreground">Subtotal</span>
+                                    <span>${subtotal.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-muted-foreground">Shipping</span>
+                                    <span>${shipping.toFixed(2)}</span>
+                                </div>
+                                <div className="flex justify-between">
+                                    <span className="text-muted-foreground">Tax</span>
+                                    <span>${tax.toFixed(2)}</span>
+                                </div>
+                                <Separator />
+                                <div className="flex justify-between font-medium">
+                                    <span>Total</span>
+                                    <span>${total.toFixed(2)}</span>
+                                </div>
+                            </div>
+                        </CardContent>
+                        <CardFooter className="flex flex-col space-y-2">
+                            <Button
+                                className="w-full"
+                                size="lg"
+                                onClick={proceedToCheckout}
+                                disabled={selectedItems.length === 0}
+                            >
+                                Proceed to Checkout
+                            </Button>
+                            <Button
+                                className="w-full"
+                                variant="outline"
+                                size="lg"
+                                onClick={saveCart}
+                                disabled={selectedItems.length === 0}
+                            >
+                                <Save className="mr-2 h-4 w-4" />
+                                Save Cart
+                            </Button>
+                        </CardFooter>
+                    </Card>
                 </div>
-                <DrawerFooter>
-                    <div className="flex justify-between items-center mb-4">
-                        <span className="font-semibold">Total (Selected):</span>
-                        <span className="font-semibold">${totalPrice?.toFixed(2)}</span>
-                    </div>
-                    <Button onClick={(e) => {
-                        e.preventDefault();
-                        console.log('navigating to checkout ...');
-                        navigate({ to: "/checkout" });
-                    }
-                    }>Checkout</Button>
-                    <DrawerClose>
-                        <Button id="deleteBtn" className="w-full" variant="destructive"  >Delete</Button>
-                    </DrawerClose>
-                </DrawerFooter>
-            </DrawerContent>
-        </Drawer>
-
+            </div>
+        </div>
     )
 }
-

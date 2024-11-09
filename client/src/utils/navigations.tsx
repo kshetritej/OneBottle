@@ -1,5 +1,4 @@
-import { BellRing, Home, User } from "lucide-react";
-import { Cart } from "../ui/pages/user/cart";
+import { BellRing, Home, User, ShoppingBag } from "lucide-react";
 
 const isLoggedIn = true
 export const navigations = [
@@ -10,8 +9,9 @@ export const navigations = [
     },
     {
         label: "cart",
-        icon: <Cart />,
-        // icon: <ShoppingCart />,
+        // icon: <Cart />,
+        icon: <ShoppingBag />,
+        path: "/cart",
     },
     {
         label: "notifications", path: "/notifications",

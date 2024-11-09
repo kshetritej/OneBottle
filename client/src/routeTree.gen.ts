@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as NotificationsImport } from './routes/notifications'
 import { Route as MeImport } from './routes/me'
 import { Route as CheckoutImport } from './routes/checkout'
+import { Route as CartImport } from './routes/cart'
 import { Route as AuthImport } from './routes/auth'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
 import { Route as AdminDashboardImport } from './routes/admin/dashboard'
@@ -48,6 +49,11 @@ const MeRoute = MeImport.update({
 
 const CheckoutRoute = CheckoutImport.update({
   path: '/checkout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const CartRoute = CartImport.update({
+  path: '/cart',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -107,6 +113,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/cart': {
+      id: '/cart'
+      path: '/cart'
+      fullPath: '/cart'
+      preLoaderRoute: typeof CartImport
       parentRoute: typeof rootRoute
     }
     '/checkout': {
@@ -187,6 +200,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/auth': typeof AuthRoute
+  '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
@@ -202,6 +216,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/auth': typeof AuthRoute
+  '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
@@ -218,6 +233,7 @@ export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/auth': typeof AuthRoute
+  '/cart': typeof CartRoute
   '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
@@ -235,6 +251,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/cart'
     | '/checkout'
     | '/me'
     | '/notifications'
@@ -249,6 +266,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/auth'
+    | '/cart'
     | '/checkout'
     | '/me'
     | '/notifications'
@@ -263,6 +281,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/auth'
+    | '/cart'
     | '/checkout'
     | '/me'
     | '/notifications'
@@ -279,6 +298,7 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AuthRoute: typeof AuthRoute
+  CartRoute: typeof CartRoute
   CheckoutRoute: typeof CheckoutRoute
   MeRoute: typeof MeRoute
   NotificationsRoute: typeof NotificationsRoute
@@ -294,6 +314,7 @@ export interface RootRouteChildren {
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AuthRoute: AuthRoute,
+  CartRoute: CartRoute,
   CheckoutRoute: CheckoutRoute,
   MeRoute: MeRoute,
   NotificationsRoute: NotificationsRoute,
@@ -320,6 +341,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/auth",
+        "/cart",
         "/checkout",
         "/me",
         "/notifications",
@@ -337,6 +359,9 @@ export const routeTree = rootRoute
     },
     "/auth": {
       "filePath": "auth.tsx"
+    },
+    "/cart": {
+      "filePath": "cart.tsx"
     },
     "/checkout": {
       "filePath": "checkout.tsx"
