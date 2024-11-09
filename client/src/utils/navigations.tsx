@@ -1,5 +1,5 @@
 import { BellRing, Home, User } from "lucide-react";
-import { Cart } from "../ui/user/cart";
+import { Cart } from "../ui/pages/user/cart";
 
 const isLoggedIn = true
 export const navigations = [

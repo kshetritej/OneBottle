@@ -2,8 +2,8 @@ import { useParams } from "@tanstack/react-router"
 import { Star, Minus, Plus, Facebook, Twitter, Instagram, ShoppingCart } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { useState } from "react";
-import Feedbacks from "./product-feedbacks";
-import ProductSuggestion from "./product-suggestion";
+import Feedbacks from "../../components/product/product-feedbacks";
+import ProductSuggestion from "../../components/product/product-suggestion";
 import { useGetProductById } from "../../../queries/queries";
 
 export function ProductDescription() {

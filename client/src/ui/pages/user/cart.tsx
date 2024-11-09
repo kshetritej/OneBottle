@@ -1,18 +1,20 @@
 import {
     Drawer,
+    DrawerClose,
     DrawerContent,
     DrawerDescription,
     DrawerFooter,
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from "../../components/ui/drawer"
-import { Button } from "../../components/ui/button"
+} from "../../../components/ui/drawer"
+import { Button } from "../../../components/ui/button"
 import { Minus, Plus, ShoppingCart, Trash2 } from "lucide-react"
 import { useState } from "react"
 import { ScrollArea } from "@radix-ui/react-scroll-area"
-import { Checkbox } from "../../components/ui/checkbox"
-import { useGetCartItems, useRemoveCartItem } from "../../queries/queries"
+import { Checkbox } from "../../../components/ui/checkbox"
+import { useGetCartItems, useRemoveCartItem } from "../../../queries/queries"
+import { Link, useNavigate } from "@tanstack/react-router"
 
 type Product = {
     productId: string;
@@ -37,6 +39,7 @@ type Cart = {
     totalPrice: number;
 };
 export const Cart = () => {
+    const navigate = useNavigate();
     const { data: existingCarts } = useGetCartItems();
     const cart = existingCarts?.data as Cart[];
     const [cartItems, setCartItems] = useState<Cart[]>(cart)
@@ -118,8 +121,15 @@ export const Cart = () => {
                         <span className="font-semibold">Total (Selected):</span>
                         <span className="font-semibold">${totalPrice?.toFixed(2)}</span>
                     </div>
-                    <Button>Checkout</Button>
-                    <Button id="deleteBtn" className="w-full" variant="destructive"  >Delete</Button>
+                    <Button onClick={(e) => {
+                        e.preventDefault();
+                        console.log('navigating to checkout ...');
+                        navigate({ to: "/checkout" });
+                    }
+                    }>Checkout</Button>
+                    <DrawerClose>
+                        <Button id="deleteBtn" className="w-full" variant="destructive"  >Delete</Button>
+                    </DrawerClose>
                 </DrawerFooter>
             </DrawerContent>
         </Drawer>

@@ -2,8 +2,8 @@ import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, Tabl
 import { Query } from "../../../queries";
 import { Card } from "../../../components/ui/card";
 import { CreateCategoryModal } from "./create-category";
-import { DeleteDialog } from "../delete-dialog";
 import { useRemoveCategory } from "../../../queries/queries";
+import { DeleteDialog } from "../../components/delete-dialog";
 
 export type Category = {
     categoryId: string;

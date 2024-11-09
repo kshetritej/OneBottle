@@ -15,10 +15,12 @@ import { createFileRoute } from '@tanstack/react-router'
 import { Route as rootRoute } from './routes/__root'
 import { Route as NotificationsImport } from './routes/notifications'
 import { Route as MeImport } from './routes/me'
+import { Route as CheckoutImport } from './routes/checkout'
 import { Route as AuthImport } from './routes/auth'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
 import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 import { Route as AdminAuthImport } from './routes/admin/auth'
+import { Route as AdminUsersIndexImport } from './routes/admin/users/index'
 import { Route as AdminProductsIndexImport } from './routes/admin/products/index'
 import { Route as AdminCategoriesIndexImport } from './routes/admin/categories/index'
 
@@ -44,6 +46,11 @@ const MeRoute = MeImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const CheckoutRoute = CheckoutImport.update({
+  path: '/checkout',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const AuthRoute = AuthImport.update({
   path: '/auth',
   getParentRoute: () => rootRoute,
@@ -66,6 +73,11 @@ const AdminDashboardRoute = AdminDashboardImport.update({
 
 const AdminAuthRoute = AdminAuthImport.update({
   path: '/admin/auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminUsersIndexRoute = AdminUsersIndexImport.update({
+  path: '/admin/users/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -95,6 +107,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/checkout': {
+      id: '/checkout'
+      path: '/checkout'
+      fullPath: '/checkout'
+      preLoaderRoute: typeof CheckoutImport
       parentRoute: typeof rootRoute
     }
     '/me': {
@@ -153,6 +172,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminProductsIndexImport
       parentRoute: typeof rootRoute
     }
+    '/admin/users/': {
+      id: '/admin/users/'
+      path: '/admin/users'
+      fullPath: '/admin/users'
+      preLoaderRoute: typeof AdminUsersIndexImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -161,6 +187,7 @@ declare module '@tanstack/react-router' {
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/auth': typeof AuthRoute
+  '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
@@ -169,11 +196,13 @@ export interface FileRoutesByFullPath {
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
+  '/admin/users': typeof AdminUsersIndexRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/auth': typeof AuthRoute
+  '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
@@ -182,12 +211,14 @@ export interface FileRoutesByTo {
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
+  '/admin/users': typeof AdminUsersIndexRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
   '/auth': typeof AuthRoute
+  '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
   '/about': typeof AboutLazyRoute
@@ -196,6 +227,7 @@ export interface FileRoutesById {
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
+  '/admin/users/': typeof AdminUsersIndexRoute
 }
 
 export interface FileRouteTypes {
@@ -203,6 +235,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/auth'
+    | '/checkout'
     | '/me'
     | '/notifications'
     | '/about'
@@ -211,10 +244,12 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/admin/categories'
     | '/admin/products'
+    | '/admin/users'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/auth'
+    | '/checkout'
     | '/me'
     | '/notifications'
     | '/about'
@@ -223,10 +258,12 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/admin/categories'
     | '/admin/products'
+    | '/admin/users'
   id:
     | '__root__'
     | '/'
     | '/auth'
+    | '/checkout'
     | '/me'
     | '/notifications'
     | '/about'
@@ -235,12 +272,14 @@ export interface FileRouteTypes {
     | '/product/$productId'
     | '/admin/categories/'
     | '/admin/products/'
+    | '/admin/users/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
   AuthRoute: typeof AuthRoute
+  CheckoutRoute: typeof CheckoutRoute
   MeRoute: typeof MeRoute
   NotificationsRoute: typeof NotificationsRoute
   AboutLazyRoute: typeof AboutLazyRoute
@@ -249,11 +288,13 @@ export interface RootRouteChildren {
   ProductProductIdRoute: typeof ProductProductIdRoute
   AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
+  AdminUsersIndexRoute: typeof AdminUsersIndexRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
   AuthRoute: AuthRoute,
+  CheckoutRoute: CheckoutRoute,
   MeRoute: MeRoute,
   NotificationsRoute: NotificationsRoute,
   AboutLazyRoute: AboutLazyRoute,
@@ -262,6 +303,7 @@ const rootRouteChildren: RootRouteChildren = {
   ProductProductIdRoute: ProductProductIdRoute,
   AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
   AdminProductsIndexRoute: AdminProductsIndexRoute,
+  AdminUsersIndexRoute: AdminUsersIndexRoute,
 }
 
 export const routeTree = rootRoute
@@ -278,6 +320,7 @@ export const routeTree = rootRoute
       "children": [
         "/",
         "/auth",
+        "/checkout",
         "/me",
         "/notifications",
         "/about",
@@ -285,7 +328,8 @@ export const routeTree = rootRoute
         "/admin/dashboard",
         "/product/$productId",
         "/admin/categories/",
-        "/admin/products/"
+        "/admin/products/",
+        "/admin/users/"
       ]
     },
     "/": {
@@ -293,6 +337,9 @@ export const routeTree = rootRoute
     },
     "/auth": {
       "filePath": "auth.tsx"
+    },
+    "/checkout": {
+      "filePath": "checkout.tsx"
     },
     "/me": {
       "filePath": "me.tsx"
@@ -317,6 +364,9 @@ export const routeTree = rootRoute
     },
     "/admin/products/": {
       "filePath": "admin/products/index.tsx"
+    },
+    "/admin/users/": {
+      "filePath": "admin/users/index.tsx"
     }
   }
 }

@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { toast } from "../hooks/use-toast";
-import { redirect, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 
 const baseUrl = import.meta.env.VITE_API_URL as string;
 
@@ -317,4 +317,31 @@ export function useUpdateCategory() {
             });
         }
     });
+}
+
+export function useGetUsers() {
+    return useQuery({
+        queryKey: ['users'],
+        queryFn: async () => {
+            const response = await axios.get(`${baseUrl}/user`);
+            return response;
+        },
+    })
+}
+
+export function useRemoveUser() {
+    const queryClient = useQueryClient();
+    return useMutation({
+        mutationKey: ['removeUser'],
+        mutationFn: async (data: any) => {
+            const response = axios.delete(`${baseUrl}/user/${data.userId}`);
+            return response;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['users'] });
+            toast({
+                title: "User removed"
+            })
+        }
+    })
 }
