@@ -6,7 +6,7 @@ import { routeTree } from "./routeTree.gen.ts";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeProvider } from "./components/theme-provider.tsx";
 import { Toaster } from "./components/ui/toaster.tsx";
-
+import { RecoilRoot } from "recoil";
 
 const router = createRouter({ routeTree })
 
@@ -19,10 +19,12 @@ const queryClient = new QueryClient();
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <QueryClientProvider client={queryClient} >
-      <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
-        <RouterProvider router={router} />
-        <Toaster />
-      </ThemeProvider>
+      <RecoilRoot>
+        <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+          <RouterProvider router={router} />
+          <Toaster />
+        </ThemeProvider>
+      </RecoilRoot>
     </QueryClientProvider>
   </StrictMode>,
 );

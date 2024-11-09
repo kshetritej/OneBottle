@@ -66,9 +66,8 @@ export function Homepage() {
                     <div className="grid gap-4  sm:grid-cols-3 lg:grid-cols-4">
                         {
                             products?.data?.map((product: productCardPropsTypes) => (
-                                <Link key={product.productId} to={`/product/${product.productId}`}>
                                     <ProductCard product={product} />
-                                </Link>
+                                // </>
                             ))
                         }
                     </div>
