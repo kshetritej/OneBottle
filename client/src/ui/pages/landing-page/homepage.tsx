@@ -53,7 +53,7 @@ export function Homepage() {
 
                     <h2 className="text-xl font-bold mb-4">Shop by Spirit</h2>
                     <div className="grid grid-cols-3 gap-4">
-                        {categories?.data?.map((category: Category) => (
+                        {categories &&   categories?.data?.map((category: Category) => (
                             <Button key={category.id} variant="outline" className="h-24 flex flex-col items-center justify-center">
                                 <span>{category.name}</span>
                             </Button>
@@ -66,7 +66,7 @@ export function Homepage() {
                     <div className="grid gap-4  sm:grid-cols-3 lg:grid-cols-4">
                         {
                             products?.data?.map((product: productCardPropsTypes) => (
-                                    <ProductCard product={product} />
+                                <ProductCard product={product} />
                                 // </>
                             ))
                         }

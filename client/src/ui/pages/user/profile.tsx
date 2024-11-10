@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avat
 //     email: "jd@example.com",
 //     avatar: "/placeholder.svg?height=100&width=100",
 // }
-const user = JSON.parse(localStorage.getItem('user'));
+const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : [];
 
 const orders = [
     { id: "ORD001", date: "2024-03-01", total: 129.99, status: "Delivered" },
