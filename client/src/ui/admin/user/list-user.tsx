@@ -1,7 +1,7 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table";
 import { Card } from "../../../components/ui/card";
 import { DeleteDialog } from "../../components/delete-dialog";
-import { useGetUsers, useRemoveUser } from "../../../queries/queries";
+import { useGetUsers, useUserDeltete } from "../../../queries/queries";
 
 export type User = {
     userId: string;
@@ -14,13 +14,16 @@ export type User = {
 export function UserTable() {
     const users = useGetUsers()?.data?.data as User[];
     console.log("users detals", users)
-    const removeUser = useRemoveUser();
+
+
+    const removeUser = useUserDeltete();
 
     function handleDelete(id: string) {
-        removeUser.mutate({ id });
+        console.log("deleteing user ...")
+        console.log("id", id)
+        removeUser.mutate({userId: id});
     }
-
-    return (
+return (
         <>
             <Card className="p-4">
                 <div className="flex flex-col w-full">
