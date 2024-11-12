@@ -3,13 +3,24 @@ import { Card, CardContent, CardHeader, CardTitle } from "../../../components/ui
 import { RadioGroup, RadioGroupItem } from "../../../components/ui/radio-group"
 import { Label } from "../../../components/ui/label"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../../../components/ui/select"
-import { Button } from "../../../components/ui/button"
 import { Input } from "../../../components/ui/input"
 import { Separator } from "../../../components/ui/separator"
 import { useState } from "react"
+import { useNavigate } from "@tanstack/react-router"
+import { useGetUserById } from "../../../queries/queries"
+import { OrderSummaryCard } from "../../components/order/order-summary-card"
+import { CartItem } from "./cart"
 
 export default function Checkout() {
+    const savedCart = localStorage.getItem("cart")
+    const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+        savedCart
+        return savedCart ? JSON.parse(savedCart) : []
+    })
     const [cashOnDelivery, setCashOnDelivery] = useState(true)
+    //@ts-ignore
+    const userId = JSON.parse(localStorage.getItem("user"))?.userId
+    const user = useGetUserById(userId).data?.data;
     return (
         <div className="min-h-screen bg-background p-6">
             <div className="mx-auto max-w-6xl space-y-8">
@@ -27,19 +38,15 @@ export default function Checkout() {
                                 </CardTitle>
                             </CardHeader>
                             <CardContent className="space-y-4">
-                                <div className="grid grid-cols-2 gap-4">
+                                <div className="grid gap-4">
                                     <div className="space-y-2">
-                                        <Label htmlFor="first-name">First name</Label>
-                                        <Input id="first-name" placeholder="Enter your first name" />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="last-name">Last name</Label>
-                                        <Input id="last-name" placeholder="Enter your last name" />
+                                        <Label htmlFor="full-name">Full Name</Label>
+                                        <Input id="full-name" defaultValue={user?.username} placeholder="Enter your first name" />
                                     </div>
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="email">Email</Label>
-                                    <Input id="email" placeholder="Enter your email" type="email" />
+                                    <Input id="email" defaultValue={user?.email} placeholder="Enter your email" type="email" />
                                 </div>
                                 <div className="space-y-2">
                                     <Label htmlFor="phone">Phone</Label>
@@ -145,47 +152,7 @@ export default function Checkout() {
                             </CardContent>
                         </Card>
                     </div>
-                    <Card>
-                        <CardHeader>
-                            <CardTitle>Order Summary</CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="space-y-2">
-                                <div className="flex justify-between">
-                                    <span className="text-muted-foreground">Manang Valley Premium Sweet White</span>
-                                    <span>$1025.00</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-muted-foreground">New Beer In Town</span>
-                                    <span>$500.00</span>
-                                </div>
-                                <Separator />
-                                <div className="flex justify-between">
-                                    <span className="text-muted-foreground">Subtotal</span>
-                                    <span>$1525.00</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-muted-foreground">Shipping</span>
-                                    <span>$15.00</span>
-                                </div>
-                                <div className="flex justify-between">
-                                    <span className="text-muted-foreground">Tax</span>
-                                    <span>$152.50</span>
-                                </div>
-                                <Separator />
-                                <div className="flex justify-between font-medium">
-                                    <span>Total</span>
-                                    <span>$1692.50</span>
-                                </div>
-                            </div>
-                            <Button className="w-full" size="lg">
-                                Place Order
-                            </Button>
-                            <p className="text-center text-sm text-muted-foreground">
-                                By placing this order you agree to our Terms of Service and Privacy Policy
-                            </p>
-                        </CardContent>
-                    </Card>
+                    <OrderSummaryCard cart={cartItems} />
                 </div>
             </div>
         </div>

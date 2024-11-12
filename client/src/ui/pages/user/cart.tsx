@@ -3,7 +3,7 @@ import { Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react'
 import { Button } from "../../../components/ui/button"
 import { useNavigate } from '@tanstack/react-router'
 
-interface CartItem {
+export interface CartItem {
     productId: string
     name: string
     price: number
@@ -92,7 +92,8 @@ export function Cart() {
                         <h3 className="text-xl font-semibold">Total:</h3>
                         <p className="text-xl">${(totalPrice / 100).toFixed(2)}</p>
                     </div>
-                    <Button className="w-full mt-6" size="lg" onClick={ () => {
+                    <Button className="w-full mt-6" size="lg" onClick={() => {
+                        console.log(cartItems)
                         navigate({
                             to: "/checkout",
                             replace: true,

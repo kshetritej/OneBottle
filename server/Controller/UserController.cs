@@ -73,7 +73,7 @@ namespace OneBottle.Controller
             return tokenHandler.WriteToken(token);
         }
         [HttpDelete("/api/user/{userId:guid}")]
-        public async Task<IActionResult>DeleteUserAsync(Guid userId)
+        public async Task<IActionResult> DeleteUserAsync(Guid userId)
         {
             var user = await _userRepository.GetUserByIdAsync(userId);
             if (user == null)
@@ -82,6 +82,17 @@ namespace OneBottle.Controller
             }
             await _userRepository.DeleteUserAsync(userId);
             return NoContent();
+        }
+
+        [HttpGet("/api/user/{userId:guid}")]
+        public async Task<IActionResult> GetUserByIdAsync(Guid userId)
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            return Ok(user.ToUserDTO());
         }
     }
 }

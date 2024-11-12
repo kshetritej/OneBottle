@@ -1,10 +1,13 @@
 import { useParams } from "@tanstack/react-router"
 import { Star, Minus, Plus, Facebook, Twitter, Instagram, ShoppingCart } from "lucide-react";
 import { Button } from "../../../components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Feedbacks from "../../components/product/product-feedbacks";
 import ProductSuggestion from "../../components/product/product-suggestion";
 import { useGetProductById } from "../../../queries/queries";
+import { CartItem } from "../user/cart";
+import { atom, useRecoilState } from "recoil";
+import { toast } from "../../../hooks/use-toast";
 
 export function ProductDescription() {
     const productId = useParams({
@@ -15,6 +18,35 @@ export function ProductDescription() {
     const product = useGetProductById(productId[0]).data?.data;
     const [quantity, setQuantity] = useState(1);
 
+    const initialCart = JSON.parse(localStorage.getItem('cart') || '[]') as CartItem[];
+
+    const cartListState = atom<CartItem[]>({
+        key: 'CartList',
+        default: initialCart
+    });
+
+    const [cartList, setCartList] = useRecoilState(cartListState);
+
+    function addToCart(newItem: CartItem) {
+        const existingProduct = cartList.find(item => item.productId === newItem.productId);
+        if (existingProduct) {
+            toast({
+                title: 'Product already in cart',
+                variant: "warning"
+            });
+        } else {
+            const updatedCart = [...cartList, newItem];
+            setCartList(updatedCart);
+            toast({
+                title: 'Product added to cart',
+                variant: "success"
+            });
+        }
+    }
+
+    useEffect(() => {
+        localStorage.setItem('cart', JSON.stringify(cartList));
+    }, [cartList]);
     return (
         <div>
             <div className="container mx-auto px-4 py-8">
@@ -74,7 +106,11 @@ export function ProductDescription() {
                                 <Plus className="h-4 w-4" />
                             </Button>
                         </div>
-                        <Button className="w-full mb-4"><ShoppingCart className="mr-4" /> Add to Cart</Button> <Button variant="secondary" className="w-full mb-4"> Buy Now
+                        <Button className="w-full mb-4"
+                            onClick={() => {
+                                return addToCart({ productId: product.productId, name: product.name, imageUrl: product.imageUrl, price: product.price, quantity: quantity })
+                            }}
+                        ><ShoppingCart className="mr-4" /> Add to Cart</Button> <Button variant="secondary" className="w-full mb-4"> Buy Now
                         </Button>
                         <div className="flex space-x-4 mb-4">
                             <span>Share:</span>

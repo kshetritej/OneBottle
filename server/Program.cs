@@ -45,6 +45,7 @@ builder.Services.AddScoped<IFeedbackRepository, FeedbackRepository>();
 builder.Services.AddScoped<IOrderItemRepository, OrderItemRepository>();
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+
 var app = builder.Build();
 app.UseHttpsRedirection();
 app.UseCors("AllowAllOriginsPolicy");

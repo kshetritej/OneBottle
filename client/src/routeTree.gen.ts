@@ -13,6 +13,7 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as OrderSummaryImport } from './routes/order-summary'
 import { Route as NotificationsImport } from './routes/notifications'
 import { Route as MeImport } from './routes/me'
 import { Route as CheckoutImport } from './routes/checkout'
@@ -36,6 +37,11 @@ const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
+
+const OrderSummaryRoute = OrderSummaryImport.update({
+  path: '/order-summary',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const NotificationsRoute = NotificationsImport.update({
   path: '/notifications',
@@ -143,6 +149,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsImport
       parentRoute: typeof rootRoute
     }
+    '/order-summary': {
+      id: '/order-summary'
+      path: '/order-summary'
+      fullPath: '/order-summary'
+      preLoaderRoute: typeof OrderSummaryImport
+      parentRoute: typeof rootRoute
+    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -204,6 +217,7 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
+  '/order-summary': typeof OrderSummaryRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -220,6 +234,7 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
+  '/order-summary': typeof OrderSummaryRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -237,6 +252,7 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
+  '/order-summary': typeof OrderSummaryRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -255,6 +271,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/me'
     | '/notifications'
+    | '/order-summary'
     | '/about'
     | '/admin/auth'
     | '/admin/dashboard'
@@ -270,6 +287,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/me'
     | '/notifications'
+    | '/order-summary'
     | '/about'
     | '/admin/auth'
     | '/admin/dashboard'
@@ -285,6 +303,7 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/me'
     | '/notifications'
+    | '/order-summary'
     | '/about'
     | '/admin/auth'
     | '/admin/dashboard'
@@ -302,6 +321,7 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   MeRoute: typeof MeRoute
   NotificationsRoute: typeof NotificationsRoute
+  OrderSummaryRoute: typeof OrderSummaryRoute
   AboutLazyRoute: typeof AboutLazyRoute
   AdminAuthRoute: typeof AdminAuthRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
@@ -318,6 +338,7 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   MeRoute: MeRoute,
   NotificationsRoute: NotificationsRoute,
+  OrderSummaryRoute: OrderSummaryRoute,
   AboutLazyRoute: AboutLazyRoute,
   AdminAuthRoute: AdminAuthRoute,
   AdminDashboardRoute: AdminDashboardRoute,
@@ -345,6 +366,7 @@ export const routeTree = rootRoute
         "/checkout",
         "/me",
         "/notifications",
+        "/order-summary",
         "/about",
         "/admin/auth",
         "/admin/dashboard",
@@ -371,6 +393,9 @@ export const routeTree = rootRoute
     },
     "/notifications": {
       "filePath": "notifications.tsx"
+    },
+    "/order-summary": {
+      "filePath": "order-summary.tsx"
     },
     "/about": {
       "filePath": "about.lazy.tsx"

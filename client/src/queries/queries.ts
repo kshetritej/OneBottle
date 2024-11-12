@@ -358,3 +358,13 @@ export function useUserDeltete() {
     },
   });
 }
+
+export function useGetUserById(id: string) {
+  return useQuery({
+    queryKey: ["user", id],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/user/${id}`);
+      return response;
+    },
+  });
+}
