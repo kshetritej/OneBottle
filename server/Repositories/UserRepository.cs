@@ -78,5 +78,23 @@ namespace OneBottle.Repositories
         {
             return await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
         }
+        public async Task<User> DeleteUserByIdAsync(Guid userId)
+        {
+            var user = await GetUserByIdAsync(userId);
+            if (user != null)
+            {
+                try
+                {
+                    _context.Users.Remove(user);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    // Log exception here
+                    throw new Exception("An error occurred while deleting the user.", ex);
+                }
+            }
+            return user!;
+        }
     }
 }

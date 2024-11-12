@@ -72,5 +72,16 @@ namespace OneBottle.Controller
             var token = tokenHandler.CreateToken(tokenDescriptor);
             return tokenHandler.WriteToken(token);
         }
+        [HttpDelete("/api/user/{userId:guid}")]
+        public async Task<IActionResult>DeleteUserAsync(Guid userId)
+        {
+            var user = await _userRepository.GetUserByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            await _userRepository.DeleteUserAsync(userId);
+            return NoContent();
+        }
     }
 }
