@@ -6,6 +6,9 @@ namespace OneBottle.Interfaces
     {
         Task<Feedback> GetFeedbackByIdAsync(Guid feedbackId);
         Task<IEnumerable<Feedback>> GetFeedbacksByProductIdAsync(Guid productId);
+        Task<IEnumerable<Feedback>> GetFeedbackAsync();
+
+        Task<IEnumerable<Feedback>> GetFeedbackByUserIdAsync(Guid userId);
         Task AddFeedbackAsync(Feedback feedback);
         Task UpdateFeedbackAsync(Feedback feedback);
         Task DeleteFeedbackAsync(Guid feedbackId);

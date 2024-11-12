@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using OneBottle.DTOs.User;
 
 namespace OneBottle.DTOs.Feedback
 {
@@ -8,11 +9,11 @@ namespace OneBottle.DTOs.Feedback
         public Guid FeedbackId { get; set; }
         [Required]
         public Guid UserId { get; set; }
+        public UserDTO? User { get; set; }
         [Required]
         public Guid ProductId { get; set; }
-        [Required, Range(1, 5, ErrorMessage = "Rating must be between 1 and 5")]
         public int Rating { get; set; }
-        [Required,MaxLength(150, ErrorMessage = "Comment must be less than 150 characters")]
+        [Required, MinLength(10, ErrorMessage = "Comment must be more than 10 characters")]
         public string Comment { get; set; } = string.Empty;
         public DateTime Date { get; set; }
     }
