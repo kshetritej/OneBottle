@@ -10,7 +10,7 @@ import { Input } from "../../../components/ui/input";
 import { Textarea } from "../../../components/ui/textarea";
 import { useAddProduct, useGetCategories, useUpdateProduct } from "../../../queries/queries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
-import { Category as CategoryType } from "../categories/category-list";
+import { Category } from "../../admin/categories/category-list";
 
 type ProductProps = {
     mode?: string;
@@ -127,7 +127,7 @@ export function CreateProductModal({ product, mode, open }: ProductProps) {
                                                 <SelectValue placeholder="Select a category" />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {categories?.map((category: CategoryType) => (
+                                                {categories?.map((category: Category) => (
                                                     <SelectItem key={category?.categoryId} value={category?.categoryId}>
                                                         {category.name}
                                                     </SelectItem>
