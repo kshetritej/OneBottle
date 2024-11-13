@@ -25,7 +25,7 @@ namespace OneBottle.Repositories
 
         public async Task<IEnumerable<Feedback>> GetFeedbacksByProductIdAsync(Guid productId)
         {
-            return await _context.Feedbacks.Where(f => f.ProductId == productId).ToListAsync();
+            return await _context.Feedbacks.Include(f => f.User).Where(f => f.ProductId == productId).Include(f => f.Product).ToListAsync();
         }
 
         public async Task AddFeedbackAsync(Feedback feedback)
@@ -75,7 +75,7 @@ namespace OneBottle.Repositories
         }
         public async Task<IEnumerable<Feedback>> GetFeedbackByUserIdAsync(Guid userId)
         {
-            var feedback = await _context.Feedbacks.Where(f => f.UserId == userId).ToListAsync();
+            var feedback = await _context.Feedbacks.Include(f => f.Product).Where(f => f.UserId == userId).ToListAsync();
             return feedback;
         }
 
@@ -83,7 +83,7 @@ namespace OneBottle.Repositories
         {
             try
             {
-                var feedbacks = await _context.Feedbacks.ToListAsync();
+                var feedbacks = await _context.Feedbacks.Include(f => f.User).ToListAsync();
                 return feedbacks;
             }
             catch (Exception ex)

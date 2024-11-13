@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using OneBottle.Data;
 using OneBottle.DTOs.Feedback;
 using OneBottle.Interfaces;
@@ -27,7 +28,7 @@ namespace OneBottle.Controller
             {
                 return NotFound();
             }
-            return Ok(feedbacks.Select(f => FeedbackMappers.ToFeedbackDTO(f)));
+            return Ok(feedbacks.Select(f => f.ToFeedbackDTO()));
         }
 
         [HttpGet("/api/{productId:guid}")]
@@ -44,21 +45,30 @@ namespace OneBottle.Controller
         [HttpGet("/api/feedback/user/{userId:guid}")]
         public async Task<IActionResult> GetFeedbackByUserIdAsync(Guid userId)
         {
-            var feedbacks = await _feedbackRepository.GetFeedbackByUserIdAsync(userId);
+            var feedbacks = await _feedbackRepository.GetFeedbackAsync();
             if (feedbacks == null)
             {
                 return NotFound();
             }
-            return Ok(feedbacks);
+            return Ok(feedbacks.Select(f => f.UserId == userId ? f.ToFeedbackDTO() : null));
         }
 
 
         [HttpPost("/api/feedback")]
         public async Task<IActionResult> AddFeedbackAsync([FromBody] CreateFeedbackDTO feedback)
         {
-            var feedbackModel = FeedbackMappers.ToFeedbackModel(feedback);
+            var feedbackModel =
+                new Feedback
+                {
+                    FeedbackId = new Guid(),
+                    UserId = feedback.UserId,
+                    User = await _context.Users.FirstOrDefaultAsync(u => u.UserId == feedback.UserId),
+                    ProductId = feedback.ProductId,
+                    Comment = feedback.Comment,
+                    Date = new DateTime()
+                };
             await _feedbackRepository.AddFeedbackAsync(feedbackModel);
-            return CreatedAtAction(nameof(GetFeedbacksByProductIdAsync), new { feedbackId = feedbackModel.FeedbackId }, feedback.ToFeedbackModel());
+            return Ok(feedback.ToFeedbackModel());
         }
 
 

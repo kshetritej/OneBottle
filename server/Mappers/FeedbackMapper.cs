@@ -8,26 +8,31 @@ namespace OneBottle.Mappers
 {
     public static class FeedbackMappers
     {
-        public static CreateFeedbackDTO ToFeedbackDTO(this Feedback feedback)
+        // public static CreateFeedbackDTO ToFeedbackDTO(this Feedback feedback)
+        // {
+        //     return new CreateFeedbackDTO
+        //     {
+        //         FeedbackId = feedback.FeedbackId,
+        //         UserId = feedback.UserId,
+        //         Username = feedback.User?.Username,
+        //         ProductId = feedback.ProductId,
+        //         Rating = feedback.Rating,
+        //         Comment = feedback.Comment,
+        //         Date = feedback.Date
+        //     };
+        // }
+        public static FeedbackDTO ToFeedbackDTO(this Feedback feedback)
         {
-            return new CreateFeedbackDTO
+            return new FeedbackDTO
             {
-                FeedbackId = new Guid(),
+                FeedbackId = feedback.FeedbackId,
                 UserId = feedback.UserId,
-                Username = feedback.User?.Username ?? "Anonymous",
-                ProductId = feedback.ProductId,
-                Rating = feedback.Rating,
-                Comment = feedback.Comment,
-                Date = feedback.Date
-            };
-        }
-
-        public static Feedback ToFeedbackDTO(this FeedbackDTO feedback)
-        {
-            return new Feedback
-            {
-                FeedbackId = new Guid(),
-                UserId = feedback.UserId,
+                User = new UserDTO // Assuming UserDTO is structured to hold user details.
+                {
+                    UserId = feedback.User.UserId,
+                    Username = feedback.User.Username,
+                    Email = feedback.User.Email,
+                },
                 ProductId = feedback.ProductId,
                 Rating = feedback.Rating,
                 Comment = feedback.Comment,
