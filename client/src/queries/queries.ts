@@ -368,3 +368,68 @@ export function useGetUserById(id: string) {
     },
   });
 }
+
+
+// Feedback
+export function useGetFeedbacksByProductId(productId: string) {
+  return useQuery({
+    queryKey: ["feedback", productId],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/feedback/${productId}`);
+      return response;
+    },
+  });
+}
+
+export function useGetFeedbackByUserId(userId: string) {
+  return useQuery({
+    queryKey: ["feedbackByUser", userId],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/feedback/user/${userId}`);
+      return response;
+    },
+  });
+}
+
+export function useAddFeedback() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["addFeedback"],
+    mutationFn: async (data: any) => {
+      const response = await axios.post(`${baseUrl}/feedback`, data);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["feedback"] });
+      toast({
+        title: "Feedback added successfully",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Failed to add feedback",
+        description: "Something went wrong. Please try again!",
+        variant: "destructive",
+      });
+    }
+  });
+}
+
+export function useDeleteFeedback() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["deleteFeedback"],
+    mutationFn: async (data: any) => {
+      const response = await axios.delete(`${baseUrl}/feedback/${data.feedbackId}`);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["feedback"] });
+      toast({
+        title: "Feedback deleted successfully",
+        variant: "success",
+      });
+    },
+  });
+}
