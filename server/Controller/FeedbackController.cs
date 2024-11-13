@@ -31,7 +31,7 @@ namespace OneBottle.Controller
             return Ok(feedbacks.Select(f => f.ToFeedbackDTO()));
         }
 
-        [HttpGet("/api/{productId:guid}")]
+        [HttpGet("/api/feedback/{productId:guid}")]
         public async Task<IActionResult> GetFeedbacksByProductIdAsync(Guid productId)
         {
             var feedbacks = await _feedbackRepository.GetFeedbacksByProductIdAsync(productId);

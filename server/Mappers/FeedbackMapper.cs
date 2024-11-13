@@ -27,7 +27,7 @@ namespace OneBottle.Mappers
             {
                 FeedbackId = feedback.FeedbackId,
                 UserId = feedback.UserId,
-                User = new UserDTO // Assuming UserDTO is structured to hold user details.
+                User = new UserDTO 
                 {
                     UserId = feedback.User.UserId,
                     Username = feedback.User.Username,
