@@ -155,7 +155,7 @@ export function ProductDescription() {
                         </Card> */}
                     </div>
                 </div>
-                <Feedbacks feedbacks={feedback} userId={userId} />
+                <Feedbacks feedbacks={feedback} userId={userId} productId={productId} />
                 <ProductSuggestion />
             </div >
         </div>

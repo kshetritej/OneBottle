@@ -1,4 +1,4 @@
-import { ThumbsUp, ThumbsDown, Trash, Trash2 } from "lucide-react"
+import { ThumbsUp, ThumbsDown } from "lucide-react"
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar"
 import { Button } from "../../../components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "../../../components/ui/card"
@@ -8,21 +8,21 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "../../../hooks/use-toast"
 import { feedbackType } from "../../pages/product/product-description"
+import { useAddFeedback } from "../../../queries/queries"
 
 const reviewSchema = z.object({
-  review: z.string().min(10, "Review is too short. Try adding more details."),
+  comment: z.string().min(10, "Review is too short. Try adding more details."),
 });
-export default function Feedbacks({ feedbacks, userId }: { feedbacks: feedbackType[], userId: string }) {
+export default function Feedbacks({ feedbacks, userId, productId }: { feedbacks: feedbackType[], userId: string, productId: string[] }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(reviewSchema),
     defaultValues: {
-      review: "",
+      comment: "",
     }
   });
-
+  const addFeedback = useAddFeedback();
   function onSubmit(data: any) {
-    const username = "Tej"
-    if (!username || username.length < 3) {
+    if (!userId || !productId[0]) {
       toast({
         title: "Error adding review.",
         description: "User must be logged in to leave a review.",
@@ -30,13 +30,11 @@ export default function Feedbacks({ feedbacks, userId }: { feedbacks: feedbackTy
       })
       return;
     }
-    console.log("submitted dat", { ...data, username: username });
-    toast({
-      title: "Review added!",
-      variant: "success"
-    })
+    console.log("submitted dat", { ...data, productId: productId[0], userId: userId });
+    addFeedback.mutate({ ...data, productId: productId[0], userId: userId });
   }
 
+  console.error(errors)
   return (
     <Card className="mx-auto  border-none shadow-none py-8">
       <Card className="border-none">
@@ -45,8 +43,8 @@ export default function Feedbacks({ feedbacks, userId }: { feedbacks: feedbackTy
         </CardHeader>
         <CardContent >
           <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
-            <Textarea {...register("review")} placeholder="Leave a nice comment." rows={5} />
-            {errors.review && <span className="text-red-500">{errors.review.message} </span>}
+            <Textarea {...register("comment")} placeholder="Leave a nice comment." rows={5} />
+            {errors.comment && <span className="text-red-500">{errors.comment.message} </span>}
             <div>
               <Button type="submit">Post Review</Button>
             </div>

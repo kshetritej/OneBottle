@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avat
 import { useDeleteFeedback, useGetFeedbackByUserId } from '../../../queries/queries'
 import { feedbackType } from '../product/product-description'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../../components/ui/alert-dialog'
+import { Link } from '@tanstack/react-router'
 
 
 const orders = [
@@ -141,7 +142,7 @@ export default function Profile() {
                                 <CardContent>
                                     <div className="space-y-4">
                                         {feedback?.map((feedback: feedbackType) => (
-                                            <div key={feedback.feedbackId} className="flex justify-between items-center border-b pb-2">
+                                            <Link key={feedback.feedbackId} to={`/product/${feedback.productId}`} className="flex justify-between items-center border-b pb-2">
                                                 <div>
                                                     <p className="font-medium">#{feedback.feedbackId.split('-')[0].toUpperCase()}</p>
                                                     <p className="text-sm text-gray-500">{new Date(feedback.date).toLocaleDateString()}</p>
@@ -167,7 +168,7 @@ export default function Profile() {
                                                         </AlertDialogContent>
                                                     </AlertDialog>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         ))}
                                     </div>
                                 </CardContent>
