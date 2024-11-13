@@ -1,7 +1,5 @@
-import { useState } from "react"
-import { Star, ThumbsUp, ThumbsDown, MessageSquare } from "lucide-react"
-import { Avatar, AvatarImage, AvatarFallback } from "@radix-ui/react-avatar"
-import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../../../components/ui/select"
+import { ThumbsUp, ThumbsDown } from "lucide-react"
+import { Avatar, AvatarFallback } from "@radix-ui/react-avatar"
 import { Button } from "../../../components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "../../../components/ui/card"
 import { useForm } from "react-hook-form"
@@ -9,22 +7,12 @@ import { Textarea } from "../../../components/ui/textarea"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
 import { toast } from "../../../hooks/use-toast"
+import { feedbackType } from "../../pages/product/product-description"
 
-const reviews = [
-  {
-    id: 1,
-    userName: "Jennie Goose",
-    userImage: "/placeholder.svg?height=40&width=40",
-    rating: 5,
-    comment: "A simple sweater but makes the user seem neat and beautiful, the material is soft, but when worn it often wrinkles because of sitting for too long.",
-    likes: 6,
-    dislikes: 0,
-  },
-]
 const reviewSchema = z.object({
   review: z.string().min(10, "Review is too short. Try adding more details."),
 });
-export default function Feedbacks() {
+export default function Feedbacks({ feedbacks }: { feedbacks: feedbackType[] }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(reviewSchema),
     defaultValues: {
@@ -70,39 +58,23 @@ export default function Feedbacks() {
         <CardTitle className="text-lg md:text-xl">Previous Reviews</CardTitle>
       </CardHeader>
       <CardContent>
-        {reviews.map((review) => (
-          <div key={review.id} className="mb-6 last:mb-0">
+        {feedbacks?.map((feedback) => (
+          <div key={feedback?.feedbackId} className="border p-2 rounded-lg mb-6 last:mb-0">
             <div className="flex items-center mb-2">
-              <Avatar className="h-10 w-10 mr-3">
-                <AvatarImage src={review.userImage} alt={review.userName} />
-                <AvatarFallback>{review.userName.charAt(0)}</AvatarFallback>
+              <Avatar className="size-10 flex justify-center rounded-full mr-4 items-center border">
+                <AvatarFallback>{feedback?.user?.username.charAt(0)}</AvatarFallback>
               </Avatar>
               <div>
-                <h3 className="font-semibold">{review.userName}</h3>
-                <div className="flex items-center">
-                  {[...Array(5)].map((_, i) => (
-                    <Star
-                      key={i}
-                      className={`w-4 h-4 ${i < review.rating ? "text-yellow-400 fill-current" : "text-gray-300"
-                        }`}
-                    />
-                  ))}
-                </div>
+                <h3 className="font-semibold">{feedback.user.username}</h3>
               </div>
             </div>
-            <p className="text-gray-600 mb-2">{review.comment}</p>
+            <p className="text-gray-600 mb-2">{feedback.comment}</p>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="sm" className="text-gray-500">
-                <MessageSquare className="w-4 h-4 mr-2" />
-                Reply
-              </Button>
-              <Button variant="ghost" size="sm" className="text-gray-500">
                 <ThumbsUp className="w-4 h-4 mr-2" />
-                {review.likes}
               </Button>
               <Button variant="ghost" size="sm" className="text-gray-500">
                 <ThumbsDown className="w-4 h-4 mr-2" />
-                {review.dislikes}
               </Button>
             </div>
           </div>

@@ -4,10 +4,25 @@ import { Button } from "../../../components/ui/button";
 import { useEffect, useState } from "react";
 import Feedbacks from "../../components/product/product-feedbacks";
 import ProductSuggestion from "../../components/product/product-suggestion";
-import { useGetProductById } from "../../../queries/queries";
+import { useGetFeedbacksByProductId, useGetProductById } from "../../../queries/queries";
 import { CartItem } from "../user/cart";
 import { atom, useRecoilState } from "recoil";
 import { toast } from "../../../hooks/use-toast";
+
+export type feedbackType = {
+    feedbackId: string;
+    comment: string;
+    date: string;
+    productId: string;
+    rating: number;
+    user: UserDetails;
+};
+
+type UserDetails = {
+    userId: string;
+    username: string;
+    email: string;
+};
 
 export function ProductDescription() {
     const productId = useParams({
@@ -47,6 +62,10 @@ export function ProductDescription() {
     useEffect(() => {
         localStorage.setItem('cart', JSON.stringify(cartList));
     }, [cartList]);
+
+
+    const feedback = useGetFeedbacksByProductId(productId[0]).data?.data;
+    console.log('reviews ... ', feedback)
     return (
         <div>
             <div className="container mx-auto px-4 py-8">
@@ -136,7 +155,7 @@ export function ProductDescription() {
                         </Card> */}
                     </div>
                 </div>
-                <Feedbacks />
+                <Feedbacks feedbacks={feedback} />
                 <ProductSuggestion />
             </div >
         </div>
