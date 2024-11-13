@@ -20,6 +20,7 @@ import { Route as CheckoutImport } from './routes/checkout'
 import { Route as CartImport } from './routes/cart'
 import { Route as AuthImport } from './routes/auth'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
+import { Route as AdminReviewsImport } from './routes/admin/reviews'
 import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 import { Route as AdminAuthImport } from './routes/admin/auth'
 import { Route as AdminUsersIndexImport } from './routes/admin/users/index'
@@ -75,6 +76,11 @@ const IndexLazyRoute = IndexLazyImport.update({
 
 const ProductProductIdRoute = ProductProductIdImport.update({
   path: '/product/$productId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminReviewsRoute = AdminReviewsImport.update({
+  path: '/admin/reviews',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -177,6 +183,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDashboardImport
       parentRoute: typeof rootRoute
     }
+    '/admin/reviews': {
+      id: '/admin/reviews'
+      path: '/admin/reviews'
+      fullPath: '/admin/reviews'
+      preLoaderRoute: typeof AdminReviewsImport
+      parentRoute: typeof rootRoute
+    }
     '/product/$productId': {
       id: '/product/$productId'
       path: '/product/$productId'
@@ -221,6 +234,7 @@ export interface FileRoutesByFullPath {
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
@@ -238,6 +252,7 @@ export interface FileRoutesByTo {
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
@@ -256,6 +271,7 @@ export interface FileRoutesById {
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/reviews': typeof AdminReviewsRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
@@ -275,6 +291,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin/auth'
     | '/admin/dashboard'
+    | '/admin/reviews'
     | '/product/$productId'
     | '/admin/categories'
     | '/admin/products'
@@ -291,6 +308,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin/auth'
     | '/admin/dashboard'
+    | '/admin/reviews'
     | '/product/$productId'
     | '/admin/categories'
     | '/admin/products'
@@ -307,6 +325,7 @@ export interface FileRouteTypes {
     | '/about'
     | '/admin/auth'
     | '/admin/dashboard'
+    | '/admin/reviews'
     | '/product/$productId'
     | '/admin/categories/'
     | '/admin/products/'
@@ -325,6 +344,7 @@ export interface RootRouteChildren {
   AboutLazyRoute: typeof AboutLazyRoute
   AdminAuthRoute: typeof AdminAuthRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminReviewsRoute: typeof AdminReviewsRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
   AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
@@ -342,6 +362,7 @@ const rootRouteChildren: RootRouteChildren = {
   AboutLazyRoute: AboutLazyRoute,
   AdminAuthRoute: AdminAuthRoute,
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminReviewsRoute: AdminReviewsRoute,
   ProductProductIdRoute: ProductProductIdRoute,
   AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
   AdminProductsIndexRoute: AdminProductsIndexRoute,
@@ -370,6 +391,7 @@ export const routeTree = rootRoute
         "/about",
         "/admin/auth",
         "/admin/dashboard",
+        "/admin/reviews",
         "/product/$productId",
         "/admin/categories/",
         "/admin/products/",
@@ -405,6 +427,9 @@ export const routeTree = rootRoute
     },
     "/admin/dashboard": {
       "filePath": "admin/dashboard.tsx"
+    },
+    "/admin/reviews": {
+      "filePath": "admin/reviews.tsx"
     },
     "/product/$productId": {
       "filePath": "product/$productId.tsx"

@@ -1,4 +1,4 @@
-import { WineIcon, Shapes, Users2, LayoutDashboardIcon, ShoppingCartIcon } from "lucide-react";
+import { WineIcon, Shapes, Users2, LayoutDashboardIcon, ShoppingCartIcon, MessageCircleWarning } from "lucide-react";
 
 export const menuItems = [
   {
@@ -30,5 +30,10 @@ export const menuItems = [
     title: "Users",
     url: "/admin/users",
     icon: Users2,
+  },
+  {
+    title: "Reviews",
+    url: "/admin/reviews",
+    icon: MessageCircleWarning,
   },
 ]

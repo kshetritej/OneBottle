@@ -369,7 +369,6 @@ export function useGetUserById(id: string) {
   });
 }
 
-
 // Feedback
 export function useGetFeedbacksByProductId(productId: string) {
   return useQuery({
@@ -412,7 +411,7 @@ export function useAddFeedback() {
         description: "Something went wrong. Please try again!",
         variant: "destructive",
       });
-    }
+    },
   });
 }
 
@@ -420,16 +419,28 @@ export function useDeleteFeedback() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["deleteFeedback"],
-    mutationFn: async (feedbackId:string) => {
+    mutationFn: async (feedbackId: string) => {
       const response = await axios.delete(`${baseUrl}/feedback/${feedbackId}`);
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["feedback", "feedbackByUser"] });
+      queryClient.invalidateQueries({
+        queryKey: ["feedback", "feedbackByUser", "getAllFeedbacks"],
+      });
       toast({
         title: "Feedback deleted successfully",
         variant: "success",
       });
+    },
+  });
+}
+
+export function useGetAllFeedbacks() {
+  return useQuery({
+    queryKey: ["getAllFeedbacks"],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/feedback/`);
+      return response;
     },
   });
 }
