@@ -420,12 +420,12 @@ export function useDeleteFeedback() {
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["deleteFeedback"],
-    mutationFn: async (data: any) => {
-      const response = await axios.delete(`${baseUrl}/feedback/${data.feedbackId}`);
+    mutationFn: async (feedbackId:string) => {
+      const response = await axios.delete(`${baseUrl}/feedback/${feedbackId}`);
       return response;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["feedback"] });
+      queryClient.invalidateQueries({ queryKey: ["feedback", "feedbackByUser"] });
       toast({
         title: "Feedback deleted successfully",
         variant: "success",

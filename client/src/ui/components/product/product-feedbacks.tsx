@@ -1,4 +1,4 @@
-import { ThumbsUp, ThumbsDown } from "lucide-react"
+import { ThumbsUp, ThumbsDown, Trash, Trash2 } from "lucide-react"
 import { Avatar, AvatarFallback } from "@radix-ui/react-avatar"
 import { Button } from "../../../components/ui/button"
 import { Card, CardHeader, CardTitle, CardContent } from "../../../components/ui/card"
@@ -12,7 +12,7 @@ import { feedbackType } from "../../pages/product/product-description"
 const reviewSchema = z.object({
   review: z.string().min(10, "Review is too short. Try adding more details."),
 });
-export default function Feedbacks({ feedbacks }: { feedbacks: feedbackType[] }) {
+export default function Feedbacks({ feedbacks, userId }: { feedbacks: feedbackType[], userId: string }) {
   const { register, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(reviewSchema),
     defaultValues: {
@@ -59,14 +59,12 @@ export default function Feedbacks({ feedbacks }: { feedbacks: feedbackType[] }) 
       </CardHeader>
       <CardContent>
         {feedbacks?.map((feedback) => (
-          <div key={feedback?.feedbackId} className="border p-2 rounded-lg mb-6 last:mb-0">
+          <div key={feedback?.feedbackId} className=" border p-2 rounded-lg mb-6 last:mb-0">
             <div className="flex items-center mb-2">
               <Avatar className="size-10 flex justify-center rounded-full mr-4 items-center border">
-                <AvatarFallback>{feedback?.user?.username.charAt(0)}</AvatarFallback>
+                <AvatarFallback>{feedback.user?.username.split(' ').map(n => n[0]).join('')}</AvatarFallback>
               </Avatar>
-              <div>
-                <h3 className="font-semibold">{feedback.user.username}</h3>
-              </div>
+              <h3 className="font-semibold">{feedback.user.username}</h3>
             </div>
             <p className="text-gray-600 mb-2">{feedback.comment}</p>
             <div className="flex items-center space-x-4">

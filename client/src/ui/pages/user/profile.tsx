@@ -1,19 +1,15 @@
 import { useState } from 'react'
-import { User, Package, MapPin, CreditCard, Settings, LogOut, History, NotepadText } from 'lucide-react'
+import { User, MapPin, CreditCard, Settings, LogOut, History, NotepadText, Trash2 } from 'lucide-react'
 import { Button } from "../../../components/ui/button"
 import { Input } from "../../../components/ui/input"
 import { Label } from "../../../components/ui/label"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs"
+import { Tabs, TabsContent } from "../../../components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar"
+import { useDeleteFeedback, useGetFeedbackByUserId } from '../../../queries/queries'
+import { feedbackType } from '../product/product-description'
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../../components/ui/alert-dialog'
 
-// Mock data
-// const user = {
-//     name: "Jagga Daku",
-//     email: "jd@example.com",
-//     avatar: "/placeholder.svg?height=100&width=100",
-// }
-const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : [];
 
 const orders = [
     { id: "ORD001", date: "2024-03-01", total: 129.99, status: "Delivered" },
@@ -28,6 +24,11 @@ const addresses = [
 
 export default function Profile() {
     const [activeTab, setActiveTab] = useState("personal-info")
+    const userId = JSON.parse(localStorage.getItem('user') || '{}').userId;
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const feedback = useGetFeedbackByUserId(userId).data?.data;
+
+    const deleteFeedback = useDeleteFeedback();
 
     return (
         <div className="container mx-auto p-4 max-w-4xl">
@@ -38,8 +39,9 @@ export default function Profile() {
                         <CardHeader>
                             <div className="flex items-center space-x-4">
                                 <Avatar className="w-16 h-16">
-                                    <AvatarImage src={user?.avatar} alt={user?.username} />
-                                    <AvatarFallback>{user?.username.split(' ').map(n => n[0]).join('')}</AvatarFallback>
+                                    <AvatarImage src={user?.avatar} alt={user.username} />
+                                    {/* @ts-ignore */}
+                                    <AvatarFallback>{user.username.split(' ').map(n => n[0]).join('')}</AvatarFallback>
                                 </Avatar>
                                 <div>
                                     <CardTitle>{user?.username}</CardTitle>
@@ -55,7 +57,7 @@ export default function Profile() {
                                 <Button variant="ghost" className="w-full justify-start" onClick={() => setActiveTab("orders")}>
                                     <History className="mr-2 h-4 w-4" />Purchase History
                                 </Button>
-                                <Button variant="ghost" className="w-full justify-start" onClick={() => setActiveTab("orders")}>
+                                <Button variant="ghost" className="w-full justify-start" onClick={() => setActiveTab("reviews")}>
                                     <NotepadText className="mr-2 h-4 w-4" /> My Reviews
                                 </Button>
                                 <Button variant="ghost" className="w-full justify-start" onClick={() => setActiveTab("addresses")}>
@@ -123,6 +125,47 @@ export default function Profile() {
                                                 <div className="text-right">
                                                     <p className="font-medium">${order.total.toFixed(2)}</p>
                                                     <p className="text-sm text-gray-500">{order.status}</p>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        </TabsContent>
+                        <TabsContent value="reviews">
+                            <Card>
+                                <CardHeader>
+                                    <CardTitle>My Reviews</CardTitle>
+                                    <CardDescription>View and manage your  past reviews on products.</CardDescription>
+                                </CardHeader>
+                                <CardContent>
+                                    <div className="space-y-4">
+                                        {feedback?.map((feedback: feedbackType) => (
+                                            <div key={feedback.feedbackId} className="flex justify-between items-center border-b pb-2">
+                                                <div>
+                                                    <p className="font-medium">#{feedback.feedbackId.split('-')[0].toUpperCase()}</p>
+                                                    <p className="text-sm text-gray-500">{new Date(feedback.date).toLocaleDateString()}</p>
+                                                    <p className="font-medium">{feedback.comment}</p>
+                                                </div>
+                                                <div className="text-right">
+                                                    <AlertDialog>
+                                                        <AlertDialogTrigger asChild>
+                                                            <Trash2 />
+                                                        </AlertDialogTrigger>
+                                                        <AlertDialogContent>
+                                                            <AlertDialogHeader>
+                                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                                <AlertDialogDescription>
+                                                                    This action cannot be undone. This will permanently delete your
+                                                                    account and remove your data from our servers.
+                                                                </AlertDialogDescription>
+                                                            </AlertDialogHeader>
+                                                            <AlertDialogFooter>
+                                                                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                                <AlertDialogAction onClick={() => deleteFeedback.mutate(feedback.feedbackId)}>Continue</AlertDialogAction>
+                                                            </AlertDialogFooter>
+                                                        </AlertDialogContent>
+                                                    </AlertDialog>
                                                 </div>
                                             </div>
                                         ))}

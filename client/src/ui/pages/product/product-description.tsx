@@ -63,7 +63,7 @@ export function ProductDescription() {
         localStorage.setItem('cart', JSON.stringify(cartList));
     }, [cartList]);
 
-
+    const userId = JSON.parse(localStorage.getItem('user') || '{}').userId;
     const feedback = useGetFeedbacksByProductId(productId[0]).data?.data;
     console.log('reviews ... ', feedback)
     return (
@@ -155,7 +155,7 @@ export function ProductDescription() {
                         </Card> */}
                     </div>
                 </div>
-                <Feedbacks feedbacks={feedback} />
+                <Feedbacks feedbacks={feedback} userId={userId} />
                 <ProductSuggestion />
             </div >
         </div>
