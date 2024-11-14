@@ -39,6 +39,7 @@ export function useUserLogin() {
 }
 
 export function useAdminLogin() {
+  const navigate = useNavigate();
   return useMutation({
     mutationKey: ["adminLogin"],
     mutationFn: async (data: any) => {
@@ -46,12 +47,24 @@ export function useAdminLogin() {
       const token = response.data?.token;
       // Save token to localStorage
       localStorage.setItem("token", token);
-      localStorage.setItem("user", JSON.stringify(response.data?.user));
+      console.log("Login Data", response.data);
+      localStorage.setItem("user", JSON.stringify(response.data));
     },
     onSuccess: () => {
       toast({
         title: "Logged in successfully!",
         variant: "success",
+      }),
+        navigate({
+          to: "/admin/dashboard",
+          replace: true,
+        });
+    },
+    onError: () => {
+      toast({
+        title: "Failed to login",
+        description: "Please check your email and password",
+        variant: "destructive",
       });
     },
   });
@@ -443,4 +456,16 @@ export function useGetAllFeedbacks() {
       return response;
     },
   });
+}
+
+export function useLogout() {
+  const navigate = useNavigate();
+  return function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    navigate({
+      to: "/",
+      replace: true,
+    });
+  };
 }

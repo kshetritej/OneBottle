@@ -36,7 +36,7 @@ export function FeedbackTable() {
                         <TableBody>
                             {feedbacks?.map((fb: feedbackType, index:number) => (
                                 <TableRow key={fb.feedbackId}>
-                                    <TableCell>{index}</TableCell>
+                                    <TableCell>{index + 1}</TableCell>
                                     <TableCell className="font-medium">{fb.comment}</TableCell>
                                     <TableCell className="font-medium">{new Date(fb.date).toLocaleDateString()}</TableCell>
                                     <TableCell>{fb.user.username} <br/> {fb.user.email}</TableCell>

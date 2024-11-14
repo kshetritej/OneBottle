@@ -11,12 +11,30 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "./ui/sidebar"
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "./ui/alert-dialog"
+import { Button } from "./ui/button"
 import { menuItems as items } from "../constants/menuList"
-import { Beer, ChevronsUpDown, Settings, Shield } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar"
-import { Link } from "@tanstack/react-router"
-import { ModeToggle } from "./mode-toggle"
+import { Beer, ChevronsUpDown, LogOut, Settings, Shield, Sparkles } from "lucide-react"
+import { Avatar, AvatarFallback } from "./ui/avatar"
+import { DropdownMenuGroup, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
+import { useIsMobile } from "../hooks/use-mobile";
+import { useLogout } from "../queries/queries";
+
 export function AppSidebar() {
+  const isMobile = useIsMobile();
+  const admin = JSON.parse(localStorage.getItem("user")!);
+  const logout = useLogout();
+  console.log('logout ', logout)
   return (
     <Sidebar variant="floating" collapsible="icon">
       <SidebarHeader>
@@ -71,22 +89,76 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <SidebarMenuButton
-          size="lg"
-          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-        >
-          <Avatar className="h-8 w-8 rounded-lg">
-            {/* <AvatarImage src={user?.avatar} alt={user.name} /> */}
-            <AvatarFallback className="rounded-lg">CN</AvatarFallback>
-          </Avatar>
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">{'SueprAdmin'}</span>
-            <span className="truncate text-xs">{'superamdin@gmail.com'}</span>
-          </div>
-          <ChevronsUpDown className="ml-auto size-4" />
-        </SidebarMenuButton>
+        <DropdownMenu >
+          <DropdownMenuTrigger asChild>
+            <SidebarMenuButton
+              size="lg"
+              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+            >
+              <Avatar className="h-8 w-8 rounded-lg">
+                {/* <AvatarImage src={user?.avatar} alt={user.name} /> */}
+                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-semibold">{admin?.username}</span>
+                <span className="truncate text-xs">{admin?.email}</span>
+              </div>
+              <ChevronsUpDown className="ml-auto size-4" />
+            </SidebarMenuButton>
+
+          </DropdownMenuTrigger>
+          <DropdownMenuContent
+            className="w-[--radix-dropdown-menu-trigger-width] min-w-56 rounded-lg"
+            side={isMobile ? "bottom" : "right"}
+            align="end"
+            sideOffset={4}
+          >
+            <DropdownMenuGroup>
+              <DropdownMenuItem>
+                <Sparkles />
+                Upgrade to Pro
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem onClick={(e) => e.preventDefault()}>
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button variant={'ghost'} className="w-full justify-start p-1" >
+                      <div className="flex items-center gap-2">
+                        <LogOut /> Log Out
+                      </div>
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This action will log you out of the dashboard and you'll need to relogin to get access to the services.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        onClick={() => {
+                          logout();
+                        }}
+                      >Continue</AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+                {/* <LogOut /> Log Out */}
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
   )
 }
+
+
+// export function LogoutAlert() { return (
+//   )
+// }

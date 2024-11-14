@@ -65,7 +65,7 @@ namespace OneBottle.Controller
                     User = await _context.Users.FirstOrDefaultAsync(u => u.UserId == feedback.UserId),
                     ProductId = feedback.ProductId,
                     Comment = feedback.Comment,
-                    Date = new DateTime()
+                    Date = DateTime.Now,
                 };
             await _feedbackRepository.AddFeedbackAsync(feedbackModel);
             return Ok(feedback.ToFeedbackModel());
