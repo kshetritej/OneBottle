@@ -16,13 +16,11 @@ namespace OneBottle.Controller
             _orderItemRepo = orderItemRepo;
             _context = context;
         }
-
         [HttpGet("/")]
         public async Task<IActionResult> GetAllOrderItemsAsync(){
                 var orderItems = await _orderItemRepo.GetOrderItemsByOrderIdAsync(Guid.Empty);
                 return Ok(orderItems);
         }
-
 
     }
 }

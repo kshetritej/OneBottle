@@ -9,6 +9,5 @@ namespace OneBottle.DTOs.Order
         public decimal TotalPrice { get; set; }
         public string OrderStatus { get; set; } = string.Empty;
         public string ShippingAddress { get; set; } = string.Empty;
-        public string BillingAddress { get; set; } = string.Empty;
     }
 }

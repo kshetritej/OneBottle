@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avat
 import { useDeleteFeedback, useGetFeedbackByUserId } from '../../../queries/queries'
 import { feedbackType } from '../product/product-description'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../../components/ui/alert-dialog'
-import { Link } from '@tanstack/react-router'
+import { Link, useNavigate } from '@tanstack/react-router'
 
 
 const orders = [
@@ -24,11 +24,16 @@ const addresses = [
 ]
 
 export default function Profile() {
+    const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState("personal-info")
-    const userId = JSON.parse(localStorage.getItem('user') || '{}').userId;
     const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const userId = user.userId;
     const feedback = useGetFeedbackByUserId(userId).data?.data;
-
+    if(!userId) {
+        navigate({
+            to: "/auth",
+        })
+    }
     const deleteFeedback = useDeleteFeedback();
 
     return (
