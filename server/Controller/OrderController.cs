@@ -53,12 +53,22 @@ namespace OneBottle.Controller
         }
 
         [HttpPut("/api/order/{orderId:guid}")]
-        public async Task<IActionResult> UpdateOrderStatus(UpdateOrderDTO orderDTO)
+        public async Task<IActionResult> UpdateOrderStatus(UpdateOrderDTO orderDTO, Guid orderId)
         {
-            var order = await _orderRepo.GetOrderByIdAsync(orderDTO.OrderId);
+            var order = await _orderRepo.GetOrderByIdAsync(orderId);
             order.OrderStatus = orderDTO.OrderStatus;
             await _orderRepo.UpdateOrderAsync(order);
             return Ok(orderDTO.OrderStatus);
+        }
+
+        //cancel order
+        [HttpDelete("/api/order/{orderId:guid}")]
+        public async Task<IActionResult> CancelOrder(Guid orderId)
+        {
+            var order = await _orderRepo.GetOrderByIdAsync(orderId);
+            order.OrderStatus = "Cancelled";
+            await _orderRepo.UpdateOrderAsync(order);
+            return Ok();
         }
     }
 }
