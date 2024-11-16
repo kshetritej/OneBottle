@@ -13,13 +13,13 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as OrderSummaryImport } from './routes/order-summary'
 import { Route as NotificationsImport } from './routes/notifications'
 import { Route as MeImport } from './routes/me'
 import { Route as CheckoutImport } from './routes/checkout'
 import { Route as CartImport } from './routes/cart'
 import { Route as AuthImport } from './routes/auth'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
+import { Route as OrderSummaryOrderIdImport } from './routes/order-summary/$orderId'
 import { Route as AdminReviewsImport } from './routes/admin/reviews'
 import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 import { Route as AdminAuthImport } from './routes/admin/auth'
@@ -38,11 +38,6 @@ const AboutLazyRoute = AboutLazyImport.update({
   path: '/about',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/about.lazy').then((d) => d.Route))
-
-const OrderSummaryRoute = OrderSummaryImport.update({
-  path: '/order-summary',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const NotificationsRoute = NotificationsImport.update({
   path: '/notifications',
@@ -76,6 +71,11 @@ const IndexLazyRoute = IndexLazyImport.update({
 
 const ProductProductIdRoute = ProductProductIdImport.update({
   path: '/product/$productId',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const OrderSummaryOrderIdRoute = OrderSummaryOrderIdImport.update({
+  path: '/order-summary/$orderId',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -155,13 +155,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NotificationsImport
       parentRoute: typeof rootRoute
     }
-    '/order-summary': {
-      id: '/order-summary'
-      path: '/order-summary'
-      fullPath: '/order-summary'
-      preLoaderRoute: typeof OrderSummaryImport
-      parentRoute: typeof rootRoute
-    }
     '/about': {
       id: '/about'
       path: '/about'
@@ -188,6 +181,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/reviews'
       fullPath: '/admin/reviews'
       preLoaderRoute: typeof AdminReviewsImport
+      parentRoute: typeof rootRoute
+    }
+    '/order-summary/$orderId': {
+      id: '/order-summary/$orderId'
+      path: '/order-summary/$orderId'
+      fullPath: '/order-summary/$orderId'
+      preLoaderRoute: typeof OrderSummaryOrderIdImport
       parentRoute: typeof rootRoute
     }
     '/product/$productId': {
@@ -230,11 +230,11 @@ export interface FileRoutesByFullPath {
   '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
-  '/order-summary': typeof OrderSummaryRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/reviews': typeof AdminReviewsRoute
+  '/order-summary/$orderId': typeof OrderSummaryOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
@@ -248,11 +248,11 @@ export interface FileRoutesByTo {
   '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
-  '/order-summary': typeof OrderSummaryRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/reviews': typeof AdminReviewsRoute
+  '/order-summary/$orderId': typeof OrderSummaryOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
@@ -267,11 +267,11 @@ export interface FileRoutesById {
   '/checkout': typeof CheckoutRoute
   '/me': typeof MeRoute
   '/notifications': typeof NotificationsRoute
-  '/order-summary': typeof OrderSummaryRoute
   '/about': typeof AboutLazyRoute
   '/admin/auth': typeof AdminAuthRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/reviews': typeof AdminReviewsRoute
+  '/order-summary/$orderId': typeof OrderSummaryOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
@@ -287,11 +287,11 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/me'
     | '/notifications'
-    | '/order-summary'
     | '/about'
     | '/admin/auth'
     | '/admin/dashboard'
     | '/admin/reviews'
+    | '/order-summary/$orderId'
     | '/product/$productId'
     | '/admin/categories'
     | '/admin/products'
@@ -304,11 +304,11 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/me'
     | '/notifications'
-    | '/order-summary'
     | '/about'
     | '/admin/auth'
     | '/admin/dashboard'
     | '/admin/reviews'
+    | '/order-summary/$orderId'
     | '/product/$productId'
     | '/admin/categories'
     | '/admin/products'
@@ -321,11 +321,11 @@ export interface FileRouteTypes {
     | '/checkout'
     | '/me'
     | '/notifications'
-    | '/order-summary'
     | '/about'
     | '/admin/auth'
     | '/admin/dashboard'
     | '/admin/reviews'
+    | '/order-summary/$orderId'
     | '/product/$productId'
     | '/admin/categories/'
     | '/admin/products/'
@@ -340,11 +340,11 @@ export interface RootRouteChildren {
   CheckoutRoute: typeof CheckoutRoute
   MeRoute: typeof MeRoute
   NotificationsRoute: typeof NotificationsRoute
-  OrderSummaryRoute: typeof OrderSummaryRoute
   AboutLazyRoute: typeof AboutLazyRoute
   AdminAuthRoute: typeof AdminAuthRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminReviewsRoute: typeof AdminReviewsRoute
+  OrderSummaryOrderIdRoute: typeof OrderSummaryOrderIdRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
   AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
@@ -358,11 +358,11 @@ const rootRouteChildren: RootRouteChildren = {
   CheckoutRoute: CheckoutRoute,
   MeRoute: MeRoute,
   NotificationsRoute: NotificationsRoute,
-  OrderSummaryRoute: OrderSummaryRoute,
   AboutLazyRoute: AboutLazyRoute,
   AdminAuthRoute: AdminAuthRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminReviewsRoute: AdminReviewsRoute,
+  OrderSummaryOrderIdRoute: OrderSummaryOrderIdRoute,
   ProductProductIdRoute: ProductProductIdRoute,
   AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
   AdminProductsIndexRoute: AdminProductsIndexRoute,
@@ -387,11 +387,11 @@ export const routeTree = rootRoute
         "/checkout",
         "/me",
         "/notifications",
-        "/order-summary",
         "/about",
         "/admin/auth",
         "/admin/dashboard",
         "/admin/reviews",
+        "/order-summary/$orderId",
         "/product/$productId",
         "/admin/categories/",
         "/admin/products/",
@@ -416,9 +416,6 @@ export const routeTree = rootRoute
     "/notifications": {
       "filePath": "notifications.tsx"
     },
-    "/order-summary": {
-      "filePath": "order-summary.tsx"
-    },
     "/about": {
       "filePath": "about.lazy.tsx"
     },
@@ -430,6 +427,9 @@ export const routeTree = rootRoute
     },
     "/admin/reviews": {
       "filePath": "admin/reviews.tsx"
+    },
+    "/order-summary/$orderId": {
+      "filePath": "order-summary/$orderId.tsx"
     },
     "/product/$productId": {
       "filePath": "product/$productId.tsx"

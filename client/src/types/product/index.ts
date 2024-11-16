@@ -13,3 +13,23 @@ export interface productCardPropsTypes {
     stockQuantity: number
     feedbacks: []
 }
+
+
+export type ProductResponse = {
+  abv: number;
+  ageRestriction: number;
+  brand: string;
+  category: string | null;
+  categoryId: string;
+  createdAt: string;
+  description: string;
+  feedbacks: any[];
+  imageUrl: string;
+  name: string;
+  price: number;
+  productId: string;
+  rating: number;
+  stockQuantity: number;
+  updatedAt: string;
+  volume: number;
+};

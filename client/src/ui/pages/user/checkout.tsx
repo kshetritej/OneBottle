@@ -92,7 +92,7 @@ export default function Checkout() {
         createOrder.mutate(orderData);
         navigate({
             to: '/order-summary',
-            replace: true
+            replace: true,
         })
     }
 

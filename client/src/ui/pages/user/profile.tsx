@@ -6,22 +6,12 @@ import { Label } from "../../../components/ui/label"
 import { Tabs, TabsContent } from "../../../components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar"
-import { useDeleteFeedback, useGetFeedbackByUserId } from '../../../queries/queries'
+import { useDeleteFeedback, useGetFeedbackByUserId, useGetOrdersByUserId } from '../../../queries/queries'
 import { feedbackType } from '../product/product-description'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../../components/ui/alert-dialog'
 import { Link, useNavigate } from '@tanstack/react-router'
+import { Order } from '../../../types/order'
 
-
-const orders = [
-    { id: "ORD001", date: "2024-03-01", total: 129.99, status: "Delivered" },
-    { id: "ORD002", date: "2024-02-15", total: 79.50, status: "Processing" },
-    { id: "ORD003", date: "2024-01-30", total: 199.99, status: "Shipped" },
-]
-
-const addresses = [
-    { id: 1, type: "Home", address: "123 Main St, Anytown, AN 12345" },
-    { id: 2, type: "Work", address: "456 Office Blvd, Workville, WK 67890" },
-]
 
 export default function Profile() {
     const navigate = useNavigate();
@@ -29,11 +19,14 @@ export default function Profile() {
     const user = JSON.parse(localStorage.getItem('user') || '{}');
     const userId = user.userId;
     const feedback = useGetFeedbackByUserId(userId).data?.data;
-    if(!userId) {
+    if (!userId) {
         navigate({
             to: "/auth",
         })
     }
+    const { data: orders } = useGetOrdersByUserId(userId);
+
+    console.log('orders : ', orders)
     const deleteFeedback = useDeleteFeedback();
 
     return (
@@ -122,17 +115,17 @@ export default function Profile() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-4">
-                                        {orders.map((order) => (
-                                            <div key={order.id} className="flex justify-between items-center border-b pb-2">
+                                        {orders?.map((order:Order) => (
+                                            <Link to={`/order-summary/${order.orderId}`} key={order.orderId} className="flex justify-between items-center border-b pb-2">
                                                 <div>
-                                                    <p className="font-medium">{order.id}</p>
-                                                    <p className="text-sm text-gray-500">{order.date}</p>
+                                                    <p className="font-medium">{"ORD-"+order.orderId.split('-')[0].toUpperCase()}</p>
+                                                    <p className="text-sm text-gray-500">{new Date(order.orderDate).toLocaleDateString()}</p>
                                                 </div>
                                                 <div className="text-right">
-                                                    <p className="font-medium">${order.total.toFixed(2)}</p>
-                                                    <p className="text-sm text-gray-500">{order.status}</p>
+                                                    <p className="font-medium">${order.totalPrice.toFixed(2)}</p>
+                                                    <p className="text-sm text-gray-500">{order.orderStatus}</p>
                                                 </div>
-                                            </div>
+                                            </Link>
                                         ))}
                                     </div>
                                 </CardContent>
@@ -188,7 +181,7 @@ export default function Profile() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-4">
-                                        {addresses.map((address) => (
+                                        {/* {addresses.map((address) => (
                                             <div key={address.id} className="flex justify-between items-center border-b pb-2">
                                                 <div>
                                                     <p className="font-medium">{address.type}</p>
@@ -196,7 +189,7 @@ export default function Profile() {
                                                 </div>
                                                 <Button variant="outline" size="sm">Edit</Button>
                                             </div>
-                                        ))}
+                                        ))} */}
                                     </div>
                                 </CardContent>
                                 <CardFooter>

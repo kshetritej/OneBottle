@@ -1,104 +1,69 @@
-import { useState } from 'react'
-import { MoreHorizontal, ChevronRight, ChevronLeft, Badge } from "lucide-react"
 import { Button } from '../../../components/ui/button'
+import { Badge } from '../../../components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs'
-
-// Mock data to simulate backend response
-const mockOrders = [
-  {
-    id: "FRL1001",
-    productName: "Frances Lawson",
-    quantity: 1,
-    price: 10000, // in cents
-    orderDate: "2023-11-09T20:21:18Z",
-    status: "Processing",
-    imageUrl: "/placeholder.svg?height=64&width=64",
-    shippingMethod: "Standard Shipping",
-    estimatedDelivery: "3-5 business days",
-    trackingNumber: null,
-    paymentMethod: "Credit Card (ending in 1234)",
-    paymentStatus: "Completed",
-  },
-  {
-    id: "JDS2002",
-    productName: "John Doe Shirt",
-    quantity: 2,
-    price: 5000, // in cents
-    orderDate: "2023-11-08T15:30:00Z",
-    status: "Shipped",
-    imageUrl: "/placeholder.svg?height=64&width=64",
-    shippingMethod: "Express Shipping",
-    estimatedDelivery: "1-2 business days",
-    trackingNumber: "EXPR1234567890",
-    paymentMethod: "PayPal",
-    paymentStatus: "Completed",
-  }
-]
+import { useGetOrderById, useGetProductById, useGetProducts } from '../../../queries/queries'
+import { useParams } from '@tanstack/react-router'
+import { ProductResponse } from '../../../types/product'
+import { Card } from '../../../components/ui/card'
 
 export function OrderSummary() {
-  const [currentOrderIndex, setCurrentOrderIndex] = useState(0)
-  const currentOrder = mockOrders[currentOrderIndex]
+  const allProducts = useGetProducts().data?.data;
 
-  const formatPrice = (price: number) => {
-    return `$${(price / 100).toFixed(2)}`
-  }
+  const orderId = useParams({
+    select: (params) => [params.orderId],
+    from: '/order-summary/$orderId'
+  });
 
-  const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString()
-  }
+  const { data: order } = useGetOrderById(orderId[0]);
+  const { data: product } = useGetProductById(order?.productId && order?.productId[0]);
+  const thumbnailProduct: ProductResponse = product?.data;
+
+  const orderedItems = allProducts?.filter((prod: ProductResponse) =>
+    order?.productId?.includes(prod?.productId)
+  );
+
 
   return (
     <div className="max-w-2xl mx-auto p-6 space-y-6">
-      <div className="flex items-start justify-between">
+      {thumbnailProduct && <div className="flex items-start justify-between">
         <div className="flex gap-4">
           <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
             <img
-              src={currentOrder.imageUrl}
-              alt={currentOrder.productName}
+              src={thumbnailProduct?.imageUrl}
+              alt={thumbnailProduct.name}
               width={64}
               height={64}
               className="object-cover"
             />
           </div>
           <div>
-            <h1 className="text-xl font-semibold">Order #{currentOrder.id}</h1>
+            <h1 className="text-xl font-semibold">Order {order?.orderId.split("-")[0].toUpperCase()}</h1>
             <div className="grid grid-cols-2 gap-x-8 gap-y-2 mt-2 text-sm">
               <div>
-                <div className="text-gray-500">Item</div>
-                <div>{currentOrder.productName}</div>
-              </div>
-              <div>
-                <div className="text-gray-500">Quantity</div>
-                <div>{currentOrder.quantity}</div>
-              </div>
-              <div>
                 <div className="text-gray-500">Order Date</div>
-                <div>{formatDate(currentOrder.orderDate)}</div>
+                <div>{new Date(order.orderDate).toLocaleDateString()}</div>
               </div>
               <div>
                 <div className="text-gray-500">Total Price</div>
-                <div>{formatPrice(currentOrder.price * currentOrder.quantity)}</div>
+                <div>{order.totalPrice}</div>
               </div>
             </div>
           </div>
         </div>
-        <Badge 
-          className={`${
-            currentOrder.status === 'Processing' 
-              ? 'bg-orange-100 text-orange-800' 
-              : 'bg-green-100 text-green-800'
-          } hover:bg-opacity-80`}
+        <Badge
+          className={`${order?.orderStatus === 'Processing'
+            ? 'bg-orange-800 text-orange-300'
+            : ' bg-green-800 text-green-300'
+            } hover:bg-opacity-80`}
         >
-          {currentOrder.status}
+          {order.orderStatus}
         </Badge>
       </div>
+      }
 
       <div className="flex gap-2">
         <Button variant="default">View Invoice</Button>
-        <Button variant="outline">Track Order</Button>
-        <Button variant="ghost" size="icon">
-          <MoreHorizontal className="h-4 w-4" />
-        </Button>
+        {/* <Button variant="outline">Track Order</Button> */}
       </div>
 
       <Tabs defaultValue="history" className="w-full">
@@ -114,10 +79,11 @@ export function OrderSummary() {
               <div className="flex gap-4">
                 <div className="w-2 h-2 mt-2 rounded-full bg-green-500" />
                 <div>
-                  <div className="font-medium">{currentOrder.status}</div>
-                  <div className="text-sm text-gray-500">{formatDate(currentOrder.orderDate)}</div>
+                  <div className="font-medium">{order?.orderStatus}</div>
+                  <div className="text-sm text-gray-500">{new Date(order?.orderDate).toLocaleDateString()}</div>
                   <div className="mt-1 text-sm">
-                    <div>Your order has been {currentOrder.status.toLowerCase()} and is being processed.</div>
+                    <div>Your order has been {order?.orderStatus.toLowerCase()} and is being processed.</div>
+
                   </div>
                 </div>
               </div>
@@ -130,53 +96,37 @@ export function OrderSummary() {
         <TabsContent value="details">
           <div className="mt-4 space-y-4">
             <h3 className="font-semibold">Product Details</h3>
-            <p>Name: {currentOrder.productName}</p>
-            <p>Price: {formatPrice(currentOrder.price)}</p>
-            <p>Quantity: {currentOrder.quantity}</p>
-            <p>Description: High-quality product with excellent features.</p>
+            <div className='flex flex-col gap-4 '>
+              {orderedItems.map((item: ProductResponse) =>
+                <Card className='flex gap-4 p-4'>
+                  <img src={item.imageUrl} alt={item.name} className='size-24 rounded-lg' />
+                  <div>
+                    <p>Name: {item.name}</p>
+                    <p>Price: {item.price}</p>
+                  </div>
+                </Card>
+              )}
+            </div>
           </div>
         </TabsContent>
         <TabsContent value="shipping">
           <div className="mt-4 space-y-4">
             <h3 className="font-semibold">Shipping Information</h3>
-            <p>Shipping method: {currentOrder.shippingMethod}</p>
-            <p>Estimated delivery: {currentOrder.estimatedDelivery}</p>
-            <p>Tracking number: {currentOrder.trackingNumber || 'Not available yet'}</p>
+            {/* <p>Shipping method: {orderStatus.shippingMethod}</p> */}
+            <p>Estimated delivery: {new Date(order?.orderDate).toLocaleDateString() + " +3 Days"}</p>
+            <p>Tracking number: {order?.trackingNumber || 'Not available yet'}</p>
           </div>
         </TabsContent>
         <TabsContent value="payment">
           <div className="mt-4 space-y-4">
             <h3 className="font-semibold">Payment Details</h3>
-            <p>Payment method: {currentOrder.paymentMethod}</p>
-            <p>Total charged: {formatPrice(currentOrder.price * currentOrder.quantity)}</p>
-            <p>Payment status: {currentOrder.paymentStatus}</p>
+            <p>Payment method: {order?.paymentMethod || "Cash on Delivery"}</p>
+            <p>Total charged: ${order?.totalPrice}</p>
+            <p>Payment status: {order?.paymentStatus || "Pending"}</p>
           </div>
         </TabsContent>
       </Tabs>
-
-      <div className="flex justify-between items-center pt-4 border-t">
-        <div className="text-sm text-gray-500">Order {currentOrderIndex + 1} of {mockOrders.length}</div>
-        <div className="flex gap-2">
-          <Button 
-            variant="ghost" 
-            className="text-sm" 
-            onClick={() => setCurrentOrderIndex(prev => Math.max(0, prev - 1))}
-            disabled={currentOrderIndex === 0}
-          >
-            <ChevronLeft className="mr-2 h-4 w-4" />
-            Previous order
-          </Button>
-          <Button 
-            variant="ghost" 
-            className="text-sm"
-            onClick={() => setCurrentOrderIndex(prev => Math.min(mockOrders.length - 1, prev + 1))}
-            disabled={currentOrderIndex === mockOrders.length - 1}
-          >
-            Next order
-            <ChevronRight className="ml-2 h-4 w-4" />
-          </Button>
-        </div>
-      </div>
     </div>
   )
+
 }
