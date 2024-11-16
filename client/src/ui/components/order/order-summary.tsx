@@ -45,7 +45,7 @@ export function OrderSummary() {
               </div>
               <div>
                 <div className="text-gray-500">Total Price</div>
-                <div>{order.totalPrice}</div>
+                <div>$ {order.totalPrice}</div>
               </div>
             </div>
           </div>

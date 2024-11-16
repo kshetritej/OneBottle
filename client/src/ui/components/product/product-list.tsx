@@ -1,25 +1,13 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table";
-import { Query } from "../../../queries";
 import { Card } from "../../../components/ui/card";
 import { CreateProductModal } from "./create-product";
 import { DeleteDialog } from "../delete-dialog";
-import { useRemoveProduct } from "../../../queries/queries";
+import { useGetProducts, useRemoveProduct } from "../../../queries/queries";
+import { Product } from "../../../types/product";
 
-export type Product = {
-    productId: string;
-    name: string;
-    imageUrl: string;
-    description: string;
-    brand: string;
-    volume: number;
-    abv: number;
-    categoryId?: string;
-    price: number;
-    stockQuantity: number;
-};
 
 export function ProductTable() {
-    const products = new Query().getProducts.data as Product[];
+    const products = useGetProducts().data?.data as Product[];
     const removeProduct = useRemoveProduct();
 
     function handleDelete(id: string) {

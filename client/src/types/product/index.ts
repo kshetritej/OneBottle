@@ -33,3 +33,16 @@ export type ProductResponse = {
   updatedAt: string;
   volume: number;
 };
+
+export type Product = {
+    productId: string;
+    name: string;
+    imageUrl: string;
+    description: string;
+    brand: string;
+    volume: number;
+    abv: number;
+    categoryId?: string;
+    price: number;
+    stockQuantity: number;
+};

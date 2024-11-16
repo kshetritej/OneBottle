@@ -6,7 +6,7 @@ export default function OfferCard() {
 
     return (
         <Card
-            className="w-full max-w-md bg-black border-zinc-800 transition-all duration-300 cursor-pointer"
+            className="w-full md:min-h-[200px] bg-black border-zinc-800 transition-all duration-300 cursor-pointer"
             style={{
                 transform: isHovered ? 'translateY(-5px)' : 'translateY(0)',
                 boxShadow: isHovered ? '0 10px 15px -3px rgba(255, 255, 255, 0.1)' : 'none'

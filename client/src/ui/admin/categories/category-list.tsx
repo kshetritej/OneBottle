@@ -1,8 +1,7 @@
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "../../../components/ui/table";
-import { Query } from "../../../queries";
 import { Card } from "../../../components/ui/card";
 import { CreateCategoryModal } from "./create-category";
-import { useRemoveCategory } from "../../../queries/queries";
+import { useGetCategories, useRemoveCategory } from "../../../queries/queries";
 import { DeleteDialog } from "../../components/delete-dialog";
 
 export type Category = {
@@ -12,7 +11,7 @@ export type Category = {
 }
 
 export function CategoryTable() {
-    const categories = new Query().getCategories.data as Category[];
+    const categories = useGetCategories().data?.data as Category[];
     const removeCategory = useRemoveCategory();
     function handleDelete(id: string) {
         removeCategory.mutate({ id });
