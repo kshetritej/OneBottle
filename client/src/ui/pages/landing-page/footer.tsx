@@ -5,7 +5,7 @@ import { Input } from "../../../components/ui/input";
 export function Footer() {
     return (
 
-        <footer className="bg-gray-900 text-gray-300 py-8 px-4 md:px-8">
+        <footer className="bg-primary-foreground p-8">
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {/* Logo and Slogan */}
                 <div className="flex flex-col items-center md:items-start">
@@ -48,7 +48,7 @@ export function Footer() {
                         <Input
                             type="email"
                             placeholder="Your email address"
-                            className="bg-gray-800 border-gray-700 text-white placeholder-gray-400"
+                            className=" text-white"
                         />
                         <Button type="submit" className="bg-primary hover:bg-primary/90">
                             Subscribe
