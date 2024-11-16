@@ -19,6 +19,14 @@ namespace OneBottle.Controller
             _orderRepo = orderRepo;
         }
 
+        [HttpGet("/api/order/all")]
+        public async Task<IActionResult> GetAllOrderAsync()
+        {
+            var orders = await _orderRepo.GetAllOrdersAsync();
+            return Ok(orders);
+        }
+
+
         [HttpGet("/api/order/{orderId}")]
         public async Task<IActionResult> GetOrderById(Guid orderId)
         {
@@ -32,14 +40,6 @@ namespace OneBottle.Controller
             var order = await _orderRepo.GetOrdersByUserIdAsync(userId);
             return Ok(order);
         }
-
-        [HttpGet("/api/order/all")]
-        public async Task<IActionResult> GetAllOrderAsync()
-        {
-            var orders = await _orderRepo.GetAllOrdersAsync();
-            return Ok(orders);
-        }
-
 
         [HttpPost("/api/order")]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderDTO orderDTO)

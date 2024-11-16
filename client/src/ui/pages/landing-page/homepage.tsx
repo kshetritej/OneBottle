@@ -1,5 +1,4 @@
 import { Button } from "../../../components/ui/button"
-import { Card, CardContent } from "../../../components/ui/card"
 import {
     Carousel,
     CarouselContent,
@@ -10,9 +9,9 @@ import {
 import { Footer } from './footer'
 import { productCardPropsTypes } from '../../../types/product'
 import ProductCard from '../../components/product/product-card'
-import { Link } from '@tanstack/react-router'
 import { useGetCategories, useGetProducts } from "../../../queries/queries"
 import { carousel1, carousel2, carousel3 } from "../../../constants/images"
+import OfferCard from "./offer-card"
 
 type Category = {
     id: number;
@@ -53,7 +52,7 @@ export function Homepage() {
 
                     <h2 className="text-xl font-bold mb-4">Shop by Spirit</h2>
                     <div className="grid grid-cols-3 gap-4">
-                        {categories &&   categories?.data?.map((category: Category) => (
+                        {categories && categories?.data?.map((category: Category) => (
                             <Button key={category.id} variant="outline" className="h-24 flex flex-col items-center justify-center">
                                 <span>{category.name}</span>
                             </Button>
@@ -101,12 +100,7 @@ export function Homepage() {
                 </section>
 
                 <section className="p-4">
-                    <Card>
-                        <CardContent className="p-4">
-                            <h2 className="text-lg font-semibold mb-2">Special Offer</h2>
-                            <p className="text-sm text-gray-600">Get 10% off on your first order! Use code: WELCOME10</p>
-                        </CardContent>
-                    </Card>
+                    <OfferCard />
                 </section>
             </main>
             <Footer />

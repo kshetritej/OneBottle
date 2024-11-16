@@ -5,8 +5,9 @@ import { useNavigate } from "@tanstack/react-router";
 import { CartItem } from "../../pages/user/cart";
 
 export function OrderSummaryCard({
-    cart
-}: { cart: CartItem[] }) {
+    cart,
+    onClick
+}: { cart: CartItem[], onClick: () => void }) {
     const navigate = useNavigate();
     const shippingCost = 15.00;
     const taxRate = 0.1;
@@ -49,14 +50,15 @@ export function OrderSummaryCard({
                     <span>${total}</span>
                 </div>
                 <Button className="w-full" size="lg"
-                    onClick={() =>
-                        navigate(
-                            {
-                                to: '/order-summary',
-                                replace: true
-                            }
-                        )
-                    }
+                    onClick={() => {
+                        onClick(),
+                            navigate(
+                                {
+                                    to: '/order-summary',
+                                    replace: true
+                                }
+                            )
+                    }}
                 >
                     Place Order
                 </Button>

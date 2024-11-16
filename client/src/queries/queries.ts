@@ -469,3 +469,111 @@ export function useLogout() {
     });
   };
 }
+
+export function useGetOrders() {
+  return useQuery({
+    queryKey: ["orders"],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/order/all`);
+      return response.data;
+    },
+  });
+}
+
+export function useGetOrderById(id: string) {
+  return useQuery({
+    queryKey: ["order", id],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/order/${id}`);
+      return response.data;
+    },
+  });
+}
+
+export function useGetOrdersByUserId(id: string) {
+  return useQuery({
+    queryKey: ["ordersByUser", id],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/order/user/${id}`);
+      return response.data;
+    },
+  });
+}
+
+export function useCreateOrder() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["createOrder"],
+    mutationFn: async (data: any) => {
+      const response = await axios.post(`${baseUrl}/order`, data);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      toast({
+        title: "Your order has been created successfully",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Failed to create order",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+}
+
+export function useUpdateOrder() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["updateOrder"],
+    mutationFn: async (data: any) => {
+      const response = await axios.put(
+        `${baseUrl}/order/${data.orderId}`,
+        data
+      );
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      toast({
+        title: "Order status updated successfully",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Failed to update order status.",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+}
+
+export function useCancelOrder() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["deleteOrder"],
+    mutationFn: async (orderId: string) => {
+      const response = await axios.delete(`${baseUrl}/order/${orderId}`);
+      return response.data;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["orders"] });
+      toast({
+        title: "Order deleted successfully",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Order cancellation failed.",
+        description: "Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+}
