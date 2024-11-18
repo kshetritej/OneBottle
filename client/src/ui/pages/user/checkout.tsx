@@ -90,6 +90,7 @@ export default function Checkout() {
             return;
         }
         createOrder.mutate(orderData);
+        localStorage.setItem("cart", JSON.stringify([]));
         navigate({
             to: '/order-summary',
             replace: true,

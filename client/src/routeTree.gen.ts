@@ -18,6 +18,7 @@ import { Route as MeImport } from './routes/me'
 import { Route as CheckoutImport } from './routes/checkout'
 import { Route as CartImport } from './routes/cart'
 import { Route as AuthImport } from './routes/auth'
+import { Route as OrderSummaryIndexImport } from './routes/order-summary/index'
 import { Route as ProductProductIdImport } from './routes/product/$productId'
 import { Route as OrderSummaryOrderIdImport } from './routes/order-summary/$orderId'
 import { Route as AdminReviewsImport } from './routes/admin/reviews'
@@ -25,6 +26,7 @@ import { Route as AdminDashboardImport } from './routes/admin/dashboard'
 import { Route as AdminAuthImport } from './routes/admin/auth'
 import { Route as AdminUsersIndexImport } from './routes/admin/users/index'
 import { Route as AdminProductsIndexImport } from './routes/admin/products/index'
+import { Route as AdminOrdersIndexImport } from './routes/admin/orders/index'
 import { Route as AdminCategoriesIndexImport } from './routes/admin/categories/index'
 
 // Create Virtual Routes
@@ -69,6 +71,11 @@ const IndexLazyRoute = IndexLazyImport.update({
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
 
+const OrderSummaryIndexRoute = OrderSummaryIndexImport.update({
+  path: '/order-summary/',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ProductProductIdRoute = ProductProductIdImport.update({
   path: '/product/$productId',
   getParentRoute: () => rootRoute,
@@ -101,6 +108,11 @@ const AdminUsersIndexRoute = AdminUsersIndexImport.update({
 
 const AdminProductsIndexRoute = AdminProductsIndexImport.update({
   path: '/admin/products/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminOrdersIndexRoute = AdminOrdersIndexImport.update({
+  path: '/admin/orders/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -197,11 +209,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProductProductIdImport
       parentRoute: typeof rootRoute
     }
+    '/order-summary/': {
+      id: '/order-summary/'
+      path: '/order-summary'
+      fullPath: '/order-summary'
+      preLoaderRoute: typeof OrderSummaryIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/admin/categories/': {
       id: '/admin/categories/'
       path: '/admin/categories'
       fullPath: '/admin/categories'
       preLoaderRoute: typeof AdminCategoriesIndexImport
+      parentRoute: typeof rootRoute
+    }
+    '/admin/orders/': {
+      id: '/admin/orders/'
+      path: '/admin/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersIndexImport
       parentRoute: typeof rootRoute
     }
     '/admin/products/': {
@@ -236,7 +262,9 @@ export interface FileRoutesByFullPath {
   '/admin/reviews': typeof AdminReviewsRoute
   '/order-summary/$orderId': typeof OrderSummaryOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/order-summary': typeof OrderSummaryIndexRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
+  '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
 }
@@ -254,7 +282,9 @@ export interface FileRoutesByTo {
   '/admin/reviews': typeof AdminReviewsRoute
   '/order-summary/$orderId': typeof OrderSummaryOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/order-summary': typeof OrderSummaryIndexRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
+  '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
 }
@@ -273,7 +303,9 @@ export interface FileRoutesById {
   '/admin/reviews': typeof AdminReviewsRoute
   '/order-summary/$orderId': typeof OrderSummaryOrderIdRoute
   '/product/$productId': typeof ProductProductIdRoute
+  '/order-summary/': typeof OrderSummaryIndexRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
+  '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
 }
@@ -293,7 +325,9 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/order-summary/$orderId'
     | '/product/$productId'
+    | '/order-summary'
     | '/admin/categories'
+    | '/admin/orders'
     | '/admin/products'
     | '/admin/users'
   fileRoutesByTo: FileRoutesByTo
@@ -310,7 +344,9 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/order-summary/$orderId'
     | '/product/$productId'
+    | '/order-summary'
     | '/admin/categories'
+    | '/admin/orders'
     | '/admin/products'
     | '/admin/users'
   id:
@@ -327,7 +363,9 @@ export interface FileRouteTypes {
     | '/admin/reviews'
     | '/order-summary/$orderId'
     | '/product/$productId'
+    | '/order-summary/'
     | '/admin/categories/'
+    | '/admin/orders/'
     | '/admin/products/'
     | '/admin/users/'
   fileRoutesById: FileRoutesById
@@ -346,7 +384,9 @@ export interface RootRouteChildren {
   AdminReviewsRoute: typeof AdminReviewsRoute
   OrderSummaryOrderIdRoute: typeof OrderSummaryOrderIdRoute
   ProductProductIdRoute: typeof ProductProductIdRoute
+  OrderSummaryIndexRoute: typeof OrderSummaryIndexRoute
   AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
+  AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
 }
@@ -364,7 +404,9 @@ const rootRouteChildren: RootRouteChildren = {
   AdminReviewsRoute: AdminReviewsRoute,
   OrderSummaryOrderIdRoute: OrderSummaryOrderIdRoute,
   ProductProductIdRoute: ProductProductIdRoute,
+  OrderSummaryIndexRoute: OrderSummaryIndexRoute,
   AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
+  AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   AdminProductsIndexRoute: AdminProductsIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
 }
@@ -393,7 +435,9 @@ export const routeTree = rootRoute
         "/admin/reviews",
         "/order-summary/$orderId",
         "/product/$productId",
+        "/order-summary/",
         "/admin/categories/",
+        "/admin/orders/",
         "/admin/products/",
         "/admin/users/"
       ]
@@ -434,8 +478,14 @@ export const routeTree = rootRoute
     "/product/$productId": {
       "filePath": "product/$productId.tsx"
     },
+    "/order-summary/": {
+      "filePath": "order-summary/index.tsx"
+    },
     "/admin/categories/": {
       "filePath": "admin/categories/index.tsx"
+    },
+    "/admin/orders/": {
+      "filePath": "admin/orders/index.tsx"
     },
     "/admin/products/": {
       "filePath": "admin/products/index.tsx"
