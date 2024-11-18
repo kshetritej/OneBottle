@@ -463,6 +463,7 @@ export function useLogout() {
   return function logout() {
     localStorage.removeItem("token");
     localStorage.removeItem("user");
+    localStorage.removeItem("cart");
     navigate({
       to: "/",
       replace: true,

@@ -6,7 +6,7 @@ import { Label } from "../../../components/ui/label"
 import { Tabs, TabsContent } from "../../../components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar"
-import { useDeleteFeedback, useGetFeedbackByUserId, useGetOrdersByUserId } from '../../../queries/queries'
+import { useDeleteFeedback, useGetFeedbackByUserId, useGetOrdersByUserId, useLogout } from '../../../queries/queries'
 import { feedbackType } from '../product/product-description'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../../components/ui/alert-dialog'
 import { Link, useNavigate } from '@tanstack/react-router'
@@ -26,8 +26,9 @@ export default function Profile() {
     }
     const { data: orders } = useGetOrdersByUserId(userId);
 
-    console.log('orders : ', orders)
     const deleteFeedback = useDeleteFeedback();
+
+    const logout = useLogout();
 
     return (
         <div className="container mx-auto p-4 max-w-4xl">
@@ -71,7 +72,9 @@ export default function Profile() {
                             </nav>
                         </CardContent>
                         <CardFooter>
-                            <Button variant="outline" className="w-full">
+                            <Button variant="outline" className="w-full" onClick={() => {
+                                logout();
+                            }}>
                                 <LogOut className="mr-2 h-4 w-4" /> Log Out
                             </Button>
                         </CardFooter>
@@ -115,10 +118,10 @@ export default function Profile() {
                                 </CardHeader>
                                 <CardContent>
                                     <div className="space-y-4">
-                                        {orders?.map((order:Order) => (
+                                        {orders?.map((order: Order) => (
                                             <Link to={`/order-summary/${order.orderId}`} key={order.orderId} className="flex justify-between items-center border-b pb-2">
                                                 <div>
-                                                    <p className="font-medium">{"ORD-"+order.orderId.split('-')[0].toUpperCase()}</p>
+                                                    <p className="font-medium">{"ORD-" + order.orderId.split('-')[0].toUpperCase()}</p>
                                                     <p className="text-sm text-gray-500">{new Date(order.orderDate).toLocaleDateString()}</p>
                                                 </div>
                                                 <div className="text-right">
@@ -140,11 +143,11 @@ export default function Profile() {
                                 <CardContent>
                                     <div className="space-y-4">
                                         {feedback?.map((feedback: feedbackType) => (
-                                            <Link key={feedback.feedbackId} to={`/product/${feedback.productId}`} className="flex justify-between items-center border-b pb-2">
+                                            <Link key={feedback?.feedbackId} to={`/product/${feedback?.productId}`} className="flex justify-between items-center border-b pb-2">
                                                 <div>
-                                                    <p className="font-medium">#{feedback.feedbackId.split('-')[0].toUpperCase()}</p>
-                                                    <p className="text-sm text-gray-500">{new Date(feedback.date).toLocaleDateString()}</p>
-                                                    <p className="font-medium">{feedback.comment}</p>
+                                                    <p className="font-medium">#{feedback?.feedbackId.split('-')[0].toUpperCase()}</p>
+                                                    <p className="text-sm text-gray-500">{new Date(feedback?.date).toLocaleDateString()}</p>
+                                                    <p className="font-medium">{feedback?.comment}</p>
                                                 </div>
                                                 <div className="text-right">
                                                     <AlertDialog>

@@ -30,8 +30,8 @@ export function Homepage() {
     const { data: categories } = useGetCategories();
 
     return (
-        <div className="flex flex-col min-h-screen">
-            <main className="flex-grow">
+        <div className=" flex flex-col min-h-screen">
+            <main className="container mx-auto flex-grow">
                 <section className="p-4">
                     <Carousel className='bg-red-500 rounded-sm'>
                         <CarouselContent>

@@ -7,9 +7,7 @@ import {
     SelectValue,
 } from "../../../components/ui/select"
 import { useState } from "react";
-import { useGetUserById } from "../../../queries/queries";
-
-
+import { useGetUserById, useUpdateOrder } from "../../../queries/queries";
 
 export type Order = {
     orderId: string;
@@ -46,12 +44,14 @@ export const columns: ColumnDef<Order>[] = [
     },
     {
         accessorKey: "orderStatus",
-        header: "Order Status",
+        header: "Change Status",
         cell: ({ row }) => {
-            const status = (row.getValue("orderStatus"))
+            const updateStatus = useUpdateOrder();
+            const orderId = row.getValue("orderId");
+            console.log('order Id', orderId)
             return (
                 <>
-                    < Select >
+                    < Select onValueChange={(value) => updateStatus.mutate({ orderId: orderId, orderStatus: value })} >
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Status" />
                         </SelectTrigger>
@@ -64,6 +64,13 @@ export const columns: ColumnDef<Order>[] = [
                 </>
 
             )
+        }
+    },
+    {
+        accessorKey: "orderStatus",
+        header: "Order Status",
+        cell: ({ row }) => {
+            return <>{row.getValue("orderStatus").toUpperCase()}</>
         }
     },
     {
