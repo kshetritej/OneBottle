@@ -158,12 +158,12 @@ export default function Profile() {
                                 <CardContent>
                                     <div className="space-y-4">
                                         {feedback?.map((feedback: feedbackType) => (
-                                            <Link key={feedback?.feedbackId} to={`/product/${feedback?.productId}`} className="flex justify-between items-center border-b pb-2">
-                                                <div>
+                                            <div key={feedback?.feedbackId} className="flex justify-between items-center border-b pb-2">
+                                                <Link to={`/product/${feedback?.productId}`} >
                                                     <p className="font-medium">#{feedback?.feedbackId.split('-')[0].toUpperCase()}</p>
                                                     <p className="text-sm text-gray-500">{new Date(feedback?.date).toLocaleDateString()}</p>
                                                     <p className="font-medium">{feedback?.comment}</p>
-                                                </div>
+                                                </Link>
                                                 <div className="text-right">
                                                     <AlertDialog>
                                                         <AlertDialogTrigger asChild>
@@ -184,7 +184,7 @@ export default function Profile() {
                                                         </AlertDialogContent>
                                                     </AlertDialog>
                                                 </div>
-                                            </Link>
+                                            </div>
                                         ))}
                                     </div>
                                 </CardContent>
@@ -265,6 +265,6 @@ export default function Profile() {
                     </Tabs>
                 </main>
             </div>
-        </div>
+        </div >
     )
 }

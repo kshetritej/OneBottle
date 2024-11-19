@@ -1,4 +1,4 @@
-1. solve review error in profile.
+1. solve review error in profile. [Done]
 2. Don't let order without loggin in.
 3. Update product Card [Done]
 4. Feature for order cancelling by user. [Done]

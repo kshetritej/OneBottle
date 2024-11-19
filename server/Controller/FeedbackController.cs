@@ -50,7 +50,7 @@ namespace OneBottle.Controller
             {
                 return NotFound();
             }
-            return Ok(feedbacks.Select(f => f.UserId == userId ? f.ToFeedbackDTO() : null));
+            return Ok(feedbacks.Where(f => f.UserId == userId).Select(f => FeedbackMappers.ToFeedbackDTO(f)));
         }
 
 
