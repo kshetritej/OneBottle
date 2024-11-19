@@ -583,3 +583,13 @@ export function useCancelOrder() {
     },
   });
 }
+
+export function useGetProductsByCategoryId(categoryId: string) {
+  return useQuery({
+    queryKey: ["productsByCategory", categoryId],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/product/category/${categoryId}`);
+      return response;
+    },
+  });
+}

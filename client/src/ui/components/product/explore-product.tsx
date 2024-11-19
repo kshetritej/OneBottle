@@ -1,0 +1,52 @@
+import { useState } from 'react'
+import { Button } from "../../../components/ui/button"
+import { ScrollArea, ScrollBar } from "../../../components/ui/scroll-area"
+import ProductCard from './product-card'
+import { Category } from '../../pages/landing-page/homepage'
+import { useGetCategories, useGetProducts } from '../../../queries/queries'
+
+export default function ProductCatalog() {
+    const products = useGetProducts().data?.data
+    const categories: Category[] = useGetCategories().data?.data;
+    const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
+
+    const filteredProducts = selectedCategory
+        ? products.filter(product => product.categoryId === selectedCategory)
+        : products
+
+    return (
+        <div className="container mx-auto px-4 py-8">
+            <h1 className="text-3xl font-bold mb-6 text-center sm:text-left">Product Catalog</h1>
+
+            <div className="flex w-max space-x-4 p-4">
+                <Button
+                    onClick={() => setSelectedCategory(null)}
+                    variant={selectedCategory === null ? "default" : "outline"}
+                    className="flex-shrink-0"
+                >
+                    All Products
+                </Button>
+                {categories?.map(category => (
+                    <Button
+                        key={category.id}
+                        onClick={() => setSelectedCategory(category.id)}
+                        variant={selectedCategory === category.id ? "default" : "outline"}
+                        className="flex-shrink-0"
+                    >
+                        {category.name}
+                    </Button>
+                ))}
+            </div>
+
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                {filteredProducts?.map(product => (
+                    <ProductCard key={product.productId} product={product} />
+                ))}
+            </div>
+
+            {filteredProducts?.length === 0 && (
+                <p className="text-center text-gray-500 mt-8">No products found in this category.</p>
+            )}
+        </div>
+    )
+}

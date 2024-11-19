@@ -12,9 +12,10 @@ import ProductCard from '../../components/product/product-card'
 import { useGetCategories, useGetProducts } from "../../../queries/queries"
 import { carousel1, carousel2, carousel3 } from "../../../constants/images"
 import OfferCard from "./offer-card"
+import { useNavigate } from "@tanstack/react-router"
 
-type Category = {
-    id: number;
+export type Category = {
+    categoryId: string;
     name: string;
     description: string
 }
@@ -26,6 +27,7 @@ const carouselItems = [
 ]
 
 export function Homepage() {
+    const navigate = useNavigate();
     const { data: products } = useGetProducts();
     const { data: categories } = useGetCategories();
 
@@ -53,7 +55,12 @@ export function Homepage() {
                     <h2 className="text-xl font-bold mb-4">Shop by Spirit</h2>
                     <div className="grid grid-cols-3 gap-4">
                         {categories && categories?.data?.map((category: Category) => (
-                            <Button key={category.id} variant="outline" className="h-24 flex flex-col items-center justify-center">
+                            <Button key={category.categoryId} variant="outline" className="h-24 flex flex-col items-center justify-center"
+                                onClick={
+                                    () => navigate({
+                                        to: `/product/category/${category.categoryId}`,
+                                    })
+                                }>
                                 <span>{category.name}</span>
                             </Button>
                         ))}
@@ -66,22 +73,17 @@ export function Homepage() {
                         {
                             products?.data?.map((product: productCardPropsTypes) => (
                                 <ProductCard product={product} />
-                                // </>
                             ))
                         }
                     </div>
-                </section>
-
-                <section className="p-4">
-                    <h2 className="text-xl font-bold mb-4">Shop by Brand</h2>
-                    {/* <div className="grid grid-cols-3 gap-4">
-                        {brandItems.map((brand) => (
-                            <Button key={brand.id} variant="outline" className="h-24 flex flex-col items-center justify-center">
-                                <img src={brand.image} alt={brand.name} className="w-16 h-16 mb-2" />
-                                <span className="text-xs">{brand.name}</span>
-                            </Button>
-                        ))}
-                    </div> */}
+                    <div className="flex justify-center m-2">
+                        <Button onClick={
+                            () => navigate({
+                                to: "/product/explore",
+                            },
+                            )
+                        }>Shop More</Button>
+                    </div>
                 </section>
 
                 <section className="p-4">
