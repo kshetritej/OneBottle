@@ -3,8 +3,7 @@ import { Bell, GiftIcon } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs"
 import { Card, CardContent } from "../../../components/ui/card"
 import { Badge } from "../../../components/ui/badge"
-import { Button } from "../../../components/ui/button"
-import { useGetAllNotifications, useGetNotificationByUserId, useGetPromotionalNotifications } from '../../../queries/queries'
+import { useGetAllNotifications,  useGetPromotionalNotifications } from '../../../queries/queries'
 
 // Mock data for notifications
 export default function NotificationsPage() {
@@ -26,7 +25,7 @@ export default function NotificationsPage() {
                 <div className="flex-1">
                     <h3 className="font-semibold">{notification.notificationTitle}</h3>
                     <p className="text-sm text-gray-600">{notification?.notificationContent}</p>
-                    <p className="text-xs text-gray-400 mt-1">{notification.notificationDate}</p>
+                    <p className="text-xs text-gray-400 mt-1">{new Date(notification.notificationDate).toLocaleDateString()}</p>
                 </div>
             </CardContent>
         </Card>

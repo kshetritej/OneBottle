@@ -7,7 +7,8 @@ import {
     SelectValue,
 } from "../../../components/ui/select"
 import { useState } from "react";
-import { useGetUserById, useUpdateOrder } from "../../../queries/queries";
+import { useCreateNotification, useGetUserById, useUpdateOrder } from "../../../queries/queries";
+import { renderStatus } from "../../../utils/renderStatus";
 
 export type Order = {
     orderId: string;
@@ -47,11 +48,23 @@ export const columns: ColumnDef<Order>[] = [
         header: "Change Status",
         cell: ({ row }) => {
             const updateStatus = useUpdateOrder();
+            const createNotification = useCreateNotification();
             const orderId = row.getValue("orderId");
             console.log('order Id', orderId)
             return (
                 <>
-                    < Select onValueChange={(value) => updateStatus.mutate({ orderId: orderId, orderStatus: value })} >
+                    < Select onValueChange={(value) => {
+                        updateStatus.mutate({ orderId: orderId, orderStatus: value })
+                        setTimeout(() => {
+                            createNotification.mutate({
+                                notificationType: 1,
+                                notificationContext: 0,
+                                notificationTitle: "Order Status Update",
+                                notificationContent: `Your order ${"ORD" + row.getValue("orderId").split("-")[0].toUpperCase()}  is ${value.toUpperCase()}.`,
+                                userId: row.getValue("userId"),
+                            }), [3000]
+                        })
+                    }} >
                         <SelectTrigger className="w-[180px]">
                             <SelectValue placeholder="Status" />
                         </SelectTrigger>
@@ -70,7 +83,9 @@ export const columns: ColumnDef<Order>[] = [
         accessorKey: "orderStatus",
         header: "Order Status",
         cell: ({ row }) => {
-            return <>{row.getValue("orderStatus").toUpperCase()}</>
+            return <>
+                {renderStatus(row.getValue("orderStatus"))}
+            </>
         }
     },
     {

@@ -1,14 +1,14 @@
 import { Button } from '../../../components/ui/button'
 import { Badge } from '../../../components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../../../components/ui/tabs'
-import { useGetOrderById, useGetProductById, useGetProducts } from '../../../queries/queries'
+import { useCancelOrder, useCreateNotification, useGetOrderById, useGetProductById, useGetProducts } from '../../../queries/queries'
 import { useParams } from '@tanstack/react-router'
 import { ProductResponse } from '../../../types/product'
 import { Card } from '../../../components/ui/card'
+import { renderStatus } from '../../../utils/renderStatus'
 
 export function OrderSummary() {
   const allProducts = useGetProducts().data?.data;
-
   const orderId = useParams({
     select: (params) => [params.orderId],
     from: '/order-summary/$orderId'
@@ -17,7 +17,11 @@ export function OrderSummary() {
   const { data: order } = useGetOrderById(orderId[0]);
   const { data: product } = useGetProductById(order?.productId && order?.productId[0]);
   const thumbnailProduct: ProductResponse = product?.data;
+  //@ts-ignore
+  const userId = JSON.parse(localStorage.getItem("user"))?.userId;
 
+  const cancelOrder = useCancelOrder();
+  const createNotification = useCreateNotification();
   const orderedItems = allProducts?.filter((prod: ProductResponse) =>
     order?.productId?.includes(prod?.productId)
   );
@@ -30,7 +34,7 @@ export function OrderSummary() {
           <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
             <img
               src={thumbnailProduct?.imageUrl}
-              alt={thumbnailProduct.name}
+              alt={thumbnailProduct?.name}
               width={64}
               height={64}
               className="object-cover"
@@ -50,14 +54,10 @@ export function OrderSummary() {
             </div>
           </div>
         </div>
-        <Badge
-          className={`${order?.orderStatus === 'Processing'
-            ? 'bg-orange-800 text-orange-300'
-            : ' bg-green-800 text-green-300'
-            } hover:bg-opacity-80`}
+        <
         >
-          {order.orderStatus}
-        </Badge>
+          {renderStatus(order.orderStatus)}
+        </>
       </div>
       }
 
@@ -82,14 +82,27 @@ export function OrderSummary() {
                   <div className="font-medium">{order?.orderStatus}</div>
                   <div className="text-sm text-gray-500">{new Date(order?.orderDate).toLocaleDateString()}</div>
                   <div className="mt-1 text-sm">
-                    <div>Your order has been {order?.orderStatus.toLowerCase()} and is being processed.</div>
+                    <div>Your order is  {order?.orderStatus.toUpperCase()}.</div>
 
                   </div>
                 </div>
               </div>
-              <Button variant="link" className="text-green-600">
-                See Details
-              </Button>
+              {
+                order?.orderStatus == "processing" &&
+                <Button variant="link" className="text-red-600" onClick={() => {
+                  cancelOrder.mutate(orderId[0])
+                  createNotification.mutate({
+                    notificationType: 1,
+                    notificationContext: 0,
+                    notificationTitle: "Order Status Update",
+                    notificationContent: `Your order ${"ORD" + orderId[0].split("-")[0]}  is CANCELLED.`,
+                    userId: userId,
+                  })
+                }}
+                >
+                  Cancel Order
+                </Button>
+              }
             </div>
           </div>
         </TabsContent>
@@ -97,7 +110,7 @@ export function OrderSummary() {
           <div className="mt-4 space-y-4">
             <h3 className="font-semibold">Product Details</h3>
             <div className='flex flex-col gap-4 '>
-              {orderedItems.map((item: ProductResponse) =>
+              {orderedItems?.map((item: ProductResponse) =>
                 <Card className='flex gap-4 p-4'>
                   <img src={item.imageUrl} alt={item.name} className='size-24 rounded-lg' />
                   <div>
@@ -126,7 +139,7 @@ export function OrderSummary() {
           </div>
         </TabsContent>
       </Tabs>
-    </div>
+    </div >
   )
 
 }

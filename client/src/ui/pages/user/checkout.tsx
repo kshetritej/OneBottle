@@ -6,7 +6,7 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from ".
 import { Input } from "../../../components/ui/input"
 import { useState } from "react"
 import { useNavigate } from "@tanstack/react-router"
-import { useCreateOrder, useGetUserById } from "../../../queries/queries"
+import { useCreateNotification, useCreateOrder, useGetUserById } from "../../../queries/queries"
 import { CartItem } from "./cart"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -37,6 +37,7 @@ export default function Checkout() {
     const tax = subtotal * taxRate;
     const total = subtotal + shippingCost + tax;
     const createOrder = useCreateOrder();
+    const createNotification = useCreateNotification();
     const createOrderSchema = z.object({
         userId: z.string().optional(),
         productId: z.array(z.string()).min(1),
@@ -90,6 +91,13 @@ export default function Checkout() {
             return;
         }
         createOrder.mutate(orderData);
+        createNotification.mutate({
+            notificationType: 1,
+            notificationContext: 0,
+            notificationTitle: "Order Placed",
+            notificationContent: `Your order for ${cartItems.map(item => item.name).join(', ')} has been placed.`,
+            userId: userId,
+        })
         localStorage.setItem("cart", JSON.stringify([]));
         navigate({
             to: '/order-summary',

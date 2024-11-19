@@ -569,7 +569,7 @@ export function useCancelOrder() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["orders"] });
       toast({
-        title: "Order deleted successfully",
+        title: "Your order has been cancelled",
         variant: "success",
       });
     },
