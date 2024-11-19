@@ -16,5 +16,6 @@ namespace OneBottle.Data
         public DbSet<Feedback> Feedbacks { get; set; }
 
         public DbSet<UserProfile> UserProfiles { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

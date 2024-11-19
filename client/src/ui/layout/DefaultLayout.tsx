@@ -6,7 +6,6 @@ export const DefaultLayout = () => {
     return (
         <>
             {!isDashboard && <Navbar />}
-
             <main className='mb-12 overflow-auto'>
                 <Outlet />
             </main>

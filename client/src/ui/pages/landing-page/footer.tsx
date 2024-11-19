@@ -9,7 +9,8 @@ export function Footer() {
             <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 {/* Logo and Slogan */}
                 <div className="flex flex-col items-center md:items-start">
-                    <img src="/placeholder.svg?height=50&width=150" alt="One Bottle Logo" className="h-12 mb-4" />
+                    <p className="font-bold text-2xl">One Bottle</p>
+                    {/* <img src="/placeholder.svg?height=50&width=150" alt="One Bottle Logo" className="h-12 mb-4" /> */}
                     <p className="text-sm text-center md:text-left">Discover the world's finest bottles at One Bottle. </p>
                     <div className="flex space-x-4 mt-4">
                         <Facebook className="h-5 w-5" />
