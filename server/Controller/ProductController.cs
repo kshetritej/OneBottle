@@ -30,6 +30,15 @@ namespace OneBottle.Controller
 
 
         [HttpGet]
+        [Route("category/{categoryId}")]
+        public async Task<IActionResult> GetProductsByCategoryId(Guid categoryId)
+        {
+            var products = await _productRepo.GetProductsByCategoryIdAsync(categoryId);
+            var productsReturnedFromDb = products.Select(products => products.ToProductDTO());
+            return Ok(productsReturnedFromDb);
+        }
+
+        [HttpGet]
         [Route("{productId}")]
         public async Task<IActionResult> GetById(Guid productId)
         {

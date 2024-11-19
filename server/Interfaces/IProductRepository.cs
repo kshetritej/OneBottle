@@ -8,5 +8,7 @@ namespace OneBottle.Interfaces
         Task AddProductAsync(Product product);
         Task UpdateProductAsync(Product product); 
         Task DeleteProductAsync(Guid productId);
+
+        Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId);
     }
 }

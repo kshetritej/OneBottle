@@ -67,6 +67,18 @@ namespace OneBottle.Repositories
             }
         }
 
+        public async Task<IEnumerable<Product>> GetProductsByCategoryIdAsync(Guid categoryId)
+        {
+            try
+            {
+                return await _context.Products.Where(product => product.CategoryId == categoryId).ToListAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("An error occurred while getting products by category id.", ex);
+            }
+        }
+
         public async Task UpdateProductAsync(Product product)
         {
             try
