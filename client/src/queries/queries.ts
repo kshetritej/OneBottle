@@ -469,10 +469,9 @@ export function useLogout() {
       replace: true,
     });
     toast({
-      title: 'Logged out successfully!',
-      variant: 'success'
-
-    })
+      title: "Logged out successfully!",
+      variant: "success",
+    });
   };
 }
 
@@ -588,8 +587,65 @@ export function useGetProductsByCategoryId(categoryId: string) {
   return useQuery({
     queryKey: ["productsByCategory", categoryId],
     queryFn: async () => {
-      const response = await axios.get(`${baseUrl}/product/category/${categoryId}`);
+      const response = await axios.get(
+        `${baseUrl}/product/category/${categoryId}`
+      );
       return response;
+    },
+  });
+}
+
+export function useGetAllNotifications() {
+  return useQuery({
+    queryKey: ["getAllNotifications"],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/notifications/all`);
+      return response;
+    },
+  });
+}
+
+export function useGetNotificationByUserId(userId: string) {
+  return useMutation({
+    mutationKey: ["notification", userId],
+    mutationFn: async () => {
+      const response = await axios.get(`${baseUrl}/notifications/${userId}`);
+      return response;
+    },
+  });
+}
+
+export function useGetPromotionalNotifications() {
+  return useQuery({
+    queryKey: ["getPromotionalNotifications"],
+    queryFn: async () => {
+      const response = await axios.get(`${baseUrl}/notifications/promos`);
+      return response;
+    },
+  });
+}
+
+export function useCreateNotification() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["createNotification"],
+    mutationFn: async (data: any) => {
+      const response = await axios.post(`${baseUrl}/notifications`, data);
+      return response;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["getAllNotifications"] });
+      toast({
+        title: "Notification created successfully",
+        variant: "success",
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Failed to create notification",
+        description: "Please try again.",
+        variant: "destructive",
+      });
     },
   });
 }

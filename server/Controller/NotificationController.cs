@@ -26,10 +26,22 @@ namespace OneBottle.Controller
             return Ok(notifications);
         }
 
-        [HttpGet("/user/{userId:guid}")]
+        [HttpGet("/api/notificatins/{userId:guid}")]
         public async Task<IActionResult> GetNotificationByUserId(Guid userId)
         {
             var notifications = await _context.Notifications.Where(notification => notification.UserId == userId).ToListAsync();
+            if (notifications == null)
+            {
+                return NotFound();
+            }
+            return Ok(notifications);
+        }
+
+
+        [HttpGet("/api/notifications/promos")]
+        public async Task<IActionResult> GetNotificationsByType()
+        {
+            var notifications = await _context.Notifications.Where(notification => notification.NotificationType == 0).ToListAsync();
             if (notifications == null)
             {
                 return NotFound();
