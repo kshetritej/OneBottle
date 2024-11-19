@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Minus, Plus, ShoppingBag, ShoppingCart, Trash2 } from 'lucide-react'
 import { Button } from "../../../components/ui/button"
 import { useNavigate } from '@tanstack/react-router'
-import { Card, CardContent, CardDescription, CardTitle } from '../../../components/ui/card'
+import {  CardContent, CardDescription, CardTitle } from '../../../components/ui/card'
 
 export interface CartItem {
     productId: string
