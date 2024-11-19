@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react'
-import { Minus, Plus, ShoppingCart, Trash2 } from 'lucide-react'
+import { Minus, Plus, ShoppingBag, ShoppingCart, Trash2 } from 'lucide-react'
 import { Button } from "../../../components/ui/button"
 import { useNavigate } from '@tanstack/react-router'
+import { Card, CardContent, CardDescription, CardTitle } from '../../../components/ui/card'
 
 export interface CartItem {
     productId: string
@@ -39,58 +40,75 @@ export function Cart() {
     const totalPrice = cartItems.reduce((total, item) => total + item.price * item.quantity, 0)
 
     return (
-        <div className="container mx-auto p-4 max-w-3xl">
-            <h1 className="text-2xl font-bold mb-6">Your Cart</h1>
-            {cartItems.length === 0 ? (
-                <p>Your cart is empty.</p>
+        <div className="container mx-auto p-4 max-w-3xl ">
+            <CardTitle>Your Cart</CardTitle>
+            <CardDescription className='py-2 font-semibold flex justify-between'>
+                <p>Estimated: ${totalPrice}</p>
+                <p>Total Items: {cartItems?.length}</p>
+            </CardDescription>
+            {cartItems.length == 0 ? (
+                <CardContent className='p-4 flex flex-col items-center h-[80vh] justify-center'>
+                    <ShoppingBag size={42}/>
+                    <p className='text-center'>Your cart is empty.</p>
+                    <Button className="w-full mt-6" size="lg" onClick={() => {
+                        navigate({
+                            to: "/",
+                            replace: true,
+                        })
+                    }} >
+                        <ShoppingCart className="mr-2 h-5 w-5" /> Go Shopping
+                    </Button>
+                </CardContent>
             ) : (
                 <>
                     {cartItems.map(item => (
-                        <div key={item.productId} className="flex items-center justify-between border-b py-4">
-                            <div className="flex items-center space-x-4">
+                        <div key={item.productId} className="flex  gap-4 py-4 border-b">
+                            <div className="flex  space-x-4">
                                 <img
                                     src={item.imageUrl}
                                     alt={item.name}
                                     width={100}
                                     height={100}
-                                    className="rounded-md"
+                                    className=" min-w-24 rounded-md"
                                 />
+                            </div>
+                            <div className="flex flex-col gap-4">
                                 <div>
                                     <h2 className="font-semibold">{item.name}</h2>
-                                    <p className="text-gray-600">${(item.price / 100).toFixed(2)}</p>
+                                    <p className="text-yellow-500 font-bold ">${(item.price).toFixed(2)}</p>
                                 </div>
-                            </div>
-                            <div className="flex items-center space-x-2">
-                                <div className="flex items-center border rounded-md">
+                                <div className="flex  rounded-md items-center">
+                                    <div className='border p-1 rounded-lg mr-4'>
+                                        <Button
+                                            variant="secondary"
+                                            size="icon"
+                                            onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                                        >
+                                            <Minus className="h-4 w-4" />
+                                        </Button>
+                                        <span className="mx-2 w-8 text-center">{item.quantity}</span>
+                                        <Button
+                                            variant="secondary"
+                                            size="icon"
+                                            onClick={() => updateQuantity(item.productId, item.quantity + 1)}
+                                        >
+                                            <Plus className="h-4 w-4" />
+                                        </Button>
+                                    </div>
                                     <Button
-                                        variant="ghost"
+                                        variant="destructive"
                                         size="icon"
-                                        onClick={() => updateQuantity(item.productId, item.quantity - 1)}
+                                        onClick={() => removeItem(item.productId)}
                                     >
-                                        <Minus className="h-4 w-4" />
-                                    </Button>
-                                    <span className="mx-2 w-8 text-center">{item.quantity}</span>
-                                    <Button
-                                        variant="ghost"
-                                        size="icon"
-                                        onClick={() => updateQuantity(item.productId, item.quantity + 1)}
-                                    >
-                                        <Plus className="h-4 w-4" />
+                                        <Trash2 className="h-4 w-4" />
                                     </Button>
                                 </div>
-                                <Button
-                                    variant="destructive"
-                                    size="icon"
-                                    onClick={() => removeItem(item.productId)}
-                                >
-                                    <Trash2 className="h-4 w-4" />
-                                </Button>
                             </div>
                         </div>
                     ))}
                     <div className="mt-6 flex justify-between items-center">
                         <h3 className="text-xl font-semibold">Total:</h3>
-                        <p className="text-xl">${(totalPrice / 100).toFixed(2)}</p>
+                        <p className="text-xl">${(totalPrice).toFixed(2)}</p>
                     </div>
                     <Button className="w-full mt-6" size="lg" onClick={() => {
                         console.log(cartItems)
