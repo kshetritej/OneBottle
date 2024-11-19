@@ -1,4 +1,4 @@
-import {  ShoppingCart } from 'lucide-react'
+import { ShoppingCart } from 'lucide-react'
 import { Button } from "../../../components/ui/button"
 import { Card, CardContent, CardFooter } from "../../../components/ui/card"
 import { Badge } from '../../../components/ui/badge'
@@ -57,12 +57,13 @@ export default function ProductCard({ product, classname }: { product: productCa
 
     return (
         <>
-            <Card className={cn("max-w-sm mx-auto overflow-hidden", classname)}>
+            <Card className={cn("max-w-sm mx-auto overflow-hidden flex flex-col justify-between", classname)}>
                 <CardContent className="p-4">
                     <Link key={product.productId} to={`/product/${product.productId}`}>
-                        <div className="relative">
+                        <div className="relative size-[350px] overflow-hidden rounded-lg">
                             <img
                                 src={product?.imageUrl}
+                                className='object-fit h-full w-full'
                                 alt={product?.name} />
                             <Badge className="absolute top-2 right-2 bg-primary text-primary-foreground">{category}</Badge>
                         </div>

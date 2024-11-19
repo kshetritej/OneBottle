@@ -5,7 +5,7 @@ import { Label } from "../../../components/ui/label"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../../../components/ui/select"
 import { Input } from "../../../components/ui/input"
 import { useState } from "react"
-import { useNavigate } from "@tanstack/react-router"
+import {  useNavigate } from "@tanstack/react-router"
 import { useCreateNotification, useCreateOrder, useGetUserById } from "../../../queries/queries"
 import { CartItem } from "./cart"
 import { useForm } from "react-hook-form"
@@ -26,11 +26,11 @@ export default function Checkout() {
     //@ts-ignore
     const userId = JSON.parse(localStorage.getItem("user"))?.userId
     const user = useGetUserById(userId).data?.data;
+    const navigate = useNavigate();
 
 
     //order summary fields
     const cart = cartItems;
-    const navigate = useNavigate();
     const shippingCost = 15.00;
     const taxRate = 0.1;
     const subtotal = cart.reduce((acc: number, product: CartItem) => acc + product.price * product.quantity, 0);
@@ -90,6 +90,18 @@ export default function Checkout() {
             })
             return;
         }
+        if (!user) {
+            toast({
+                title: "Please login to place your order.",
+                description: "User not logged in!",
+                variant: "destructive",
+            });
+            navigate({
+                to: "/auth",
+                replace: true
+            })
+            return;
+        }
         createOrder.mutate(orderData);
         createNotification.mutate({
             notificationType: 1,
@@ -97,11 +109,6 @@ export default function Checkout() {
             notificationTitle: "Order Placed",
             notificationContent: `Your order for ${cartItems.map(item => item.name).join(', ')} has been placed.`,
             userId: userId,
-        })
-        localStorage.setItem("cart", JSON.stringify([]));
-        navigate({
-            to: '/order-summary',
-            replace: true,
         })
     }
 

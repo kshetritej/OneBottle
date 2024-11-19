@@ -161,6 +161,13 @@ export function useAddProduct() {
         variant: "success",
       });
     },
+    onError: () => {
+      toast({
+        title: "Error adding product",
+        description: "Something went wrong",
+        variant: "destructive",
+      });
+    },
   });
 }
 
@@ -506,6 +513,7 @@ export function useGetOrdersByUserId(id: string) {
 }
 
 export function useCreateOrder() {
+  const navigate = useNavigate();
   const queryClient = useQueryClient();
   return useMutation({
     mutationKey: ["createOrder"],
@@ -518,6 +526,11 @@ export function useCreateOrder() {
       toast({
         title: "Your order has been created successfully",
         variant: "success",
+      });
+      localStorage.setItem("cart", JSON.stringify([]));
+      navigate({
+        to: "/order-summary",
+        replace: true,
       });
     },
     onError: () => {

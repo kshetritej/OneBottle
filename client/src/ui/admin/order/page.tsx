@@ -8,7 +8,7 @@ export default function OrdersList() {
     console.log('data', data)
     return (
         <Layout>
-            <div className="container flex flex-col gap-4 mx-auto py-10">
+            <div className="container flex flex-col gap-4 mx-auto">
                 <h2 className="text-2xl font-bold"> Manage Orders</h2>
                 {
                     data &&

@@ -6,7 +6,7 @@ namespace OneBottle.DTOs.Product
     {
         [Required]
         public Guid ProductId { get; set; }
-        [Required, MaxLength(50), MinLength(3, ErrorMessage = "Name must be between 3 and 50 characters")]
+        [Required,  MinLength(3, ErrorMessage = "Name must be between 3 and 50 characters")]
         public required string Name { get; set; }
         [Required, Url, DataType(DataType.Url, ErrorMessage = "ImageUrl must be {1}")]
         public string ImageUrl { get; set; } = string.Empty;

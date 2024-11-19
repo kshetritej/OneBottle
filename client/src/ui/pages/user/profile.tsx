@@ -31,10 +31,10 @@ export default function Profile() {
     const logout = useLogout();
 
     return (
-        <div className="container mx-auto p-4 max-w-4xl">
+        <div className="container mx-auto p-4 max-w-5xl">
             <div className="flex flex-col md:flex-row gap-6">
                 {/* Sidebar */}
-                <aside className="w-full md:w-64">
+                <aside className="w-full md:w-80">
                     <Card>
                         <CardHeader>
                             <div className="flex items-center space-x-4">

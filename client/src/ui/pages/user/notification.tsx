@@ -3,17 +3,27 @@ import { Bell, GiftIcon } from 'lucide-react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../../../components/ui/tabs"
 import { Card, CardContent } from "../../../components/ui/card"
 import { Badge } from "../../../components/ui/badge"
-import { useGetAllNotifications,  useGetPromotionalNotifications } from '../../../queries/queries'
+import { useGetAllNotifications } from '../../../queries/queries'
 
+type NotificationProps = {
+    notificationId: string;
+    notificationType: number;
+    notificationContext: number;
+    notificationTitle: string;
+    notificationContent: string;
+    notificationDate: string;
+    userId: string;
+}
 // Mock data for notifications
 export default function NotificationsPage() {
     //@ts-ignore
     const userId = JSON.parse(localStorage.getItem('user')).userId
     //@ts-ignore
     const notices = useGetAllNotifications().data?.data;
-    const personalNotifications = notices?.filter(notice => notice.userId === userId);
+    const personalNotifications = notices?.filter((notice: NotificationProps) => notice.userId === userId);
+    const promotionalNotifications = notices?.filter((notice: NotificationProps) => notice.notificationType == 0);
 
-    const promotionalNotifications = useGetPromotionalNotifications().data?.data
+    // const promotionalNotifications = useGetPromotionalNotifications().data?.data
     const [activeTab, setActiveTab] = useState("personal")
 
     const renderNotification = (notification: any) => (
@@ -23,9 +33,9 @@ export default function NotificationsPage() {
                     {notification.notificationType !== 0 ? <Bell /> : <GiftIcon />}
                 </div>
                 <div className="flex-1">
-                    <h3 className="font-semibold">{notification.notificationTitle}</h3>
-                    <p className="text-sm text-gray-600">{notification?.notificationContent}</p>
-                    <p className="text-xs text-gray-400 mt-1">{new Date(notification.notificationDate).toLocaleDateString()}</p>
+                    <h3 className="font-bold">{notification.notificationTitle}</h3>
+                    <p className="text-sm text-primary font-semibold">{notification?.notificationContent}</p>
+                    <p className="text-xs  mt-1">{new Date(notification.notificationDate).toLocaleDateString()}</p>
                 </div>
             </CardContent>
         </Card>

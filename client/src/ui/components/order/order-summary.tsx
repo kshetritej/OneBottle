@@ -5,6 +5,7 @@ import { useParams } from '@tanstack/react-router'
 import { ProductResponse } from '../../../types/product'
 import { Card } from '../../../components/ui/card'
 import { renderStatus } from '../../../utils/renderStatus'
+import { Banknote, PackageIcon, Truck } from 'lucide-react'
 
 export function OrderSummary() {
   const allProducts = useGetProducts().data?.data;
@@ -54,8 +55,8 @@ export function OrderSummary() {
           </div>
         </div>
         <
-        >
-          {renderStatus(order.orderStatus)}
+          >
+          {renderStatus(order?.orderStatus.toLowerCase())}
         </>
       </div>
       }
@@ -106,36 +107,35 @@ export function OrderSummary() {
           </div>
         </TabsContent>
         <TabsContent value="details">
-          <div className="mt-4 space-y-4">
-            <h3 className="font-semibold">Product Details</h3>
+          <Card className="mt-4 p-4 space-y-4">
+            <h3 className="font-semibold flex gap-2 items-center"><PackageIcon /> Product Details</h3>
             <div className='flex flex-col gap-4 '>
               {orderedItems?.map((item: ProductResponse) =>
                 <Card className='flex gap-4 p-4'>
                   <img src={item.imageUrl} alt={item.name} className='size-24 rounded-lg' />
                   <div>
-                    <p>Name: {item.name}</p>
-                    <p>Price: {item.price}</p>
+                    <p className='font-semibold text-sm'>{item.name}</p>
+                    <p className='text-yellow-500 font-bold py-2'> ${item.price.toFixed()}.00</p>
                   </div>
                 </Card>
               )}
             </div>
-          </div>
+          </Card>
         </TabsContent>
         <TabsContent value="shipping">
-          <div className="mt-4 space-y-4">
-            <h3 className="font-semibold">Shipping Information</h3>
-            {/* <p>Shipping method: {orderStatus.shippingMethod}</p> */}
-            <p>Estimated delivery: {new Date(order?.orderDate).toLocaleDateString() + " +3 Days"}</p>
-            <p>Tracking number: {order?.trackingNumber || 'Not available yet'}</p>
-          </div>
+          <Card className="mt-4 p-4 space-y-4">
+            <h3 className="font-semibold flex gap-2 items-center"> <Truck />Shipping Information</h3>
+            <p className="text-sm">Estimated delivery: <span className='font-semibold text-yellow-600'> {(new Date(Date.now() + 3 * 24 * 60 * 60 * 1000)).toLocaleDateString()}</span></p>
+            <p className='text-orange-600'>Tracking number: {order?.trackingNumber || 'Not available yet'}</p>
+          </Card>
         </TabsContent>
         <TabsContent value="payment">
-          <div className="mt-4 space-y-4">
-            <h3 className="font-semibold">Payment Details</h3>
+          <Card className="mt-4 p-4 space-y-4">
+            <h3 className="font-semibold flex gap-2 items-center"><Banknote /> Payment Details</h3>
             <p>Payment method: {order?.paymentMethod || "Cash on Delivery"}</p>
-            <p>Total charged: ${order?.totalPrice}</p>
-            <p>Payment status: {order?.paymentStatus || "Pending"}</p>
-          </div>
+            <p className='text-green-500'>Total charged: ${order?.totalPrice}</p>
+            <p>Payment status:  {renderStatus(order?.paymentStatus || "pending")}</p>
+          </Card>
         </TabsContent>
       </Tabs>
     </div >

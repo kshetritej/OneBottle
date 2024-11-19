@@ -52,23 +52,28 @@ export function Homepage() {
                 </section>
                 <section className="p-4">
                     <h2 className="text-xl font-bold mb-4">Shop by Spirit</h2>
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
                         {categories && categories?.data?.map((category: Category) => (
-                            <Button key={category.categoryId} variant="outline" className="h-24 flex flex-col items-center justify-center"
-                                onClick={
-                                    () => navigate({
+                            <Button
+                                key={category.categoryId}
+                                variant="outline"
+                                className="flex items-center justify-center truncate text-ellipsis max-w-full min-w-[100px] px-4 py-2"
+                                onClick={() =>
+                                    navigate({
                                         to: `/product/category/${category.categoryId}`,
                                     })
-                                }>
-                                <span>{category.name}</span>
+                                }
+                            >
+                                <span className="truncate">{category.name}</span>
                             </Button>
+
                         ))}
                     </div>
                 </section>
 
                 <section className="p-4">
                     <h2 className="text-xl font-bold mb-4">Today's Highlights</h2>
-                    <div className="grid gap-4  sm:grid-cols-3 lg:grid-cols-4">
+                    <div className="grid gap-4 md:gap-20 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
                         {
                             products?.data?.map((product: productCardPropsTypes) => (
                                 <ProductCard product={product} />
@@ -88,13 +93,16 @@ export function Homepage() {
 
                 <section className="p-4">
                     <h2 className="text-xl font-bold mb-4">Best Sellers</h2>
-                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-5">
                         {products && products.data?.map((item: Product) => (
-                            <Card key={item.productId}>
+                            <Card key={item.productId} className="max-w-xs">
                                 <CardContent className="p-4">
-                                    <img src={item.imageUrl} alt={item.name} className="w-full h-32 object-cover mb-2 rounded" />
+                                    <div className="sm:size-[250px] size-[100px] overflow-hidden rounded-lg flex flex-col items-center">
+                                        <img src={item.imageUrl} alt={item.name} className="w-full h-full object-fit mb-2 rounded" />
+                                    </div>
                                     <h3 className="font-semibold">{item.name}</h3>
-                                    <p className="text-sm text-gray-600">${item.price.toFixed(2)}</p>
+                                    <h3 className="text-xs">{item.description.substring(0, 50)}</h3>
+                                    <p className="text-sm text-yellow-600 font-bold text-left">${item.price.toFixed(2)}</p>
                                 </CardContent>
                             </Card>
                         ))}

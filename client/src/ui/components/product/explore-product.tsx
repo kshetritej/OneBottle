@@ -18,7 +18,7 @@ export default function ProductCatalog() {
         <div className="container mx-auto px-4 py-8">
             <h1 className="text-3xl font-bold mb-6 text-center sm:text-left">Product Catalog</h1>
 
-            <div className="flex w-max space-x-4 p-4">
+            <div className="grid  p-4 grid-cols-2 lg:grid-cols-8 gap-4 ">
                 <Button
                     onClick={() => setSelectedCategory(null)}
                     variant={selectedCategory === null ? "default" : "outline"}
@@ -31,18 +31,17 @@ export default function ProductCatalog() {
                         key={category.categoryId}
                         onClick={() => setSelectedCategory(category.categoryId)}
                         variant={selectedCategory === category.categoryId ? "default" : "outline"}
-                        className="flex-shrink-0"
+                        className="flex items-center justify-center truncate text-ellipsis max-w-full min-w-[100px] px-4 py-2"
                     >
                         {category.name}
                     </Button>
                 ))}
             </div>
 
-            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4  gap-4 lg:gap-16">
                 {filteredProducts?.map((product: productCardPropsTypes) => (
                     <ProductCard key={product.productId} product={product} />
                 ))}
-                <div className='text-center'>No more products.</div>
             </div>
 
             {filteredProducts?.length === 0 && (
