@@ -1,9 +1,9 @@
 import { useState } from 'react'
 import { Button } from "../../../components/ui/button"
-import { ScrollArea, ScrollBar } from "../../../components/ui/scroll-area"
 import ProductCard from './product-card'
 import { Category } from '../../pages/landing-page/homepage'
 import { useGetCategories, useGetProducts } from '../../../queries/queries'
+import { Product, productCardPropsTypes } from '../../../types/product'
 
 export default function ProductCatalog() {
     const products = useGetProducts().data?.data
@@ -11,7 +11,7 @@ export default function ProductCatalog() {
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
 
     const filteredProducts = selectedCategory
-        ? products.filter(product => product.categoryId === selectedCategory)
+        ? products.filter((product: Product) => product.categoryId === selectedCategory)
         : products
 
     return (
@@ -28,9 +28,9 @@ export default function ProductCatalog() {
                 </Button>
                 {categories?.map(category => (
                     <Button
-                        key={category.id}
-                        onClick={() => setSelectedCategory(category.id)}
-                        variant={selectedCategory === category.id ? "default" : "outline"}
+                        key={category.categoryId}
+                        onClick={() => setSelectedCategory(category.categoryId)}
+                        variant={selectedCategory === category.categoryId ? "default" : "outline"}
                         className="flex-shrink-0"
                     >
                         {category.name}
@@ -39,9 +39,10 @@ export default function ProductCatalog() {
             </div>
 
             <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                {filteredProducts?.map(product => (
+                {filteredProducts?.map((product: productCardPropsTypes) => (
                     <ProductCard key={product.productId} product={product} />
                 ))}
+                <div className='text-center'>No more products.</div>
             </div>
 
             {filteredProducts?.length === 0 && (

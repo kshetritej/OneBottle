@@ -30,13 +30,12 @@ export default function Feedbacks({ feedbacks, userId, productId }: { feedbacks:
       })
       return;
     }
-    console.log("submitted dat", { ...data, productId: productId[0], userId: userId });
     addFeedback.mutate({ ...data, productId: productId[0], userId: userId });
   }
 
   console.error(errors)
   return (
-    <Card className="mx-auto  border-none shadow-none py-8">
+    <Card className="border-none shadow-none py-8">
       <Card className="border-none">
         <CardHeader className="mx-auto flex flex-row items-center justify-between">
           <CardTitle className="text-lg md:text-xl">Leave a review.</CardTitle>

@@ -7,19 +7,20 @@ import {
     CarouselPrevious,
 } from "../../../components/ui/carousel"
 import { Footer } from './footer'
-import { productCardPropsTypes } from '../../../types/product'
+import { Product, productCardPropsTypes } from '../../../types/product'
 import ProductCard from '../../components/product/product-card'
 import { useGetCategories, useGetProducts } from "../../../queries/queries"
 import { carousel1, carousel2, carousel3 } from "../../../constants/images"
 import OfferCard from "./offer-card"
 import { useNavigate } from "@tanstack/react-router"
+import { Card, CardContent } from "../../../components/ui/card"
 
 export type Category = {
     categoryId: string;
     name: string;
     description: string
 }
-// Mock data arrays
+
 const carouselItems = [
     { id: 1, image: carousel1, alt: 'Carousel Item 1' },
     { id: 2, image: carousel2, alt: 'Carousel Item 2' },
@@ -49,9 +50,7 @@ export function Homepage() {
                         </div>
                     </Carousel>
                 </section>
-
                 <section className="p-4">
-
                     <h2 className="text-xl font-bold mb-4">Shop by Spirit</h2>
                     <div className="grid grid-cols-3 gap-4">
                         {categories && categories?.data?.map((category: Category) => (
@@ -76,29 +75,30 @@ export function Homepage() {
                             ))
                         }
                     </div>
-                    <div className="flex justify-center m-2">
+                    <div className="flex justify-centerm-2">
                         <Button onClick={
                             () => navigate({
                                 to: "/product/explore",
                             },
                             )
-                        }>Shop More</Button>
+                        }
+                            className="w-full mx-4 mt-8" variant={'secondary'}>Shop More</Button>
                     </div>
                 </section>
 
                 <section className="p-4">
                     <h2 className="text-xl font-bold mb-4">Best Sellers</h2>
-                    {/* <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
-                        {bestSellers.map((item) => (
-                            <Card key={item.id}>
+                    <div className="grid grid-cols-2 gap-4 sm:grid-cols-3">
+                        {products && products.data?.map((item: Product) => (
+                            <Card key={item.productId}>
                                 <CardContent className="p-4">
-                                    <img src={item.image} alt={item.name} className="w-full h-32 object-cover mb-2 rounded" />
+                                    <img src={item.imageUrl} alt={item.name} className="w-full h-32 object-cover mb-2 rounded" />
                                     <h3 className="font-semibold">{item.name}</h3>
                                     <p className="text-sm text-gray-600">${item.price.toFixed(2)}</p>
                                 </CardContent>
                             </Card>
                         ))}
-                    </div> */}
+                    </div>
                 </section>
 
                 <section className="p-4">

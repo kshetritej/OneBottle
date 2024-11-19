@@ -8,8 +8,8 @@ import { atom, useRecoilState } from "recoil"
 import { useEffect } from 'react'
 import { Link } from '@tanstack/react-router'
 import { toast } from '../../../hooks/use-toast'
+import { cn } from '../../../lib/utils'
 
-// Define the structure for a cart item
 type CartItem = {
     productId: string,
     name: string,
@@ -18,7 +18,7 @@ type CartItem = {
     quantity: number
 }
 
-export default function ProductCard({ product }: { product: productCardPropsTypes }) {
+export default function ProductCard({ product, classname }: { product: productCardPropsTypes, classname?: string }) {
     const category = useGetCategoryById(product?.categoryId).data?.data?.name;
 
     // Load the initial cart from local storage or default to an empty array
@@ -32,7 +32,6 @@ export default function ProductCard({ product }: { product: productCardPropsType
 
     const [cartList, setCartList] = useRecoilState(cartListState);
 
-    // Add to Cart function
     function addToCart(newItem: CartItem) {
         const existingProduct = cartList.find(item => item.productId === newItem.productId);
 
@@ -58,23 +57,16 @@ export default function ProductCard({ product }: { product: productCardPropsType
 
     return (
         <>
-            <Card className="w-full max-w-sm mx-auto overflow-hidden">
+            <Card className={cn("max-w-sm mx-auto overflow-hidden", classname)}>
                 <CardContent className="p-4">
                     <Link key={product.productId} to={`/product/${product.productId}`}>
                         <div className="relative">
                             <img
                                 src={product?.imageUrl}
-                                alt={product?.name}
-                                className="w-full h-48 object-cover sm:h-48" />
+                                alt={product?.name} />
                             <Badge className="absolute top-2 right-2 bg-primary text-primary-foreground">{category}</Badge>
                         </div>
                         <h3 className="text-lg font-semibold mb-1 sm:text-xl">{product?.name}</h3>
-                        <div className="flex items-center mb-2">
-                            {[...Array(5)].map((_, i) => (
-                                <Star key={i} className={`w-4 h-4 sm:w-5 sm:h-5 ${i < 4 ? 'text-yellow-400 fill-yellow-400' : 'text-gray-300'}`} />
-                            ))}
-                            <span className="ml-2 text-xs text-gray-600 sm:text-sm">(42)</span>
-                        </div>
                         <p className="text-sm text-gray-600 mb-3 line-clamp-2 sm:text-base">
                             {product?.description}
                         </p>
@@ -83,7 +75,6 @@ export default function ProductCard({ product }: { product: productCardPropsType
                         <Link key={product.productId} to={`/product/${product.productId}`}>
                             <div className='flex items-center'>
                                 <span className="text-2xl font-bold sm:text-3xl">${product?.price}</span>
-                                <span className="ml-2 text-sm text-gray-500 line-through">${'69.69'}</span>
                             </div>
                         </Link>
                         <Button size="sm" className="sm:hidden mt-2"

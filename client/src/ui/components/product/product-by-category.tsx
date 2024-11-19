@@ -1,11 +1,14 @@
 import { useParams } from "@tanstack/react-router"
-import { useGetCategoryById , useGetProductsByCategoryId } from "../../../queries/queries";
+import { useGetCategoryById, useGetProductsByCategoryId } from "../../../queries/queries";
 import ProductCard from "./product-card";
+import { productCardPropsTypes } from "../../../types/product";
+
 export function ProductByCategory() {
     const categoryId = useParams({
         select: (params) => [params.categoryId],
         from: '/product/category/$categoryId'
     });
+
     const categoryName = useGetCategoryById(categoryId[0]).data?.data?.name;
     const product = useGetProductsByCategoryId(categoryId[0]).data?.data;
     return (
@@ -15,7 +18,7 @@ export function ProductByCategory() {
             </div>
             {
                 product && product?.length > 0 ? product.map(
-                    item =>
+                    (item: productCardPropsTypes) =>
                         <>
                             <ProductCard key={item.productId} product={item} />
                         </>
