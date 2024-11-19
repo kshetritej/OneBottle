@@ -72,11 +72,26 @@ export default function Profile() {
                             </nav>
                         </CardContent>
                         <CardFooter>
-                            <Button variant="outline" className="w-full" onClick={() => {
-                                logout();
-                            }}>
-                                <LogOut className="mr-2 h-4 w-4" /> Log Out
-                            </Button>
+                            <AlertDialog>
+                                <AlertDialogTrigger className='w-full'>
+                                    <Button variant="outline" className="w-full" >
+                                        <LogOut className="mr-2 h-4 w-4" /> Log Out
+                                    </Button>
+                                </AlertDialogTrigger>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader>
+                                        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                        <AlertDialogDescription>
+                                            This action will log you out and you'll need to relogin to get access to some other services.
+                                        </AlertDialogDescription>
+                                    </AlertDialogHeader>
+                                    <AlertDialogFooter>
+                                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                        <AlertDialogAction onClick={() => logout()}>Continue</AlertDialogAction>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialog>
+
                         </CardFooter>
                     </Card>
                 </aside>

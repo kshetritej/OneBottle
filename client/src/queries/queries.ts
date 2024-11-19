@@ -468,6 +468,11 @@ export function useLogout() {
       to: "/",
       replace: true,
     });
+    toast({
+      title: 'Logged out successfully!',
+      variant: 'success'
+
+    })
   };
 }
 
