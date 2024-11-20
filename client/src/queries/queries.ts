@@ -44,11 +44,8 @@ export function useAdminLogin() {
     mutationKey: ["adminLogin"],
     mutationFn: async (data: any) => {
       const response = await axios.post(`${baseUrl}/admin/login`, data);
-      const token = response.data?.token;
-      // Save token to localStorage
-      localStorage.setItem("token", token);
-      console.log("Login Data", response.data);
-      localStorage.setItem("user", JSON.stringify(response.data));
+      const user = { ...response.data, isAdmin: true };
+      localStorage.setItem("user", JSON.stringify(user));
     },
     onSuccess: () => {
       toast({

@@ -95,7 +95,7 @@ namespace OneBottle.Controller
             }
             existingAdmin.Username = newAdmin.Username;
             existingAdmin.Email = newAdmin.Email;
-            existingAdmin.Password = newAdmin.Password; // Remember to hash passwords
+            existingAdmin.Password = newAdmin.Password; 
 
             // var admin = AdminMappers.ToAdminModelFromUpdate(newAdmin, Id);
             await _adminRepo.UpdateAdminAsync(existingAdmin);

@@ -20,8 +20,8 @@ const Login = ({ user, onSwitchToSignup }: { user?: boolean, onSwitchToSignup?: 
     }
     const { register, handleSubmit } = useForm();
     return (
-        <div>
-            <Card className="mx-auto max-w-sm">
+        <div className=" h-[100vh] flex flex-col items-center justify-center">
+            <Card className=" mx-auto max-w-sm">
                 <form onSubmit={handleSubmit(handleLogin)}>
                     <CardHeader>
                         <CardTitle className="text-2xl">Login</CardTitle>
