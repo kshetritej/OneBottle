@@ -1,4 +1,4 @@
-import { GiftIcon, Plus, Send, X } from 'lucide-react'
+import { GiftIcon, Plus, Send  } from 'lucide-react'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../../components/ui/card"
 import { Input } from "../../../components/ui/input"
 import { Label } from "../../../components/ui/label"
