@@ -30,6 +30,11 @@ namespace OneBottle.Controller
         public async Task<IActionResult> Register(CreateUserDTO userDTO)
         {
             var hashedPassword = BCrypt.Net.BCrypt.HashPassword(userDTO.Password);
+            var userExists = _context.Users.Any(u => u.Email == userDTO.Email);
+            if (userExists)
+            {
+                return BadRequest("User already exists.");
+            }
             var user = new User
             {
                 UserId = Guid.NewGuid(),

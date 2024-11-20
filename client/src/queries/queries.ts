@@ -87,7 +87,7 @@ export function useUserRegister() {
     onError: () => {
       toast({
         title: "Failed to create account",
-        description: "Please check your email and password",
+        description: "User already exists.",
         variant: "destructive",
       });
     },

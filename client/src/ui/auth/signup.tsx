@@ -10,12 +10,11 @@ import {
 } from "../../components/ui/card"
 import { Input } from "../../components/ui/input"
 import { Label } from "../../components/ui/label"
-import { useMakeUserProfile, useUserRegister } from "../../queries/queries"
+import {  useUserRegister } from "../../queries/queries"
 import { toast } from "../../hooks/use-toast"
 
 export function Signup({ user, onSwitchToLogin }: { user: boolean, onSwitchToLogin: () => void }) {
     const signup = useUserRegister();
-    const registerProfile = useMakeUserProfile();
     const { register, handleSubmit } = useForm();
     function handleSignup(data: any) {
         const password = document.getElementById('password') as HTMLInputElement;
@@ -30,12 +29,8 @@ export function Signup({ user, onSwitchToLogin }: { user: boolean, onSwitchToLog
             console.log('signup data', data)
             if (user) {
                 signup.mutate(data);
-                registerProfile.mutate({
-                    username: data.username,
-                    dateOfBirth: data.dateOfBirth,
-                });
+                onSwitchToLogin();
             }
-            onSwitchToLogin();
         }
     }
     return (
