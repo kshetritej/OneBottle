@@ -5,6 +5,7 @@ import { Label } from "../../components/ui/label"
 import { Link } from "@tanstack/react-router";
 import { useAdminLogin, useUserLogin } from "../../queries/queries";
 import { useForm } from "react-hook-form";
+import { cn } from "../../lib/utils";
 
 const Login = ({ user, onSwitchToSignup }: { user?: boolean, onSwitchToSignup?: () => void }) => {
     const login = useUserLogin();
@@ -20,7 +21,7 @@ const Login = ({ user, onSwitchToSignup }: { user?: boolean, onSwitchToSignup?: 
     }
     const { register, handleSubmit } = useForm();
     return (
-        <div className=" h-[100vh] flex flex-col items-center justify-center">
+        <div className={cn(!user && " h-[100vh] flex flex-col items-center justify-center")}>
             <Card className=" mx-auto max-w-sm">
                 <form onSubmit={handleSubmit(handleLogin)}>
                     <CardHeader>

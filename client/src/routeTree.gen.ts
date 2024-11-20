@@ -28,6 +28,7 @@ import { Route as AdminAuthImport } from './routes/admin/auth'
 import { Route as AdminUsersIndexImport } from './routes/admin/users/index'
 import { Route as AdminProductsIndexImport } from './routes/admin/products/index'
 import { Route as AdminOrdersIndexImport } from './routes/admin/orders/index'
+import { Route as AdminNotificationsIndexImport } from './routes/admin/notifications/index'
 import { Route as AdminCategoriesIndexImport } from './routes/admin/categories/index'
 import { Route as ProductCategoryCategoryIdImport } from './routes/product/category/$categoryId'
 
@@ -120,6 +121,11 @@ const AdminProductsIndexRoute = AdminProductsIndexImport.update({
 
 const AdminOrdersIndexRoute = AdminOrdersIndexImport.update({
   path: '/admin/orders/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AdminNotificationsIndexRoute = AdminNotificationsIndexImport.update({
+  path: '/admin/notifications/',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -249,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCategoriesIndexImport
       parentRoute: typeof rootRoute
     }
+    '/admin/notifications/': {
+      id: '/admin/notifications/'
+      path: '/admin/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminNotificationsIndexImport
+      parentRoute: typeof rootRoute
+    }
     '/admin/orders/': {
       id: '/admin/orders/'
       path: '/admin/orders'
@@ -292,6 +305,7 @@ export interface FileRoutesByFullPath {
   '/order-summary': typeof OrderSummaryIndexRoute
   '/product/category/$categoryId': typeof ProductCategoryCategoryIdRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
+  '/admin/notifications': typeof AdminNotificationsIndexRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
@@ -314,6 +328,7 @@ export interface FileRoutesByTo {
   '/order-summary': typeof OrderSummaryIndexRoute
   '/product/category/$categoryId': typeof ProductCategoryCategoryIdRoute
   '/admin/categories': typeof AdminCategoriesIndexRoute
+  '/admin/notifications': typeof AdminNotificationsIndexRoute
   '/admin/orders': typeof AdminOrdersIndexRoute
   '/admin/products': typeof AdminProductsIndexRoute
   '/admin/users': typeof AdminUsersIndexRoute
@@ -337,6 +352,7 @@ export interface FileRoutesById {
   '/order-summary/': typeof OrderSummaryIndexRoute
   '/product/category/$categoryId': typeof ProductCategoryCategoryIdRoute
   '/admin/categories/': typeof AdminCategoriesIndexRoute
+  '/admin/notifications/': typeof AdminNotificationsIndexRoute
   '/admin/orders/': typeof AdminOrdersIndexRoute
   '/admin/products/': typeof AdminProductsIndexRoute
   '/admin/users/': typeof AdminUsersIndexRoute
@@ -361,6 +377,7 @@ export interface FileRouteTypes {
     | '/order-summary'
     | '/product/category/$categoryId'
     | '/admin/categories'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/users'
@@ -382,6 +399,7 @@ export interface FileRouteTypes {
     | '/order-summary'
     | '/product/category/$categoryId'
     | '/admin/categories'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/products'
     | '/admin/users'
@@ -403,6 +421,7 @@ export interface FileRouteTypes {
     | '/order-summary/'
     | '/product/category/$categoryId'
     | '/admin/categories/'
+    | '/admin/notifications/'
     | '/admin/orders/'
     | '/admin/products/'
     | '/admin/users/'
@@ -426,6 +445,7 @@ export interface RootRouteChildren {
   OrderSummaryIndexRoute: typeof OrderSummaryIndexRoute
   ProductCategoryCategoryIdRoute: typeof ProductCategoryCategoryIdRoute
   AdminCategoriesIndexRoute: typeof AdminCategoriesIndexRoute
+  AdminNotificationsIndexRoute: typeof AdminNotificationsIndexRoute
   AdminOrdersIndexRoute: typeof AdminOrdersIndexRoute
   AdminProductsIndexRoute: typeof AdminProductsIndexRoute
   AdminUsersIndexRoute: typeof AdminUsersIndexRoute
@@ -448,6 +468,7 @@ const rootRouteChildren: RootRouteChildren = {
   OrderSummaryIndexRoute: OrderSummaryIndexRoute,
   ProductCategoryCategoryIdRoute: ProductCategoryCategoryIdRoute,
   AdminCategoriesIndexRoute: AdminCategoriesIndexRoute,
+  AdminNotificationsIndexRoute: AdminNotificationsIndexRoute,
   AdminOrdersIndexRoute: AdminOrdersIndexRoute,
   AdminProductsIndexRoute: AdminProductsIndexRoute,
   AdminUsersIndexRoute: AdminUsersIndexRoute,
@@ -481,6 +502,7 @@ export const routeTree = rootRoute
         "/order-summary/",
         "/product/category/$categoryId",
         "/admin/categories/",
+        "/admin/notifications/",
         "/admin/orders/",
         "/admin/products/",
         "/admin/users/"
@@ -533,6 +555,9 @@ export const routeTree = rootRoute
     },
     "/admin/categories/": {
       "filePath": "admin/categories/index.tsx"
+    },
+    "/admin/notifications/": {
+      "filePath": "admin/notifications/index.tsx"
     },
     "/admin/orders/": {
       "filePath": "admin/orders/index.tsx"

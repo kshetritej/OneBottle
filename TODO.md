@@ -6,6 +6,9 @@
 6. Fix Darkmode in order successfull card. [Done]
 7. **Important** Admin Dashboard Access management. [Done]
 8. Implement horizontal scrolling in catagories, product catalog.
+9. Hardenig security for admin login
+10. Link to product description in best sellers
+11. Implement Search
 
 
-Extra: Promotional Notification by Admin
+Extra: Promotional Notification by Admin [Done]

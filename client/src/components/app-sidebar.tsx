@@ -29,31 +29,33 @@ import { Avatar, AvatarFallback } from "./ui/avatar"
 import { DropdownMenuGroup, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useIsMobile } from "../hooks/use-mobile";
 import { useLogout } from "../queries/queries";
+import { Link } from "@tanstack/react-router"
 
 export function AppSidebar() {
   const isMobile = useIsMobile();
   const admin = JSON.parse(localStorage.getItem("user")!);
   const logout = useLogout();
-  console.log('logout ', logout)
+
   return (
     <Sidebar variant="floating" collapsible="icon">
-      <SidebarHeader>
-        <SidebarMenuButton
-          size="lg"
-          className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-        >
-          <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
-            <Beer className="size-4" />
-          </div>
-          <div className="grid flex-1 text-left text-sm leading-tight">
-            <span className="truncate font-semibold">
-              {'One Bottle Liquiors '}
-            </span>
-            <span className="truncate text-xs">{'Management System'}</span>
-          </div>
-          {/* <ChevronsUpDown className="ml-auto" /> */}
-        </SidebarMenuButton>
-      </SidebarHeader>
+      <Link to="/" replace={true}>
+        <SidebarHeader>
+          <SidebarMenuButton
+            size="lg"
+            className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+          >
+            <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
+              <Beer className="size-4" />
+            </div>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-semibold">
+                {'One Bottle Liquiors '}
+              </span>
+              <span className="truncate text-xs">{'Management System'}</span>
+            </div>
+            {/* <ChevronsUpDown className="ml-auto" /> */}
+          </SidebarMenuButton>
+        </SidebarHeader> </Link>
       <SidebarContent>
         <SidebarGroup>
           {/* <SidebarGroupLabel></SidebarGroupLabel> */}
@@ -130,7 +132,7 @@ export function AppSidebar() {
                       </div>
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent>
+                  <AlertDialogContent className="max-w-sm rounded-lg">
                     <AlertDialogHeader>
                       <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                       <AlertDialogDescription>
@@ -157,8 +159,3 @@ export function AppSidebar() {
     </Sidebar>
   )
 }
-
-
-// export function LogoutAlert() { return (
-//   )
-// }

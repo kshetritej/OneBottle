@@ -17,7 +17,7 @@ type NotificationProps = {
 // Mock data for notifications
 export default function NotificationsPage() {
     //@ts-ignore
-    const userId = JSON.parse(localStorage.getItem('user')).userId
+    const userId = JSON.parse(localStorage.getItem('user'))?.userId
     //@ts-ignore
     const notices = useGetAllNotifications().data?.data;
     const personalNotifications = notices?.filter((notice: NotificationProps) => notice.userId === userId);

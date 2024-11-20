@@ -1,4 +1,12 @@
-import { WineIcon, Shapes, Users2, LayoutDashboardIcon, ShoppingCartIcon, MessageCircleWarning } from "lucide-react";
+import {
+  Inbox,
+  WineIcon,
+  Shapes,
+  Users2,
+  LayoutDashboardIcon,
+  ShoppingCartIcon,
+  MessageCircleWarning,
+} from "lucide-react";
 
 export const menuItems = [
   {
@@ -6,11 +14,11 @@ export const menuItems = [
     url: "/admin/dashboard",
     icon: LayoutDashboardIcon,
   },
-  // {
-  //   title: "Inbox",
-  //   url: "/admin/inbox",
-  //   icon: Inbox,
-  // },
+  {
+    title: "Inbox",
+    url: "/admin/notifications",
+    icon: Inbox,
+  },
   {
     title: "Categories",
     url: "/admin/categories",
@@ -36,4 +44,4 @@ export const menuItems = [
     url: "/admin/reviews",
     icon: MessageCircleWarning,
   },
-]
+];
