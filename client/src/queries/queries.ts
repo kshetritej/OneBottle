@@ -659,3 +659,52 @@ export function useCreateNotification() {
     },
   });
 }
+
+export function useGetUserDetailsByUsername(username: string) {
+  return useQuery({
+    queryKey: ["get-user-details-by-username", username],
+    queryFn: async () => {
+      const response = await axios.get(
+        `${baseUrl}/userprofile/username/${username}`
+      );
+      return response.data;
+    },
+  });
+}
+
+export function useUpdateuserDetails() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationKey: ["update-user-details"],
+    mutationFn: async (data: any) => {
+      const response = await axios.put(`${baseUrl}/userprofile/`, data);
+      return response.data;
+    },
+    onSuccess: () => {
+      toast({
+        title: "Profile successfully updated.",
+        variant: "success",
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["get-user-details-by-username"],
+      });
+    },
+    onError: () => {
+      toast({
+        title: "Failed to update details.",
+        description: "Error  updating details, please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+}
+
+export function useMakeUserProfile() {
+  return useMutation({
+    mutationKey: ["make-user-profile"],
+    mutationFn: async (data: any) => {
+      const response = await axios.post(`${baseUrl}/userprofile/`, data);
+      return response.data;
+    },
+  });
+}

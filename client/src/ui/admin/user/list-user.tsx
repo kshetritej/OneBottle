@@ -41,7 +41,7 @@ return (
                             </TableRow>
                         </TableHeader>
                         <TableBody>
-                            {users?.map((user) => (
+                            {users ? users?.map((user) => (
                                 <TableRow key={user.userId}>
                                     <TableCell className="font-medium">{user.username}</TableCell>
                                     <TableCell>{user.email}</TableCell>
@@ -50,7 +50,7 @@ return (
                                         <DeleteDialog onDelete={() => handleDelete(user.userId)} />
                                     </TableCell>
                                 </TableRow>
-                            ))}
+                            )): <>No users.</>}
                         </TableBody>
                     </Table>
                 </div>

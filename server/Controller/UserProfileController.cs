@@ -55,15 +55,6 @@ namespace OneBottle.Controller
         [HttpPost("/api/userprofile")]
         public async Task<IActionResult> AddUserProfile([FromBody] UserProfile user)
         {
-            var userExists = await _context.Users.AnyAsync(u => u.Username == user.Username);
-            if (!userExists)
-            {
-                return BadRequest("No user exists with that username.");
-            }
-            if (user == null)
-            {
-                return BadRequest();
-            }
             var newUser = new UserProfile
             {
                 ProfileId = new Guid(),

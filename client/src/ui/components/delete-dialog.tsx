@@ -11,7 +11,7 @@ export function DeleteDialog({ onDelete }: Props) {
             <AlertDialogTrigger asChild>
                 <Button variant="danger"><Trash2 /></Button>
             </AlertDialogTrigger>
-            <AlertDialogContent>
+            <AlertDialogContent className="max-w-sm rounded-lg">
                 <AlertDialogHeader>
                     <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                     <AlertDialogDescription>

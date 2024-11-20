@@ -1,11 +1,11 @@
 import {
-  Inbox,
   WineIcon,
   Shapes,
   Users2,
   LayoutDashboardIcon,
   ShoppingCartIcon,
   MessageCircleWarning,
+  BellDot,
 } from "lucide-react";
 
 export const menuItems = [
@@ -15,9 +15,9 @@ export const menuItems = [
     icon: LayoutDashboardIcon,
   },
   {
-    title: "Inbox",
+    title: "Notifications",
     url: "/admin/notifications",
-    icon: Inbox,
+    icon: BellDot,
   },
   {
     title: "Categories",

@@ -6,11 +6,12 @@ import { Label } from "../../../components/ui/label"
 import { Tabs, TabsContent } from "../../../components/ui/tabs"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../../../components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "../../../components/ui/avatar"
-import { useDeleteFeedback, useGetFeedbackByUserId, useGetOrdersByUserId, useLogout } from '../../../queries/queries'
+import { useDeleteFeedback, useGetFeedbackByUserId, useGetOrdersByUserId, useGetUserDetailsByUsername, useLogout, useUpdateuserDetails } from '../../../queries/queries'
 import { feedbackType } from '../product/product-description'
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '../../../components/ui/alert-dialog'
 import { Link, useNavigate } from '@tanstack/react-router'
 import { Order } from '../../../types/order'
+import { useForm } from 'react-hook-form'
 
 
 export default function Profile() {
@@ -25,11 +26,24 @@ export default function Profile() {
         })
     }
     const { data: orders } = useGetOrdersByUserId(userId);
-
+    console.log('user ', user?.username)
+    const moreUserDetails = useGetUserDetailsByUsername(user?.username)?.data;
+    console.log("more User details:", moreUserDetails)
     const deleteFeedback = useDeleteFeedback();
 
     const logout = useLogout();
 
+    const updateProfile = useUpdateuserDetails();
+    //user profile management
+    const { register, handleSubmit } = useForm({
+        defaultValues: {
+            username: user?.username,
+            phoneNumber: moreUserDetails?.phoneNumber
+        }
+    });
+    const handleProfileUpdate = (data: any) => {
+        updateProfile.mutate({ profileId: moreUserDetails?.profileId, data });
+    }
     return (
         <div className="container mx-auto p-4 max-w-5xl">
             <div className="flex flex-col md:flex-row gap-6">
@@ -101,27 +115,29 @@ export default function Profile() {
                     <Tabs value={activeTab} onValueChange={setActiveTab}>
                         <TabsContent value="personal-info">
                             <Card>
-                                <CardHeader>
-                                    <CardTitle>Personal Information</CardTitle>
-                                    <CardDescription>Update your personal details here.</CardDescription>
-                                </CardHeader>
-                                <CardContent className="space-y-4">
-                                    <div className="space-y-2">
-                                        <Label htmlFor="full-name">Full Name</Label>
-                                        <Input id="full-name" defaultValue={user?.username} />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="email">Email</Label>
-                                        <Input id="email" type="email" defaultValue={user?.email} />
-                                    </div>
-                                    <div className="space-y-2">
-                                        <Label htmlFor="phone">Phone Number</Label>
-                                        <Input id="phone" type="tel" placeholder="Enter your phone number" />
-                                    </div>
-                                </CardContent>
-                                <CardFooter>
-                                    <Button>Save Changes</Button>
-                                </CardFooter>
+                                <form onSubmit={handleSubmit(handleProfileUpdate)}>
+                                    <CardHeader>
+                                        <CardTitle>Personal Information</CardTitle>
+                                        <CardDescription>Update your personal details here.</CardDescription>
+                                    </CardHeader>
+                                    <CardContent className="space-y-4">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="full-name">Full Name</Label>
+                                            <Input id="full-name" defaultValue={user?.username}  {...register("username")} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="email">Email</Label>
+                                            <Input id="email" type="email" defaultValue={user?.email} />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="phone">Phone Number</Label>
+                                            <Input id="phone" {...register("phoneNumber")} type="tel" defaultValue={moreUserDetails?.phoneNumber} placeholder="Enter your phone number" />
+                                        </div>
+                                    </CardContent>
+                                    <CardFooter>
+                                        <Button type='submit'>Save Changes</Button>
+                                    </CardFooter>
+                                </form>
                             </Card>
                         </TabsContent>
 

@@ -60,7 +60,7 @@ export default function Checkout() {
             orderId: null,
             userId: userId,
             productId: cartItems.map((item: CartItem) => item.productId.toString()),
-            orderStatus: "Processing",
+            orderStatus: "Ordered",
             totalPrice: total,
             phone: "",
             address: "",
