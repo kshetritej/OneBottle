@@ -92,7 +92,7 @@ export default function Profile() {
                                         <LogOut className="mr-2 h-4 w-4" /> Log Out
                                     </Button>
                                 </AlertDialogTrigger>
-                                <AlertDialogContent>
+                                <AlertDialogContent className='max-w-sm rounded-lg'>
                                     <AlertDialogHeader>
                                         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                         <AlertDialogDescription>

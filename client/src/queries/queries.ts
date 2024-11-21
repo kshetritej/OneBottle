@@ -643,13 +643,12 @@ export function useCreateNotification() {
       const response = await axios.post(`${baseUrl}/notifications`, data);
       return response;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["getAllNotifications"] });
-      toast({
-        title: "Notification created successfully",
-        variant: "success",
-      });
-    },
+    // onSuccess: () => { queryClient.invalidateQueries({ queryKey: ["getAllNotifications"] });
+    //   toast({
+    //     title: "Notification created successfully",
+    //     variant: "success",
+    //   });
+    // },
     onError: () => {
       toast({
         title: "Failed to create notification",

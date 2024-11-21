@@ -5,7 +5,7 @@ import { Label } from "../../../components/ui/label"
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from "../../../components/ui/select"
 import { Input } from "../../../components/ui/input"
 import { useState } from "react"
-import {  useNavigate } from "@tanstack/react-router"
+import { useNavigate } from "@tanstack/react-router"
 import { useCreateNotification, useCreateOrder, useGetUserById } from "../../../queries/queries"
 import { CartItem } from "./cart"
 import { useForm } from "react-hook-form"
@@ -25,7 +25,7 @@ export default function Checkout() {
     const [cashOnDelivery, setCashOnDelivery] = useState(false)
     //@ts-ignore
     const userId = JSON.parse(localStorage.getItem("user"))?.userId
-    const user = useGetUserById(userId).data?.data;
+    const user = JSON.parse(localStorage.getItem("user"));
     const navigate = useNavigate();
 
 
@@ -72,7 +72,7 @@ export default function Checkout() {
     });
 
     const fullShippigAddress = `${getValues("address")}, ${getValues("city")}, ${getValues("state")}, ${getValues("zip"), "NP"}`;
-    function handleCheckout(data: any) {
+    async function handleCheckout(data: any) {
         console.log('data', data)
         const orderData = {
             orderId: data.orderId,
