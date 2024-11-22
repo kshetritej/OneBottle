@@ -9,7 +9,7 @@ export default function ProductSuggestion() {
     const products = useGetProducts().data;
     const suggestedProducts = products?.data?.slice(0, 3);
     return (
-        <div className="w-full  mx-auto px-4 py-8">
+        <div className="container  mx-auto px-4 py-8">
             <div className="flex justify-between items-center mb-6">
                 <h2 className="text-2xl font-bold">You may also like</h2>
             </div>

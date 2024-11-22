@@ -9,6 +9,7 @@ import { CartItem } from "../user/cart";
 import { atom, useRecoilState } from "recoil";
 import { toast } from "../../../hooks/use-toast";
 import { Card } from "../../../components/ui/card";
+import { DynamicBreadcrumb } from "../../../utils/dynamic-breadcrumb";
 
 export type feedbackType = {
     feedbackId: string;
@@ -70,8 +71,9 @@ export function ProductDescription() {
     console.log('reviews ... ', feedback)
     return (
         <div>
-            <Card className="container mx-auto px-4 py-8">
-                <div className="grid md:grid-cols-2 gap-8">
+            <Card className="border-none container mx-auto  py-8">
+                <DynamicBreadcrumb />
+                <div className="grid md:grid-cols-2 gap-8 mt-4">
                     <div>
                         <img
                             src={product?.imageUrl}
