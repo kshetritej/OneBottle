@@ -36,7 +36,7 @@ return (
                             <TableRow>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Email</TableHead>
-                                <TableHead>Date of Birth</TableHead>
+                                {/* <TableHead>Date of Birth</TableHead> */}
                                 <TableHead>Actions</TableHead>
                             </TableRow>
                         </TableHeader>
@@ -45,7 +45,7 @@ return (
                                 <TableRow key={user.userId}>
                                     <TableCell className="font-medium">{user.username}</TableCell>
                                     <TableCell>{user.email}</TableCell>
-                                    <TableCell>{user.dateOfBirth}</TableCell>
+                                    {/* <TableCell>{user.dateOfBirth}</TableCell> */}
                                     <TableCell className="flex gap-4">
                                         <DeleteDialog onDelete={() => handleDelete(user.userId)} />
                                     </TableCell>

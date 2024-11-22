@@ -9,6 +9,9 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from "../../../comp
 import { renderStatus } from "../../../utils/renderStatus";
 import { useGetOrders, useGetProducts, useGetUsers } from "../../../queries/queries";
 import { cn } from "../../../lib/utils";
+import { DataTable } from "../order/data-table";
+import { columns, Order } from "../order/columns";
+import { Link } from "@tanstack/react-router";
 
 
 export function Dashboard() {
@@ -21,7 +24,7 @@ export function Dashboard() {
     const inventoryStats = products?.map(p => p.stockQuantity).reduce((acc, curr) => acc + curr, 0)
     const customersCount = users?.length;
     const lowStocksItem = products?.filter(p => p.stockQuantity < 50)?.length;
-    console.log('low stocks', lowStocksItem)
+    const data: Order[] = useGetOrders().data?.slice(0,5);
 
     //for chart
     const productStock = products?.map(product => ({ name: product.name, Stocks: product.stockQuantity }))
@@ -90,39 +93,28 @@ export function Dashboard() {
                     </Card>
 
                     <Card>
-                        <CardHeader>
+                        <CardHeader className="flex flex-row items-center justify-between">
                             <CardTitle>Recent Orders</CardTitle>
+                            <CardFooter className="flex gap-2">
+                                <Link to="/admin/products">
+                                <Button variant={'secondary'} className="hidden sm:block">Add New Product</Button>
+                                </Link>
+                                <Link to="/admin/orders">
+                                <Button  className="w-full">
+                                    View All Orders
+                                    <ChevronRight className="ml-2 h-4 w-4" />
+                                </Button>
+                                </Link>
+                            </CardFooter>
                         </CardHeader>
                         <CardContent>
                             <div className="space-y-8">
-                                {dashboardData.recentOrders.map((order) => (
-                                    <div key={order.id} className="flex items-center">
-                                        <Avatar className="h-9 w-9">
-                                            <AvatarImage src={order.customer.avatar} alt={order.customer.name} />
-                                            <AvatarFallback>{order.customer.name.split(' ').map(n => n[0]).join('')}</AvatarFallback>
-                                        </Avatar>
-                                        <div className="ml-4 space-y-1">
-                                            <p className="text-sm font-medium leading-none">{order.customer.name}</p>
-                                            <p className="text-sm text-muted-foreground">Order #{order.id}</p>
-                                        </div>
-                                        <div className="ml-auto font-medium">
-                                            {order.total}
-                                        </div>
-                                        <div
-                                            className="text-xs ml-2">
-                                            {renderStatus(order.status.toLowerCase())}
-                                        </div>
-                                    </div>
-                                ))}
+                                {
+                                    data &&
+                                    <DataTable columns={columns} data={data} />
+                                }
                             </div>
                         </CardContent>
-                        <CardFooter>
-                            <Button variant="ghost" className="w-full">
-                                View All Orders
-                                <ChevronRight className="ml-2 h-4 w-4" />
-                            </Button>
-                            <Button>Add New Product</Button>
-                        </CardFooter>
                     </Card>
 
                 </div>

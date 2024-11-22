@@ -71,16 +71,16 @@ export function ProductDescription() {
     console.log('reviews ... ', feedback)
     return (
         <div>
-            <Card className="border-none container mx-auto  py-8">
+            <Card className="p-4 border-none container mx-auto  py-8">
                 <DynamicBreadcrumb />
-                <div className="grid md:grid-cols-2 gap-8 mt-4">
-                    <div>
+                <div className="p-4 grid md:grid-cols-2 gap-8 mt-4">
+                    <div className="max-w-[520px] mx-auto">
                         <img
                             src={product?.imageUrl}
                             alt={product?.name}
                             width={500}
                             height={500}
-                            className="w-full h-auto rounded-lg"
+                            className="rounded-lg"
                         />
                     </div>
                     <div>
