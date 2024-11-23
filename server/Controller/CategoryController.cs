@@ -22,15 +22,12 @@ public class CategoryController : ControllerBase
     [HttpGet]
     public async Task<IActionResult> GetAllCategories()
     {
-        var categories = await _categoryRepo.GetAllCategoriesAsync();
-        if (categories == null)
+        var response = await _categoryRepo.GetAllCategoriesAsync();
+        if (response == null)
         {
             return NotFound();
         }
-        if (categories.Count() == 0)
-        {
-            return NoContent();
-        }
+        var categories = response.Select(category => category.ToCategoryDto());
         return Ok(categories);
     }
 
