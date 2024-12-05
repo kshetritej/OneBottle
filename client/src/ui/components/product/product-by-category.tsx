@@ -2,6 +2,7 @@ import { useParams } from "@tanstack/react-router"
 import { useGetCategoryById, useGetProductsByCategoryId } from "../../../queries/queries";
 import ProductCard from "./product-card";
 import { productCardPropsTypes } from "../../../types/product";
+import {  Shapes } from "lucide-react";
 
 export function ProductByCategory() {
     const categoryId = useParams({
@@ -14,7 +15,7 @@ export function ProductByCategory() {
     return (
         <div className="px-5 flex flex-col gap-4 py-4">
             <div className="flex items-center gap-4">
-                <h2 className="text-2xl font-bold">All Products in category : {categoryName} </h2>
+                <h2 className="font-bold flex gap-2 items-center"><Shapes/> {categoryName} </h2>
             </div>
             {
                 product && product?.length > 0 ? product.map(

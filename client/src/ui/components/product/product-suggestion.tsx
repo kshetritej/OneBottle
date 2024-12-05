@@ -1,6 +1,5 @@
 import { productCardPropsTypes } from "../../../types/product"
 import { useGetProducts } from "../../../queries/queries";
-import ProductCard from "./product-card";
 import { Card, CardContent } from "../../../components/ui/card";
 import { Link } from "@tanstack/react-router";
 
@@ -18,10 +17,11 @@ export default function ProductSuggestion() {
                     <Link key={item.productId} to={`/product/${item.productId}`}>
                         <Card key={item.productId}>
                             <CardContent className="p-4">
-                                <img src={item.imageUrl} alt={item.name} className="w-full h-32 object-cover mb-2 rounded" />
+                                    <div className="mx-auto sm:size-[250px] size-[100px] overflow-hidden rounded-lg flex flex-col items-center">
+                                        <img src={item.imageUrl} alt={item.name} className="w-full h-full object-fit mb-2 rounded" />
+                                    </div>
                                 <h3 className="font-semibold">{item.name}</h3>
-                                <p className="text-sm ">{item.description.substring(0, 50)}</p>
-                                <p className="py-4 text-sm font-black">${item.price.toFixed(2)}</p>
+                                <p className="text-orange-500 py-4 text-sm font-black">${item.price.toFixed(2)}</p>
                             </CardContent>
                         </Card>
                     </Link>

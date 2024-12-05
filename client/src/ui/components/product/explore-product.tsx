@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from "../../../components/ui/button"
 import ProductCard from './product-card'
 import { Category } from '../../pages/landing-page/homepage'
@@ -6,6 +6,9 @@ import { useGetCategories, useGetProducts } from '../../../queries/queries'
 import { Product, productCardPropsTypes } from '../../../types/product'
 
 export default function ProductCatalog() {
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    }, [])
     const products = useGetProducts().data?.data
     const categories: Category[] = useGetCategories().data?.data;
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null)

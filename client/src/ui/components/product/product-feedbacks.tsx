@@ -55,7 +55,7 @@ export default function Feedbacks({ feedbacks, userId, productId }: { feedbacks:
         <CardTitle className="text-lg md:text-xl">Previous Reviews</CardTitle>
       </CardHeader>
       <CardContent>
-        {feedbacks?.map((feedback) => (
+        {!feedbacks  ? <>No Reviews available.</> : feedbacks?.map((feedback) => (
           <div key={feedback?.feedbackId} className=" border p-2 rounded-lg mb-6 last:mb-0">
             <div className="flex items-center mb-2">
               <Avatar className="size-10 flex justify-center rounded-full mr-4 items-center border">
@@ -63,7 +63,7 @@ export default function Feedbacks({ feedbacks, userId, productId }: { feedbacks:
               </Avatar>
               <h3 className="font-semibold">{feedback.user.username}</h3>
             </div>
-            <p className="text-gray-600 mb-2">{feedback.comment}</p>
+            <p className="mb-2">{feedback.comment}</p>
             <div className="flex items-center space-x-4">
               <Button variant="ghost" size="sm" className="text-gray-500">
                 <ThumbsUp className="w-4 h-4 mr-2" />

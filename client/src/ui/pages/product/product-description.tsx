@@ -1,4 +1,4 @@
-import { useParams } from "@tanstack/react-router"
+import { useNavigate, useParams } from "@tanstack/react-router"
 import { Star, Minus, Plus, Facebook, Twitter, Instagram, ShoppingCart } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { useEffect, useState } from "react";
@@ -27,7 +27,10 @@ type UserDetails = {
 };
 
 export function ProductDescription() {
-    window.scrollTo({ top: 0, behavior: 'smooth' })
+    useEffect(() => {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+    },[])
+    const navigate = useNavigate();
     const productId = useParams({
         select: (params) => [params.productId],
         from: '/product/$productId'
@@ -121,7 +124,13 @@ export function ProductDescription() {
                             onClick={() => {
                                 return addToCart({ productId: product.productId, name: product.name, imageUrl: product.imageUrl, price: product.price, quantity: quantity })
                             }}
-                        ><ShoppingCart className="mr-4" /> Add to Cart</Button> <Button variant="secondary" className="w-full mb-4"> Buy Now
+                        ><ShoppingCart className="mr-4" /> Add to Cart</Button>
+                        <Button onClick={() => {
+                            addToCart({ productId: product.productId, name: product.name, imageUrl: product.imageUrl, price: product.price, quantity: quantity })
+                            navigate({
+                                to: "/cart"
+                            })
+                        }} variant="secondary" className="w-full mb-4"> Buy Now
                         </Button>
                         <div className="flex space-x-4 mb-4">
                             <span>Share:</span>

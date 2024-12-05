@@ -75,7 +75,7 @@ export default function ProductCard({ product, classname }: { product: productCa
                     <div className="flex justify-between">
                         <Link key={product.productId} to={`/product/${product.productId}`}>
                             <div className='flex items-center'>
-                                <span className="text-2xl font-bold sm:text-3xl">${product?.price}</span>
+                                <span className="text-2xl text-orange-500 font-bold sm:text-3xl">${product?.price + ".00"}</span>
                             </div>
                         </Link>
                         <Button size="sm" className="sm:hidden mt-2"

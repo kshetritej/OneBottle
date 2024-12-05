@@ -151,14 +151,16 @@ git clone git@github.com:kshetritej/OneBottle.git
 ```bash
 cd OneBottle
 ```
-> [!TIP]
-> You need to setup your database first, the `ConnectioString` is in `appsettings.json` file. Change that according to your database.
-> Migrate the models with `dotnet ef migrations add InitialMigration` and then apply the migrations with `dotnet ef database update`.
-3. Restore NuGet packages:
 
+3. Restore NuGet packages:
 ```bash
 cd server; dotnet restore
 ```
+
+> [!TIP]
+> You need to setup your database first, the `ConnectioString` is in `appsettings.json` file. Change that according to your database.
+> Migrate the models with `dotnet ef migrations add InitialMigration` and then apply the migrations with `dotnet ef database update`.
+
 
 4. Build the project:
 

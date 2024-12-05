@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { Minus, Plus, ShoppingBag, ShoppingCart, Trash2 } from 'lucide-react'
 import { Button } from "../../../components/ui/button"
 import { useNavigate } from '@tanstack/react-router'
-import {  CardContent, CardDescription, CardTitle } from '../../../components/ui/card'
+import { CardContent, CardDescription, CardTitle } from '../../../components/ui/card'
 
 export interface CartItem {
     productId: string
@@ -48,7 +48,7 @@ export function Cart() {
             </CardDescription>
             {cartItems.length == 0 ? (
                 <CardContent className='p-4 flex flex-col items-center h-[80vh] justify-center'>
-                    <ShoppingBag size={42}/>
+                    <ShoppingBag size={42} />
                     <p className='text-center'>Your cart is empty.</p>
                     <Button className="w-full mt-6" size="lg" onClick={() => {
                         navigate({
@@ -62,15 +62,9 @@ export function Cart() {
             ) : (
                 <>
                     {cartItems.map(item => (
-                        <div key={item.productId} className="flex  gap-4 py-4 border-b">
-                            <div className="flex  space-x-4">
-                                <img
-                                    src={item.imageUrl}
-                                    alt={item.name}
-                                    width={100}
-                                    height={100}
-                                    className=" min-w-24 rounded-md"
-                                />
+                        <div key={item.productId} className="flex gap-4 py-8 border-b">
+                            <div className="sm:size-[250px] size-[100px]  overflow-hidden rounded-lg flex flex-col items-center">
+                                <img src={item.imageUrl} alt={item.name} className="w-full h-full object-fit mb-2 rounded" />
                             </div>
                             <div className="flex flex-col gap-4">
                                 <div>

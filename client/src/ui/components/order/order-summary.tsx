@@ -31,7 +31,7 @@ export function OrderSummary() {
     <div className="max-w-2xl mx-auto p-6 space-y-6">
       {thumbnailProduct && <div className="flex items-start justify-between">
         <div className="flex gap-4">
-          <div className="w-16 h-16 bg-gray-100 rounded-lg overflow-hidden">
+          <div className="w-16 h-16  rounded-lg overflow-hidden">
             <img
               src={thumbnailProduct?.imageUrl}
               alt={thumbnailProduct?.name}
