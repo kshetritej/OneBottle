@@ -24,12 +24,14 @@ import {
 } from "./ui/alert-dialog"
 import { Button } from "./ui/button"
 import { menuItems as items } from "../constants/menuList"
-import { Beer, ChevronsUpDown, LogOut, Settings, Shield, Sparkles } from "lucide-react"
+import { Beer, ChevronDown, ChevronsUpDown, LogOut, Settings, Shield, Sparkles } from "lucide-react"
 import { Avatar, AvatarFallback } from "./ui/avatar"
 import { DropdownMenuGroup, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "./ui/dropdown-menu";
 import { useIsMobile } from "../hooks/use-mobile";
 import { useLogout } from "../queries/queries";
 import { Link } from "@tanstack/react-router"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "./ui/collapsible"
+import { ModeToggle } from "./mode-toggle"
 
 export function AppSidebar() {
   const isMobile = useIsMobile();
@@ -64,10 +66,10 @@ export function AppSidebar() {
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
-                    <a href={item.url}>
+                    <Link to={item.url}>
                       <item.icon />
                       <span>{item.title}</span>
-                    </a>
+                    </Link>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
               ))}
@@ -78,10 +80,19 @@ export function AppSidebar() {
           <SidebarGroupLabel>Setup</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
+              <SidebarMenuItem className="p-2">
+                <Collapsible>
+                  <CollapsibleTrigger>
+                    <div className="flex gap-2">
+                      <Settings size={16} /> <span>Settings</span> <ChevronDown size={16} />
+                    </div>
+                  </CollapsibleTrigger>
+                  <CollapsibleContent>
+                    <ModeToggle />
+                  </CollapsibleContent>
+                </Collapsible>
+              </SidebarMenuItem>
               <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <Settings /> <span>Settings</span>
-                </SidebarMenuButton>
                 <SidebarMenuButton>
                   <Shield /> <span>Admins</span>
                 </SidebarMenuButton>
@@ -99,7 +110,7 @@ export function AppSidebar() {
             >
               <Avatar className="h-8 w-8 rounded-lg">
                 {/* <AvatarImage src={user?.avatar} alt={user.name} /> */}
-                <AvatarFallback className="rounded-lg">CN</AvatarFallback>
+                <AvatarFallback className="rounded-lg">{admin?.username.charAt(0)}</AvatarFallback>
               </Avatar>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-semibold">{admin?.username}</span>

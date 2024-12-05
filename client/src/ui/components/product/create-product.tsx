@@ -11,6 +11,7 @@ import { Textarea } from "../../../components/ui/textarea";
 import { useAddProduct, useGetCategories, useUpdateProduct } from "../../../queries/queries";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../../../components/ui/select";
 import { Category } from "../../admin/categories/category-list";
+import { ScrollArea } from "../../../components/ui/scroll-area";
 
 type ProductProps = {
     mode?: string;
@@ -83,14 +84,14 @@ export function CreateProductModal({ product, mode, open }: ProductProps) {
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="min-w-[900px]">
+            <DialogContent className="max-w-sm sm:max-w-[900px] rounded-lg">
                 <DialogHeader>
-                    <DialogTitle>{mode ? "Update Product Details" : "Add New Product"}</DialogTitle>
-                    <DialogDescription>
-                        <form onSubmit={handleSubmit(handleFormSubmit)} className="grid grid-cols-2 gap-4">
+                    <DialogTitle className="text-left">{mode ? "Update Product Details" : "Add New Product"}</DialogTitle>
+                    <ScrollArea className="max-h-[750px] md:max-h-screen">
+                        <form onSubmit={handleSubmit(handleFormSubmit)} className="text-left grid sm:grid-cols-2 gap-4">
                             {/* General Information */}
-                            <fieldset className="border p-4 col-span-2 grid grid-cols-2 gap-4">
-                                <legend className="col-span-2 font-semibold">General Information</legend>
+                            <fieldset className="border p-4 col-span-2 grid sm:grid-cols-2 gap-4">
+                                <legend className="sm:col-span-2 font-semibold">General Information</legend>
                                 <div>
                                     <Label htmlFor="name">Name</Label>
                                     <Input {...register("name")} type="text" name="name" />
@@ -109,18 +110,18 @@ export function CreateProductModal({ product, mode, open }: ProductProps) {
                             </fieldset>
 
                             {/* Brand Details */}
-                            <div className="col-span-2 grid grid-cols-2 gap-4">
-                                <fieldset className="border p-4 grid grid-cols-2  gap-4">
+                            <div className="col-span-2 grid sm:grid-cols-2 gap-4">
+                                <fieldset className="border p-4 sm:grid grid-cols-2  gap-4">
                                     <legend className="col-span-2 font-semibold">Brand Details</legend>
-                                    <div className="col-span-2">
+                                    <div className="sm:col-span-2">
                                         <Label htmlFor="brand">Brand</Label>
                                         <Input {...register("brand")} type="text" name="brand" />
                                         {errors.brand && <span className="text-red-600">{errors.brand.message}</span>}
                                     </div>
                                 </fieldset>
-                                <fieldset className="border p-4 grid grid-cols-2 gap-4">
-                                    <legend className="col-span-2 font-semibold">Category</legend>
-                                    <div className="col-span-2">
+                                <fieldset className="border p-4 grid sm:grid-cols-2 gap-4">
+                                    <legend className="sm:col-span-2 font-semibold">Category</legend>
+                                    <div className="sm:col-span-2">
                                         <Label htmlFor="categoryId">Category</Label>
                                         <Select onValueChange={(value) => setValue("categoryId", value)}>
                                             <SelectTrigger>
@@ -141,8 +142,8 @@ export function CreateProductModal({ product, mode, open }: ProductProps) {
                             </div>
 
                             {/* Product Specifications */}
-                            <fieldset className="border p-4 col-span-2 grid grid-cols-2 gap-4">
-                                <legend className="col-span-2 font-semibold">Product Specifications</legend>
+                            <fieldset className="border p-4 col-span-2 grid md:grid-cols-2 gap-4">
+                                <legend className="sm:col-span-2 font-semibold">Product Specifications</legend>
                                 <div>
                                     <Label htmlFor="volume">Volume</Label>
                                     <Input {...register("volume", { valueAsNumber: true })} type="number" name="volume" />
@@ -158,8 +159,8 @@ export function CreateProductModal({ product, mode, open }: ProductProps) {
                             {/* Category */}
 
                             {/* Pricing & Inventory - Full Width */}
-                            <fieldset className="border p-4 col-span-2 grid grid-cols-2 gap-4">
-                                <legend className="col-span-2 font-semibold">Pricing & Inventory</legend>
+                            <fieldset className="border p-4 col-span-2 sm:grid grid-cols-2 gap-4">
+                                <legend className="sm:col-span-2 font-semibold">Pricing & Inventory</legend>
                                 <div>
                                     <Label htmlFor="price">Price</Label>
                                     <Input {...register("price", { valueAsNumber: true })} type="number" name="price" />
@@ -173,11 +174,11 @@ export function CreateProductModal({ product, mode, open }: ProductProps) {
                             </fieldset>
 
                             {/* Submit Button - Full Width */}
-                            <div className="col-span-2 flex justify-end mt-4">
+                            <div className="sm:col-span-2 flex justify-end mt-4">
                                 <Button type="submit">{mode ? "Update" : "Create"}</Button>
                             </div>
                         </form>
-                    </DialogDescription>
+                    </ScrollArea>
                 </DialogHeader>
             </DialogContent>
         </Dialog >
