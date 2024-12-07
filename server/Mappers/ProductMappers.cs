@@ -47,6 +47,10 @@ namespace OneBottle.Mappers
             {
                 product.Name = productDto.Name;
             }
+            if (!string.IsNullOrWhiteSpace(productDto.Brand))
+            {
+                product.Brand= productDto.Brand;
+            }
             if (!string.IsNullOrWhiteSpace(productDto.Description))
             {
                 product.Description = productDto.Description;
