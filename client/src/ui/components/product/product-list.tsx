@@ -26,6 +26,7 @@ export function ProductTable() {
                         <TableCaption>A list of products in inventory.</TableCaption>
                         <TableHeader>
                             <TableRow>
+                                <TableHead>Image</TableHead>
                                 <TableHead>Name</TableHead>
                                 <TableHead>Brand</TableHead>
                                 <TableHead>Volume</TableHead>
@@ -38,6 +39,7 @@ export function ProductTable() {
                         <TableBody>
                             {products?.map((product) => (
                                 <TableRow key={product.productId}>
+                                    <TableCell className="font-medium"><img src={product.imageUrl} alt={product.name} className="w-20 h-20" /></TableCell>
                                     <TableCell className="font-medium">{product.name}</TableCell>
                                     <TableCell>{product.brand}</TableCell>
                                     <TableCell>{product.volume} ml</TableCell>
