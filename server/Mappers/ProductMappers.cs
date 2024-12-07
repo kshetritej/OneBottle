@@ -51,6 +51,14 @@ namespace OneBottle.Mappers
             {
                 product.Description = productDto.Description;
             }
+            if (!string.IsNullOrWhiteSpace(productDto.ImageUrl))
+            {
+                product.ImageUrl= productDto.ImageUrl;
+            }
+            if (productDto.Volume.HasValue)
+            {
+                product.Volume= productDto.Volume.Value;
+            }
             if (productDto.Price.HasValue)
             {
                 product.Price = productDto.Price.Value;
