@@ -1,4 +1,5 @@
 # One Bottle
+![image](https://github.com/user-attachments/assets/169b7d43-5bbd-40c6-b789-0997fce3c03f)
 
 ## About
 
@@ -187,6 +188,10 @@ pnpm install && pnpm dev
 ```
 > [!NOTE]
 > For running frontend you need have have `node` installed in your system and can also use `npm` instead of `pnpm`, for using `pnpm` you will need to install it first.
+
+## UI SHOWCASE
+![image](https://github.com/user-attachments/assets/ee4c85ab-6587-4f69-8546-80cbbb4e0c25)
+
 
 ## Contributing
 This is a personal project I am not sure, would I be looking further into it or not. No contributions will reviewed or merged!
