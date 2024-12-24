@@ -45,12 +45,12 @@ export function Homepage() {
     return (
         <div className=" flex flex-col min-h-screen">
             <main className="container mx-auto flex-grow">
-                <section className="p-4">
-                    <Carousel className='rounded-sm'>
+                <section className="p-4 mt-2">
+                    <Carousel className='h-[500px] rounded-sm'>
                         <CarouselContent>
                             {carouselItems.map((item) => (
                                 <CarouselItem key={item.id}>
-                                    <img src={item.image} alt={item.alt} className="w-full h-48 object-cover rounded-lg" />
+                                    <img src={item.image} alt={item.alt} className="w-full max-h-[500px]  object-cover rounded-lg" />
                                 </CarouselItem>
                             ))}
                         </CarouselContent>
@@ -107,13 +107,13 @@ export function Homepage() {
                         {products && products.data?.map((item: Product) => (
                             <Card key={item.productId} className="max-w-xs">
                                 <Link to={`/product/${item.productId}`}>
-                                <CardContent className="p-4">
-                                    <div className="sm:size-[250px] size-[100px] overflow-hidden rounded-lg flex flex-col items-center">
-                                        <img src={item.imageUrl} alt={item.name} className="w-full h-full object-fit mb-2 rounded" />
-                                    </div>
-                                    <p className="font-semibold">{item.name}</p>
-                                    <p className="text-sm text-orange-600 font-bold text-left">${item.price.toFixed(2)}</p>
-                                </CardContent>
+                                    <CardContent className="p-4">
+                                        <div className="sm:size-[250px] size-[100px] overflow-hidden rounded-lg flex flex-col items-center">
+                                            <img src={item.imageUrl} alt={item.name} className="w-full h-full object-fit mb-2 rounded" />
+                                        </div>
+                                        <p className="font-semibold">{item.name}</p>
+                                        <p className="text-sm text-orange-600 font-bold text-left">${item.price.toFixed(2)}</p>
+                                    </CardContent>
                                 </Link>
                             </Card>
                         ))}

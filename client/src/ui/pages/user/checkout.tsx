@@ -110,6 +110,11 @@ export default function Checkout() {
             notificationContent: `Your order for ${cartItems.map(item => item.name).join(', ')} has been placed.`,
             userId: userId,
         })
+        localStorage.setItem("cart", JSON.stringify([]))
+        navigate({
+            to: "/",
+            replace: true
+        })
     }
 
     console.log('form errors', errors)
