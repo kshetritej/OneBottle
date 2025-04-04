@@ -3,7 +3,7 @@
 
 ## About
 
-**One Bottle** is a web application that allows users to create and manage their own online store. It provides a user-friendly interface for managing categories, products, orders, customers and feedbacks/reviews. The application is built using .NET Core and C# in server-side, uses EF-Core for dealing with MSSQL database and React with Typescript for the front-end.\*
+**One Bottle** is a mobile first, web application that allows users to create and manage their own online store. It provides a user-friendly interface for managing categories, products, orders, customers and feedbacks/reviews. The application is built using .NET Core and C# in server-side, uses EF-Core for dealing with MSSQL database and React with Typescript for the front-end.\*
 
 ## Features
 
@@ -132,7 +132,7 @@ erDiagram
 
 To get started with One Bottle, follow these steps:
 
-1. Clone the repository:
+1. Clone the repository (or you can fork it then clone from your profile) :
 
    Using https:
 
@@ -159,7 +159,7 @@ cd server; dotnet restore
 ```
 
 > [!TIP]
-> You need to setup your database first, the `ConnectioString` is in `appsettings.json` file. Change that according to your database.
+> You need to setup your database first, the `ConnectionString` is in `appsettings.json` file. Change that according to your database.
 > Migrate the models with `dotnet ef migrations add InitialMigration` and then apply the migrations with `dotnet ef database update`.
 
 
@@ -194,7 +194,10 @@ pnpm install && pnpm dev
 
 
 ## Contributing
-This is a personal project I am not sure, would I be looking further into it or not. No contributions will reviewed or merged!
+This is a personal project for my college assignment of Web and Mobile Applications.
+Would I be looking further into it? Probably not. 
+No contributions will reviewed or merged! but you can always leave a star. ⭐
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more information.
