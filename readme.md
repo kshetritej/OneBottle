@@ -131,6 +131,8 @@ erDiagram
 ## Getting Started
 
 To get started with One Bottle, follow these steps:
+>[!NOTE]
+>The `Dockerfile` doesn't work.
 
 1. Clone the repository (or you can fork it then clone from your profile) :
 
